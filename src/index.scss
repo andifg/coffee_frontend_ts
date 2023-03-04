@@ -1,0 +1,57 @@
+// @import "~antd/dist/antd.css";
+
+body {
+  background-color: #f3e9dc;
+  font-family: sans-serif;
+}
+
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #895737;
+}
+
+.logo,
+.logo:hover {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  font-weight: 500;
+  font-size: 2.5rem;
+  color: #895737;
+  text-decoration: none;
+}
+
+.menu {
+  padding-right: 0.5rem;
+}
+
+.board-wrapper {
+  width: 50%;
+  margin: auto;
+  background-color: rgba(218, 180, 157, 0.5);
+  //   display: flex;
+  height: 100%;
+  padding-bottom: 5px;
+  margin-top: 2px;
+}
+
+.board-add-icon {
+  display: flex;
+  justify-content: end;
+  padding-right: 2px;
+  padding-top: 2px;
+  margin-bottom: 3px;
+}
+
+.coffee-wrapper{
+    display:flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.coffee{
+    width:80%;
+
+}
