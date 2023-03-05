@@ -19,8 +19,8 @@ const menu = (
 
 const Navbar = () => (
   <div className="wrapper">
-    <div className="logo">
-      <a href="localhost:8080">Coffee App</a>
+    <div className="App">
+      <a className="logo" href="localhost:8080">Coffee App</a>
     </div>
   </div>
 );
