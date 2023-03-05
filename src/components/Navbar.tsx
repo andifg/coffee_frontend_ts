@@ -22,13 +22,6 @@ const Navbar = () => (
     <div className="logo">
       <a href="localhost:8080">Coffee App</a>
     </div>
-    <div className="menu">
-      <Dropdown overlay={menu}>
-        <Button size="large" type="primary">
-          Settings <DownOutlined />
-        </Button>
-      </Dropdown>
-    </div>
   </div>
 );
 
