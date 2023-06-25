@@ -1,18 +1,20 @@
 import React from "react";
 import { Form, Input, Rate } from "antd";
+import { FormInstance, Rule } from 'antd/es/form';
 
-const AddForm = (props) => {
 
-  const checkCoffeeName = (_, value) => {
+interface Props {
+  form: FormInstance;
+  handleOk: () => void;
+
+}
+
+
+const AddForm: React.FC<Props> = (props) => {
+
+  const checkCoffeeName = (_: Rule, value: string) => {
     if (!value) {
       return Promise.reject("Please enter a valid name!");
-    }
-    return Promise.resolve();
-  };
-
-  const checkRate = (_, value) => {
-    if (!value){
-      return Promise.reject("Please enter a rating");
     }
     return Promise.resolve();
   };
@@ -42,11 +44,6 @@ const AddForm = (props) => {
       <Form.Item
         name="rate"
         label="Rate"
-        rules={[
-          {
-            validator: checkRate,
-          }
-        ]}
       >
         <Rate />
       </Form.Item>

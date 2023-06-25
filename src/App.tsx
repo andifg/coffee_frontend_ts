@@ -4,6 +4,12 @@ import './App.css';
 import { Row, Col } from 'antd';
 import CoffeeApp from './components/CoffeeApp';
 
+import { OpenAPI } from './client'
+
+
+OpenAPI.BASE='http://localhost:8000'
+
+
 function App() {
   return (
     <Row justify="center" align="middle">
