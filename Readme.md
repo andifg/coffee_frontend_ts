@@ -2,6 +2,12 @@
 
 
 
+# Build
+
+```bash
+./scripts/build.sh
+```
+
 
 #TODO
 
