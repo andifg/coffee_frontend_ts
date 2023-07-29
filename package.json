@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.11",
     "antd": "^5.2.3",
     "axios": "^1.4.0",
+    "prettier": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -35,9 +36,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false --passWithNoTests",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .tsx",
+    "format": "prettier . --check",
     "generate-client": "openapi --input ./api.json --output ./src/client --client axios"
   },
   "eslintConfig": {
@@ -65,7 +67,6 @@
     "openapi-typescript-codegen": "^0.24.0"
   },
   "jest": {
-    
     "transformIgnorePatterns": [
       "node_modules/(?!axios/.*)"
     ]

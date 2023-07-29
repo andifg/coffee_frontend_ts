@@ -1,6 +1,6 @@
 import React from "react";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown, Button } from "antd";
 
 const menu = (
   <Menu>
@@ -16,11 +16,12 @@ const menu = (
   </Menu>
 );
 
-
 const Navbar = () => (
   <div className="wrapper">
     <div className="App">
-      <a className="logo" href="localhost:8080">Coffee App</a>
+      <a className="logo" href="localhost:8080">
+        Coffee App
+      </a>
     </div>
   </div>
 );

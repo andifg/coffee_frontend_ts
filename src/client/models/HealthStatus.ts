@@ -6,6 +6,5 @@
  * Health endpoint schema.
  */
 export type HealthStatus = {
-    healthy: boolean;
+  healthy: boolean;
 };
-

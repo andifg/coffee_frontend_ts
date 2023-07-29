@@ -9,9 +9,9 @@ interface Props {
   editCoffee: boolean;
 }
 
-const AddModal: React.FC<Props>  = (props) => {
+const AddModal: React.FC<Props> = (props) => {
   const [visible, setVisible] = React.useState(false);
-  const [coffee_id, setCoffeeId] = React.useState<string>('');
+  const [coffee_id, setCoffeeId] = React.useState<string>("");
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [modalText, setModalText] = React.useState<string | boolean>(false);
   const [form] = Form.useForm();
@@ -21,9 +21,9 @@ const AddModal: React.FC<Props>  = (props) => {
       setModalText("Thanks, your input is getting stored");
       setConfirmLoading(true);
       const values = await form.validateFields();
-      console.log(values)
+      console.log(values);
 
-      props.addCoffee({"_id": coffee_id, "name": values.coffeename});
+      props.addCoffee({ _id: coffee_id, name: values.coffeename });
       setTimeout(() => {
         setVisible(false);
         setModalText(false);
@@ -36,7 +36,7 @@ const AddModal: React.FC<Props>  = (props) => {
   };
 
   const showModal = () => {
-    setCoffeeId(uuidv7())
+    setCoffeeId(uuidv7());
     setVisible(true);
   };
 
@@ -45,9 +45,9 @@ const AddModal: React.FC<Props>  = (props) => {
     setVisible(false);
   };
 
-  const submitForm = ()=>{
-    form.submit()
-  }
+  const submitForm = () => {
+    form.submit();
+  };
 
   return (
     <>

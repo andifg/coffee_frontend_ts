@@ -1,17 +1,13 @@
 import React from "react";
 import { Form, Input, Rate } from "antd";
-import { FormInstance, Rule } from 'antd/es/form';
-
+import { FormInstance, Rule } from "antd/es/form";
 
 interface Props {
   form: FormInstance;
   handleOk: () => void;
-
 }
 
-
 const AddForm: React.FC<Props> = (props) => {
-
   const checkCoffeeName = (_: Rule, value: string) => {
     if (!value) {
       return Promise.reject("Please enter a valid name!");
@@ -41,10 +37,7 @@ const AddForm: React.FC<Props> = (props) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        name="rate"
-        label="Rate"
-      >
+      <Form.Item name="rate" label="Rate">
         <Rate />
       </Form.Item>
     </Form>

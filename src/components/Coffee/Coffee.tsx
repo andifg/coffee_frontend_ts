@@ -9,8 +9,7 @@ interface Props {
   coffee_id: string;
   editCoffee: boolean;
   seteditCoffee: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteCoffee: CallableFunction
-
+  deleteCoffee: CallableFunction;
 }
 
 const Coffee: React.FC<Props> = (props: Props) => {
@@ -22,13 +21,16 @@ const Coffee: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Use effect executed")
+        console.log("Use effect executed");
 
-        console.log(`Try fetching data for ${props.coffee_id}`)
+        console.log(`Try fetching data for ${props.coffee_id}`);
 
-        const coffee = await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(props.coffee_id)
+        const coffee =
+          await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
+            props.coffee_id,
+          );
 
-        console.log(`Got cofffee from backend ${JSON.stringify(coffee)}`)
+        console.log(`Got cofffee from backend ${JSON.stringify(coffee)}`);
 
         setData(coffee);
       } catch (e: unknown) {
@@ -41,7 +43,6 @@ const Coffee: React.FC<Props> = (props: Props) => {
     };
     fetchData();
   }, []);
-
 
   const saveChanges = (e: unknown) => {
     setEdit(false);
@@ -62,8 +63,14 @@ const Coffee: React.FC<Props> = (props: Props) => {
       return [<SaveOutlined key="saveChanges" onClick={saveChanges} />];
     }
     return [
-      <EditOutlined key="edit" onClick={!edit && !props.editCoffee ? editCard : (()=> null)} />,
-      <DeleteOutlined key="delete" onClick={!edit && !props.editCoffee ? delteCard : (()=> null)} />,
+      <EditOutlined
+        key="edit"
+        onClick={!edit && !props.editCoffee ? editCard : () => null}
+      />,
+      <DeleteOutlined
+        key="delete"
+        onClick={!edit && !props.editCoffee ? delteCard : () => null}
+      />,
     ];
   };
 
@@ -82,7 +89,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
         <Skeleton loading={loading} avatar active>
           <Meta title={coffee && coffee.name} />
           <div>
-            <Rate allowHalf defaultValue={2.5}  disabled={!edit} />
+            <Rate allowHalf defaultValue={2.5} disabled={!edit} />
             {edit && <p>Change the Rating here</p>}
           </div>
         </Skeleton>

@@ -6,9 +6,8 @@
  * Describes the update schema for a Coffee
  */
 export type UpdateCoffee = {
-    /**
-     * Name of coffee
-     */
-    name: string;
+  /**
+   * Name of coffee
+   */
+  name: string;
 };
-
