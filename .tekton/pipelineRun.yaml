@@ -2,7 +2,7 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   generateName: coffee-frontend-ci-cd-
-  namespace: coffee-app
+  namespace: coffee-app-build
   annotations:
     # The event we are targeting as seen from the webhook payload
     # this can be an array too, i.e: [pull_request, push]
@@ -31,7 +31,7 @@ spec:
     - name: context-path
       value: /hello-world
     - name: image-name
-      value: image-registry.openshift-image-registry.svc:5000/coffee-app/frontend
+      value: image-registry.openshift-image-registry.svc:5000/coffee-app-build/frontend
     - name: yq-select
       value: .frontend.image.name
     - name: yq-target
@@ -64,9 +64,4 @@ spec:
             requests:
               storage: 300Mi
           volumeMode: Filesystem
-
-
-
-
-
 
