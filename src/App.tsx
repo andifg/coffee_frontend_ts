@@ -1,11 +1,10 @@
-import React from "react";
 import "./App.css";
 import { Row, Col } from "antd";
 import CoffeeApp from "./components/CoffeeApp";
 
 import { OpenAPI } from "./client";
 
-OpenAPI.BASE = process.env.BACKEND_HOST_URL || "http://localhost:8000";
+OpenAPI.BASE = import.meta.env.BACKEND_HOST_URL || "http://localhost:8000";
 
 function App() {
   return (

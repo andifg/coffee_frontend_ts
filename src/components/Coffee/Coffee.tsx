@@ -36,6 +36,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
       } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);
+          console.log(error)
         }
       } finally {
         setLoading(false);
@@ -45,16 +46,19 @@ const Coffee: React.FC<Props> = (props: Props) => {
   }, []);
 
   const saveChanges = (e: unknown) => {
+    console.log(e);
     setEdit(false);
     props.seteditCoffee(false);
   };
 
   const editCard = (e: unknown) => {
+    console.log(e);
     setEdit(true);
     props.seteditCoffee(true);
   };
 
   const delteCard = (e: React.MouseEvent<HTMLElement>) => {
+    console.log(e);
     props.deleteCoffee(props.coffee_id);
   };
 

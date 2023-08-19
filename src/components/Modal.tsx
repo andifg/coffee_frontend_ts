@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Button, Form } from "antd";
 import AddForm from "./Form";
-import { Coffee as CoffeeSchema } from "../../../src/client";
+import { Coffee as CoffeeSchema } from "../client";
 import { uuidv7 } from "uuidv7";
 
 interface Props {
