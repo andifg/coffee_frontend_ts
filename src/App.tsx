@@ -4,10 +4,7 @@ import CoffeeApp from "./components/CoffeeApp";
 
 import { OpenAPI } from "./client";
 
-
 OpenAPI.BASE = window.env.BACKEND_URL;
-
-
 
 function App() {
   return (

@@ -36,7 +36,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
       } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);
-          console.log(error)
+          console.log(error);
         }
       } finally {
         setLoading(false);

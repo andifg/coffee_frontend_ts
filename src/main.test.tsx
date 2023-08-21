@@ -1,6 +1,5 @@
-import { expect, test } from 'vitest';
+import { expect, test } from "vitest";
 
-
-test('Always true test', () => {
+test("Always true test", () => {
   expect(true).toBe(true);
 });

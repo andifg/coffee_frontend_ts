@@ -29,7 +29,6 @@ Fetch openapi json from url instead of local
 Created with:
 npx create-react-app coffee-new-frontend --template cra-template-pwa-typescript
 
-
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
