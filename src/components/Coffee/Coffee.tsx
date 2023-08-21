@@ -43,6 +43,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
       }
     };
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const saveChanges = (e: unknown) => {
