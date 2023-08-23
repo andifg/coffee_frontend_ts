@@ -1,5 +1,6 @@
 // import {  UserOutlined } from "@ant-design/icons";
 // import { Menu } from "antd";
+import { Image } from "antd";
 
 // const menu = (
 //   <Menu>
@@ -18,9 +19,7 @@
 const Navbar = () => (
   <div className="wrapper">
     <div className="App">
-      <a className="logo" href="localhost:8080">
-        Coffee App
-      </a>
+      <Image preview={false} src="/logo-no-background.png" />
     </div>
   </div>
 );

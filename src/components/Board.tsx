@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Coffee from "./Coffee/Coffee";
 import AddModal from "./Modal";
 import { CoffeesService, Coffee as CoffeeSchema } from "../client";
+import { Divider } from "antd";
 
 const Board: React.FC = () => {
   const [coffees, setCoffess] = useState<string[]>([]);
@@ -52,6 +53,7 @@ const Board: React.FC = () => {
       <div className="board-add-icon">
         <AddModal addCoffee={addCoffee} editCoffee={editCoffee} />
       </div>
+      <Divider style={{ "marginTop": "10px", "marginBottom": "10px", 'background-color':'#edd9cc' }} />
       {coffees.map((coffee) => (
         <Coffee
           key={coffee}

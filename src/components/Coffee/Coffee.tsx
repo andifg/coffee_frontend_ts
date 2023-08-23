@@ -81,10 +81,11 @@ const Coffee: React.FC<Props> = (props: Props) => {
 
   return (
     <div className="coffee-wrapper">
-      <Card
+      <Card style={{ border: "3px solid #edd9cc"  }}
         className="coffee"
         cover={
           <img
+            style={{ height: "100%" }}
             alt="example"
             src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
           />

@@ -1,8 +1,9 @@
 import React from "react";
-import { Modal, Button, Form } from "antd";
+import { Modal, Form } from "antd";
 import AddForm from "./Form";
 import { Coffee as CoffeeSchema } from "../client";
 import { uuidv7 } from "uuidv7";
+import { PlusCircleOutlined } from "@ant-design/icons";
 
 interface Props {
   addCoffee: (coffeeName: CoffeeSchema) => void;
@@ -36,8 +37,10 @@ const AddModal: React.FC<Props> = (props) => {
   };
 
   const showModal = () => {
-    setCoffeeId(uuidv7());
-    setVisible(true);
+    if (!props.editCoffee) {
+      setCoffeeId(uuidv7());
+      setVisible(true);
+    }
   };
 
   const handleCancel = () => {
@@ -51,9 +54,14 @@ const AddModal: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Button type="primary" onClick={showModal} disabled={props.editCoffee}>
-        Add
-      </Button>
+      <PlusCircleOutlined
+        onClick={showModal}
+        disabled={props.editCoffee}
+        style={{
+          fontSize: "32px",
+          color: !props.editCoffee ? "#374151" : "blue",
+        }}
+      />
       <Modal
         title="Title"
         open={visible}
