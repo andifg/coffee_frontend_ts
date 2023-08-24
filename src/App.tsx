@@ -1,4 +1,3 @@
-import "./App.css";
 import { Row, Col } from "antd";
 import CoffeeApp from "./components/CoffeeApp";
 
