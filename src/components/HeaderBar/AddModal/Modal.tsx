@@ -1,51 +1,59 @@
 import React from "react";
 import { Modal, Form } from "antd";
 import AddForm from "./Form";
-import { Coffee as CoffeeSchema } from "../client";
-import { uuidv7 } from "uuidv7";
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { CoffeesService, Coffee as CoffeeSchema } from "../../../client";
+import { addCoffeeId } from "../../../redux/CoffeeIdsReducer";
+import { useDispatch } from "react-redux";
+import { ApiError } from "../../../client";
 
 interface Props {
-  addCoffee: (coffeeName: CoffeeSchema) => void;
-  editCoffee: boolean;
+  closeModal: () => void;
+  open: boolean;
+  currentUUID: string;
 }
 
 const AddModal: React.FC<Props> = (props) => {
-  const [visible, setVisible] = React.useState(false);
-  const [coffee_id, setCoffeeId] = React.useState<string>("");
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [modalText, setModalText] = React.useState<string | boolean>(false);
+  const [error, setError] = React.useState<boolean>(false);
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
 
   const handleOk = async () => {
     try {
+      setError(false);
       setModalText("Thanks, your input is getting stored");
       setConfirmLoading(true);
       const values = await form.validateFields();
       console.log(values);
 
-      props.addCoffee({ _id: coffee_id, name: values.coffeename });
+      await addCoffee({ _id: props.currentUUID, name: values.coffeename });
       setTimeout(() => {
-        setVisible(false);
+        props.closeModal();
         setModalText(false);
         setConfirmLoading(false);
         form.resetFields();
       }, 300);
-    } catch (e) {
-      console.log("Add new entry failed:", e);
+    } catch (e: unknown) {
+      if (e instanceof ApiError) {
+        console.log("Add new entry failed:", e);
+        setConfirmLoading(false);
+        setError(true);
+        setModalText(e.body.detail);
+      }
     }
   };
 
-  const showModal = () => {
-    if (!props.editCoffee) {
-      setCoffeeId(uuidv7());
-      setVisible(true);
-    }
+  const addCoffee = async (newCoffee: CoffeeSchema) => {
+    const response = await CoffeesService.postCoffeeApiV1CoffeesPost(newCoffee);
+    console.log(response);
+
+    dispatch(addCoffeeId(response._id));
   };
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
-    setVisible(false);
+    props.closeModal();
   };
 
   const submitForm = () => {
@@ -54,23 +62,15 @@ const AddModal: React.FC<Props> = (props) => {
 
   return (
     <>
-      <PlusCircleOutlined
-        onClick={showModal}
-        disabled={props.editCoffee}
-        style={{
-          fontSize: "32px",
-          color: !props.editCoffee ? "#374151" : "blue",
-        }}
-      />
       <Modal
         title="Title"
-        open={visible}
+        open={props.open}
         onOk={submitForm}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
         <AddForm form={form} handleOk={handleOk} />
-        {modalText && <p>{modalText}</p>}
+        {modalText && <p className={error ? "error" : ""}>{modalText}</p>}
       </Modal>
     </>
   );

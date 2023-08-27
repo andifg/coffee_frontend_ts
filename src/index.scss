@@ -1,34 +1,16 @@
-// @import "~antd/dist/antd.css";
+html body {
+  width: auto !important;
+}
 
 body {
   background-color: rgba(255, 255, 255, 0.5);
   font-family: sans-serif;
+  overflow: scroll;
 }
 
-.logo,
-.logo:hover {
-  width: 50%;
-  margin: auto;
-  text-align: center;
-  font-weight: 500;
-  font-size: 2.5rem;
-  color: #895737;
-  text-decoration: none;
+body.modal-open {
+  overflow: visible;
 }
-
-// .menu {
-//   padding-right: 0.5rem;
-// }
-
-// .board-wrapper {
-//   // width: 50%;
-//   // margin: auto;
-//   background-color: rgba(218, 180, 157, 0.5);
-//   //   display: flex;
-//   height: 100%;
-//   padding-bottom: 5px;
-//   margin-top: 2px;
-// }
 
 .board-add-icon {
   display: flex;
@@ -43,9 +25,32 @@ body {
   justify-content: center;
   margin-bottom: 5px;
   text-align: center;
-
 }
 
 .coffee {
   width: 100%;
+}
+
+.navbar-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-left {
+  display: flex;
+  justify-content: flex-start; /* Aligns content to the left */
+  align-items: center;
+}
+
+.icon-left {
+  margin-left: 10px;
+}
+
+.icon-right {
+  margin-right: 10px;
+}
+
+.error {
+  color: red;
 }

@@ -9,9 +9,9 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "My Awesome App",
-        short_name: "MyApp",
-        description: "My Awesome App description",
+        name: "Rate My Coffee",
+        short_name: "Coffee Rate",
+        description: "My Awesome App Coffee Rating App!",
         theme_color: "#ffffff",
         icons: [
           {

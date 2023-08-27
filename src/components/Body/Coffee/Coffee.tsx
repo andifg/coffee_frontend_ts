@@ -1,15 +1,15 @@
 import { Card, Skeleton, Rate } from "antd";
 import { EditOutlined, DeleteOutlined, SaveOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
-import { CoffeesService, Coffee as CoffeeSchema } from "../../client";
-
+import { CoffeesService, Coffee as CoffeeSchema } from "../../../client";
+import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
+import { useDispatch } from "react-redux";
 const { Meta } = Card;
 
 interface Props {
   coffee_id: string;
   editCoffee: boolean;
   seteditCoffee: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteCoffee: CallableFunction;
 }
 
 const Coffee: React.FC<Props> = (props: Props) => {
@@ -17,6 +17,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [edit, setEdit] = useState<boolean>(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,6 +48,21 @@ const Coffee: React.FC<Props> = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const deleteCoffee = async () => {
+    console.log("Delete coffee");
+    try {
+      await CoffeesService.deleteCoffeeByIdApiV1CoffeesCoffeeIdDelete(
+        props.coffee_id,
+      );
+
+      dispatch(deleteCoffeeId(props.coffee_id));
+
+      console.log(`Removed coffee  ${props.coffee_id}`);
+    } catch (e) {
+      console.log("ERRRIIRRRRRR");
+    }
+  };
+
   const saveChanges = (e: unknown) => {
     console.log(e);
     setEdit(false);
@@ -56,11 +73,6 @@ const Coffee: React.FC<Props> = (props: Props) => {
     console.log(e);
     setEdit(true);
     props.seteditCoffee(true);
-  };
-
-  const delteCard = (e: React.MouseEvent<HTMLElement>) => {
-    console.log(e);
-    props.deleteCoffee(props.coffee_id);
   };
 
   const getActions = () => {
@@ -74,14 +86,15 @@ const Coffee: React.FC<Props> = (props: Props) => {
       />,
       <DeleteOutlined
         key="delete"
-        onClick={!edit && !props.editCoffee ? delteCard : () => null}
+        onClick={!edit && !props.editCoffee ? deleteCoffee : () => null}
       />,
     ];
   };
 
   return (
     <div className="coffee-wrapper">
-      <Card style={{ border: "3px solid #edd9cc"  }}
+      <Card
+        style={{ border: "3px solid #edd9cc" }}
         className="coffee"
         cover={
           <img

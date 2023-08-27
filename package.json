@@ -15,10 +15,14 @@
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/coffee.jpeg"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.5",
+    "@types/react-redux": "^7.1.26",
     "antd": "^5.8.4",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.1.2",
+    "redux": "^4.2.1",
     "uuidv7": "^0.6.2"
   },
   "devDependencies": {
