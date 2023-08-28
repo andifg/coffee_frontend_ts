@@ -23,13 +23,11 @@ const Board: React.FC = () => {
 
   return (
     <div className="board-wrapper">
-      <div className="board-add-icon">
-        {/* <AddModal addCoffee={addCoffee} editCoffee={editCoffee} /> */}
-      </div>
+      <div className="board-add-icon"></div>
       <Divider
         style={{
-          marginTop: "10px",
-          marginBottom: "10px",
+          marginTop: "0px",
+          marginBottom: "3px",
           backgroundColor: "#edd9cc",
         }}
       />
