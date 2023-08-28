@@ -11,4 +11,4 @@ RUN npm install
 RUN npm run build
 
 FROM registry.access.redhat.com/rhscl/httpd-24-rhel7
-COPY --from=builder /usr/src/app/build /var/www/html/
+COPY --from=builder /usr/src/app/dist /var/www/html/

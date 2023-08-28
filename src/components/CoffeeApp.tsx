@@ -1,10 +1,9 @@
-import React from "react";
-import Navbar from "./Navbar";
-import Board from "./Board";
+import HeaderBar from "./HeaderBar/HeaderBar";
+import Board from "./Body/Board";
 
 const CoffeeApp = () => (
   <>
-    <Navbar />
+    <HeaderBar />
     <Board />
   </>
 );

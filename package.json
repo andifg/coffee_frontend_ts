@@ -1,74 +1,46 @@
 {
-  "name": "coffee-new-frontend",
-  "version": "0.1.0",
+  "name": "frontend",
   "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "vitest run",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier . --check",
+    "format-fix": "prettier . --write",
+    "preview": "vite preview",
+    "generate-client": "openapi --input ./api.json --output ./src/client --client axios",
+    "generate-pwa-assets": "pwa-assets-generator --preset minimal public/coffee.jpeg"
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^17.0.45",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "antd": "^5.2.3",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@types/react-redux": "^7.1.26",
+    "antd": "^5.8.4",
     "axios": "^1.4.0",
-    "prettier": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "sass": "^1.58.3",
-    "typescript": "^4.9.5",
-    "uuidv7": "^0.5.2",
-    "web-vitals": "^2.1.4",
-    "workbox-background-sync": "^6.5.4",
-    "workbox-broadcast-update": "^6.5.4",
-    "workbox-cacheable-response": "^6.5.4",
-    "workbox-core": "^6.5.4",
-    "workbox-expiration": "^6.5.4",
-    "workbox-google-analytics": "^6.5.4",
-    "workbox-navigation-preload": "^6.5.4",
-    "workbox-precaching": "^6.5.4",
-    "workbox-range-requests": "^6.5.4",
-    "workbox-routing": "^6.5.4",
-    "workbox-strategies": "^6.5.4",
-    "workbox-streams": "^6.5.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false --passWithNoTests",
-    "eject": "react-scripts eject",
-    "lint": "eslint . --ext .tsx",
-    "format": "prettier . --check",
-    "generate-client": "openapi --input ./api.json --output ./src/client --client axios"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-redux": "^8.1.2",
+    "redux": "^4.2.1",
+    "uuidv7": "^0.6.2"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
-    "eslint": "^8.35.0",
-    "openapi-typescript-codegen": "^0.24.0"
-  },
-  "jest": {
-    "transformIgnorePatterns": [
-      "node_modules/(?!axios/.*)"
-    ]
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vite-pwa/assets-generator": "^0.0.8",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "openapi-typescript-codegen": "^0.25.0",
+    "prettier": "^3.0.2",
+    "sass": "^1.66.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-pwa": "^0.16.4",
+    "vitest": "^0.34.2"
   }
 }
