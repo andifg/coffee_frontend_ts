@@ -7,12 +7,17 @@
  * Describes one rating
  */
 export type Rating = {
-  /**
-   * The id of the rating
-   */
-  _id: string;
-  /**
-   * Ratings for coffee
-   */
-  rating: number;
+    /**
+     * The id of the rating
+     */
+    _id: string;
+    /**
+     * Ratings for coffee
+     */
+    rating: number;
+    /**
+     * The id of the coffee
+     */
+    coffee_id: string;
 };
+

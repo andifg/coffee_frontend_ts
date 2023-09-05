@@ -1,5 +1,5 @@
 import { Card, Skeleton, Rate } from "antd";
-import { EditOutlined, DeleteOutlined, SaveOutlined } from "@ant-design/icons";
+import { EditOutlined, DeleteOutlined, SaveOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import React, { useState, useEffect } from "react";
 import { CoffeesService, Coffee as CoffeeSchema } from "../../../client";
 import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
@@ -109,6 +109,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
           <Meta title={coffee && coffee.name} />
           <div>
             <Rate allowHalf defaultValue={2.5} disabled={!edit} />
+            <PlusCircleOutlined />
             {edit && <p>Change the Rating here</p>}
           </div>
         </Skeleton>
