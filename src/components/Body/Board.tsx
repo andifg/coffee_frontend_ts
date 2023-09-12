@@ -22,24 +22,25 @@ const Board: React.FC = () => {
   }, []);
 
   return (
-    <div className="board-wrapper">
-      <div className="board-add-icon"></div>
+    <>
       <Divider
         style={{
-          marginTop: "0px",
+          marginTop: "2px",
           marginBottom: "3px",
           backgroundColor: "#edd9cc",
         }}
       />
-      {CoffeeIds.map((coffee) => (
-        <Coffee
-          key={coffee}
-          coffee_id={coffee}
-          seteditCoffee={seteditCoffee}
-          editCoffee={editCoffee}
-        />
-      ))}
-    </div>
+      <div className="board-wrapper">
+        {CoffeeIds.map((coffee) => (
+          <Coffee
+            key={coffee}
+            coffee_id={coffee}
+            seteditCoffee={seteditCoffee}
+            editCoffee={editCoffee}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 

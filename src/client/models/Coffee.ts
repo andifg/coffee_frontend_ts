@@ -7,13 +7,12 @@
  * Describes a Coffee
  */
 export type Coffee = {
-    /**
-     * The id of the coffee
-     */
-    _id: string;
-    /**
-     * Name of coffee
-     */
-    name: string;
+  /**
+   * The id of the coffee
+   */
+  _id: string;
+  /**
+   * Name of coffee
+   */
+  name: string;
 };
-

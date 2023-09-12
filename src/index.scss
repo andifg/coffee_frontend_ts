@@ -1,3 +1,5 @@
+$primary-color: #374151;
+
 html body {
   width: auto !important;
 }
@@ -12,12 +14,9 @@ body.modal-open {
   overflow: visible;
 }
 
-.board-add-icon {
-  display: flex;
-  justify-content: end;
-  padding-right: 2px;
-  padding-top: 2px;
-  margin-bottom: 2px;
+.skeleton-wrapper {
+  background-color: white;
+  margin-bottom: 8px;
 }
 
 .coffee-wrapper {
@@ -25,6 +24,11 @@ body.modal-open {
   justify-content: center;
   margin-bottom: 5px;
   text-align: center;
+  padding: 1px;
+}
+
+.MuiCard-root {
+  border: 1px solid #edd9cc;
 }
 
 .coffee {
@@ -57,4 +61,65 @@ body.modal-open {
 
 .error {
   color: red;
+}
+
+.card-content-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  min-height: 50px;
+}
+
+.card-content-rating-summary {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  min-width: 65px;
+}
+
+.card-content-wrapper {
+  display: inline-block;
+  background-color: #edd9cc;
+  padding-left: 75px;
+  padding-right: 75px;
+  border-radius: 16px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+}
+
+div.card-content {
+  padding-bottom: 0px;
+}
+
+div.MuiCardActions-root {
+  padding-top: 0px;
+}
+
+button.add-rating-button {
+  color: $primary-color;
+  border-color: $primary-color;
+  margin-left: 3px;
+}
+
+@media screen and (max-width: 600px) {
+  .coffee-wrapper {
+    padding: 0px;
+  }
+
+  .board-wrapper {
+    background-color: #edd9cc;
+    padding-bottom: 2px;
+  }
+
+  .MuiCard-root {
+    border: 0px solid #edd9cc;
+  }
+
+  body {
+    margin: 0px;
+  }
 }
