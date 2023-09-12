@@ -6,6 +6,8 @@ import { Divider } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/index";
 import { fetchCoffeeIds } from "../../redux/CoffeeIdsReducer";
+import { TransitionGroup } from 'react-transition-group';
+import Collapse from '@mui/material/Collapse';
 
 const Board: React.FC = () => {
   const [editCoffee, seteditCoffee] = useState(false);
@@ -31,14 +33,18 @@ const Board: React.FC = () => {
         }}
       />
       <div className="board-wrapper">
+      <TransitionGroup>
         {CoffeeIds.map((coffee) => (
+          <Collapse>
           <Coffee
             key={coffee}
             coffee_id={coffee}
             seteditCoffee={seteditCoffee}
             editCoffee={editCoffee}
           />
+          </Collapse>
         ))}
+      </TransitionGroup>
       </div>
     </>
   );
