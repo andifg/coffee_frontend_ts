@@ -1,4 +1,5 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import IconButton from "@mui/material/IconButton";
 import React from "react";
 import AddModal from "./AddModal/Modal";
 import { uuidv7 } from "uuidv7";
@@ -20,13 +21,10 @@ const AddIcon = () => {
 
   return (
     <>
-      <PlusCircleOutlined
-        onClick={activateModal}
-        className="icon-left"
-        style={{
-          fontSize: "32px",
-        }}
-      />
+      <IconButton  onClick={activateModal} aria-label="add-modal">
+        <AddCircleOutlineIcon fontSize='large' />
+      </IconButton>
+
       <AddModal
         open={active}
         closeModal={closeModal}

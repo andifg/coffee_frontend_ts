@@ -3,6 +3,7 @@
 import { Image, Row, Col } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import AddIcon from "./AddIcon";
+import AccountMenu from "./ProfileMenu";
 
 const HeaderBar = () => {
   return (
@@ -16,14 +17,7 @@ const HeaderBar = () => {
             <Image preview={false} src="/logo-no-background.png" />
           </Col>
           <Col className="navbar-right" span={6}>
-            <MenuOutlined
-              className="icon-right"
-              style={{
-                fontSize: "32px",
-                color: "#374151",
-                marginLeft: "auto",
-              }}
-            />
+            <AccountMenu />
           </Col>
         </Row>
       </>
