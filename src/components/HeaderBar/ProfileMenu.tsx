@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import useOnClickOutside from "../../hooks/useOnClickOutside";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -15,15 +14,11 @@ export default function AccountMenu() {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = async  () => {
+    setTimeout(() => {
+      setAnchorEl(null);
+    }, 100);
   };
-
-  const clickOutsidehandler = () => {
-    alert("You have clicked outside the square box");
-  };
-
-  useOnClickOutside(menuRef, clickOutsidehandler);
 
   return (
     <>
@@ -34,7 +29,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar >M</Avatar>
+            <Avatar >A</Avatar>
           </IconButton>
         </Tooltip>
       <Menu
@@ -42,8 +37,7 @@ export default function AccountMenu() {
         id="account-menu"
         open={open}
         ref={menuRef}
-        // onClose={handleClose}
-        // onClick={handleClose}
+        onClose={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {

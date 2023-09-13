@@ -35,7 +35,7 @@ const Board: React.FC = () => {
       <div className="board-wrapper">
       <TransitionGroup>
         {CoffeeIds.map((coffee) => (
-          <Collapse>
+          <Collapse key={coffee + "-collapse"}>
           <Coffee
             key={coffee}
             coffee_id={coffee}
