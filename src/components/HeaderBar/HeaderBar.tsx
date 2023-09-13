@@ -1,7 +1,6 @@
 // import {  UserOutlined } from "@ant-design/icons";
 // import { Menu } from "antd";
 import { Image, Row, Col } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
 import AddIcon from "./AddIcon";
 import AccountMenu from "./ProfileMenu";
 
