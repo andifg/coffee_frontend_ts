@@ -1,4 +1,4 @@
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import IconButton from "@mui/material/IconButton";
 import React from "react";
 import AddModal from "./AddModal/Modal";
@@ -21,8 +21,8 @@ const AddIcon = () => {
 
   return (
     <>
-      <IconButton  onClick={activateModal} aria-label="add-modal">
-        <AddCircleOutlineIcon fontSize='large' />
+      <IconButton onClick={activateModal} aria-label="add-modal">
+        <AddCircleOutlineIcon fontSize="large" />
       </IconButton>
 
       <AddModal

@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
-import CancelIcon from '@mui/icons-material/Cancel';
+import CancelIcon from "@mui/icons-material/Cancel";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 
@@ -92,7 +92,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
             {" "}
             <SaveAltIcon />{" "}
           </IconButton>{" "}
-          <IconButton onClick={()=> setAddRating(false)} aria-label="abort">
+          <IconButton onClick={() => setAddRating(false)} aria-label="abort">
             {" "}
             <CancelIcon />{" "}
           </IconButton>{" "}
