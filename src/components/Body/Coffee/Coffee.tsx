@@ -8,7 +8,8 @@ import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux/index";
 import { RatingsService } from "../../../client";
 
 import Card from "@mui/material/Card";
@@ -39,6 +40,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
+
+  const userRole = useSelector((state: RootState) => state.userRole.userRole);
 
   const dispatch = useDispatch();
 
@@ -108,11 +111,13 @@ const Coffee: React.FC<Props> = (props: Props) => {
                 initialRatingCount={initalRatingSummary.rating_count}
               />
             </CardContent>
-            <CardActions>
-              <IconButton aria-label="delete" onClick={deleteCoffee}>
-                <DeleteIcon />
-              </IconButton>
-            </CardActions>
+            {userRole === "Admin" && (
+              <CardActions>
+                <IconButton aria-label="delete" onClick={deleteCoffee}>
+                  <DeleteIcon />
+                </IconButton>
+              </CardActions>
+            )}
           </Card>
         </div>
       )}

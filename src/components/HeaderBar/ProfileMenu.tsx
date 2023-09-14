@@ -7,10 +7,22 @@ import Tooltip from "@mui/material/Tooltip";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
+import { useSelector, useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/index";
+import { setUserRole } from "../../redux/UserRoleReducer";
+
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const userRole = useSelector((state: RootState) => state.userRole.userRole);
+
+  const switchRole = () => {
+    dispatch(setUserRole(userRole == "Admin" ? "User" : "Admin"));
+  };
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -68,7 +80,12 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <FormControlLabel control={<Switch defaultChecked />} label="Admin" />
+          <FormControlLabel
+            control={
+              <Switch checked={userRole == "Admin"} onClick={switchRole} />
+            }
+            label="Admin"
+          />
         </MenuItem>
       </Menu>
     </>

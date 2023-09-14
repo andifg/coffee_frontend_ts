@@ -4,9 +4,14 @@ import React from "react";
 import AddModal from "./AddModal/Modal";
 import { uuidv7 } from "uuidv7";
 
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/index";
+
 const AddIcon = () => {
   const [active, setActive] = React.useState(false);
   const [currentUUID, setUUID] = React.useState<string>("");
+
+  const userRole = useSelector((state: RootState) => state.userRole.userRole);
 
   const activateModal = () => {
     console.log("Clicked add button");
@@ -21,15 +26,19 @@ const AddIcon = () => {
 
   return (
     <>
-      <IconButton onClick={activateModal} aria-label="add-modal">
-        <AddCircleOutlineIcon fontSize="large" />
-      </IconButton>
+      {userRole === "Admin" && (
+        <>
+          <IconButton onClick={activateModal} aria-label="add-modal">
+            <AddCircleOutlineIcon fontSize="large" />
+          </IconButton>
 
-      <AddModal
-        open={active}
-        closeModal={closeModal}
-        currentUUID={currentUUID}
-      />
+          <AddModal
+            open={active}
+            closeModal={closeModal}
+            currentUUID={currentUUID}
+          />
+        </>
+      )}
     </>
   );
 };
