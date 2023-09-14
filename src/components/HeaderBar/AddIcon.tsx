@@ -28,7 +28,11 @@ const AddIcon = () => {
     <>
       {userRole === "Admin" && (
         <>
-          <IconButton onClick={activateModal} aria-label="add-modal">
+          <IconButton
+            color="primary"
+            onClick={activateModal}
+            aria-label="add-modal"
+          >
             <AddCircleOutlineIcon fontSize="large" />
           </IconButton>
 
