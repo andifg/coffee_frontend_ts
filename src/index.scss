@@ -1,4 +1,7 @@
 $primary-color: #374151;
+$primary-color-light: #b0b9c9;
+$secondary-color: #eed9cc;
+$secondary-color-light: #fdf0e4;
 
 html body {
   width: auto !important;
@@ -8,6 +11,23 @@ body {
   background-color: rgba(255, 255, 255, 0.5);
   font-family: sans-serif;
   overflow: scroll;
+  overscroll-behavior: none;
+}
+
+// div.avatar {
+//   background-color: $primary-color;
+// }
+
+// .divider{
+//   margin-top: "2px";
+//   margin-bottom: "3px";
+//   background-color: $secondary-color-light
+// }
+
+hr.MuiDivider-root {
+  margin-top: 2px;
+  margin-bottom: 3px;
+  background-color: $primary-color;
 }
 
 .skeleton-wrapper {
@@ -24,7 +44,7 @@ body {
 }
 
 .MuiCard-root {
-  border: 1px solid #edd9cc;
+  border: 1px solid $primary-color-light;
 }
 
 .coffee {
@@ -39,6 +59,15 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.circular-progress-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.circular-progress {
+  color: $primary-color-light;
 }
 
 .navbar-left {
@@ -79,7 +108,7 @@ body {
 
 .card-content-wrapper {
   display: inline-block;
-  background-color: #edd9cc;
+  background-color: $primary-color-light;
   padding-left: 75px;
   padding-right: 75px;
   border-radius: 16px;
@@ -109,15 +138,34 @@ button.add-rating-button {
   }
 
   .board-wrapper {
-    background-color: #edd9cc;
+    background-color: $primary-color-light;
     padding-bottom: 2px;
   }
 
   .MuiCard-root {
-    border: 0px solid #edd9cc;
+    border: 0px solid $secondary-color-light;
   }
 
   body {
     margin: 0px;
   }
+}
+
+.pull-indicator {
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-lighter);
+  transition: transform 0.2s ease-in-out;
+  z-index: 10;
+}
+
+.pull-indicator i {
+  transition: transform 0.2s ease-in-out;
+}
+
+.pull-indicator.flip i {
+  transform: rotate(180deg);
 }

@@ -1,13 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Coffee from "./Coffee/Coffee";
-import { Divider } from "antd";
+// import { Divider } from "antd";
+import Divider from "@mui/material/Divider";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/index";
 import { fetchCoffeeIds } from "../../redux/CoffeeIdsReducer";
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
+import SlideToReload from "./SlideToReload";
 
 const Board: React.FC = () => {
   const [editCoffee, seteditCoffee] = useState(false);
@@ -25,27 +27,23 @@ const Board: React.FC = () => {
 
   return (
     <>
-      <Divider
-        style={{
-          marginTop: "2px",
-          marginBottom: "3px",
-          backgroundColor: "#edd9cc",
-        }}
-      />
-      <div className="board-wrapper">
-        <TransitionGroup>
-          {CoffeeIds.map((coffee) => (
-            <Collapse key={coffee + "-collapse"}>
-              <Coffee
-                key={coffee}
-                coffee_id={coffee}
-                seteditCoffee={seteditCoffee}
-                editCoffee={editCoffee}
-              />
-            </Collapse>
-          ))}
-        </TransitionGroup>
-      </div>
+      <Divider className="divider" />
+      <SlideToReload>
+        <div className="board-wrapper">
+          <TransitionGroup>
+            {CoffeeIds.map((coffee) => (
+              <Collapse key={coffee + "-collapse"}>
+                <Coffee
+                  key={coffee}
+                  coffee_id={coffee}
+                  seteditCoffee={seteditCoffee}
+                  editCoffee={editCoffee}
+                />
+              </Collapse>
+            ))}
+          </TransitionGroup>
+        </div>
+      </SlideToReload>
     </>
   );
 };

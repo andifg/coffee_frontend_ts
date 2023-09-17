@@ -6,6 +6,7 @@ import {
 } from "../../../client";
 import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import IconButton from "@mui/material/IconButton";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -94,7 +95,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
         <CoffeeSkeleton />
       ) : (
         <div className="coffee-wrapper">
-          <Card sx={{ boxShadow: 0 }} className="coffee">
+          <Card sx={{ boxShadow: 0, borderRadius: 0 }} className="coffee">
             <CardMedia
               component="img"
               alt="green iguana"
@@ -113,8 +114,12 @@ const Coffee: React.FC<Props> = (props: Props) => {
             </CardContent>
             {userRole === "Admin" && (
               <CardActions>
-                <IconButton aria-label="delete" onClick={deleteCoffee}>
-                  <DeleteIcon />
+                <IconButton
+                  color="warning"
+                  aria-label="delete"
+                  onClick={deleteCoffee}
+                >
+                  <DeleteOutlinedIcon />
                 </IconButton>
               </CardActions>
             )}

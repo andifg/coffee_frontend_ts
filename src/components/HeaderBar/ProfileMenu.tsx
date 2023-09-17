@@ -40,8 +40,21 @@ export default function AccountMenu() {
           aria-controls={open ? "account-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
+          // color="primary"
         >
-          <Avatar>A</Avatar>
+          <Avatar
+            sx={{
+              width: 28,
+              height: 28,
+              bgcolor: "white",
+              color: "primary.main",
+              borderColor: "primary.main",
+              border: "1px solid",
+            }}
+            className="avatar"
+          >
+            A
+          </Avatar>
         </IconButton>
       </Tooltip>
       <Menu

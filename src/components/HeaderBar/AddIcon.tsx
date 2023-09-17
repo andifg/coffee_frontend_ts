@@ -1,5 +1,6 @@
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import IconButton from "@mui/material/IconButton";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import React from "react";
 import AddModal from "./AddModal/Modal";
 import { uuidv7 } from "uuidv7";
@@ -33,7 +34,7 @@ const AddIcon = () => {
             onClick={activateModal}
             aria-label="add-modal"
           >
-            <AddCircleOutlineIcon fontSize="large" />
+            <AddOutlinedIcon />
           </IconButton>
 
           <AddModal
