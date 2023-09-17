@@ -10,6 +10,7 @@ import { fetchCoffeeIds } from "../../redux/CoffeeIdsReducer";
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
 import SlideToReload from "./SlideToReload";
+import Container from "@mui/material/Container";
 
 const Board: React.FC = () => {
   const [editCoffee, seteditCoffee] = useState(false);
@@ -27,9 +28,12 @@ const Board: React.FC = () => {
 
   return (
     <>
-      <Divider className="divider" />
+      <Divider className="divider" sx={{ bgcolor: "primary.main" }} />
       <SlideToReload>
-        <div className="board-wrapper">
+        <Container
+          sx={{ bgcolor: "primary.light" }}
+          className={CoffeeIds.length != 0 ? "board-wrapper" : ""}
+        >
           <TransitionGroup>
             {CoffeeIds.map((coffee) => (
               <Collapse key={coffee + "-collapse"}>
@@ -42,7 +46,7 @@ const Board: React.FC = () => {
               </Collapse>
             ))}
           </TransitionGroup>
-        </div>
+        </Container>
       </SlideToReload>
     </>
   );

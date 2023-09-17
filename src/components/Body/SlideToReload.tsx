@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { colors } from "@mui/material";
+import theme from "../../theme";
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -25,7 +25,7 @@ const SlideToReload = (props: Props): JSX.Element => {
       // don't forget to cleanup
       el.removeEventListener("touchstart", handleTouchStart);
     };
-  }, [ref.current]);
+  });
 
   function appr(x: number) {
     return MAX * (1 - Math.exp((-k * x) / MAX));
@@ -73,15 +73,8 @@ const SlideToReload = (props: Props): JSX.Element => {
   function addPullIndicator(el: HTMLDivElement) {
     const indicator = el.querySelector(".pull-indicator");
     if (indicator) {
-      // already added
-
       return;
     }
-
-    // const pullIndicator = document.createElement("div");
-    // pullIndicator.className = "pull-indicator";
-    // pullIndicator.innerHTML = "HELLO";
-    // el.insertBefore(pullIndicator,ref.current);
 
     setShow(true);
   }
@@ -134,7 +127,7 @@ const SlideToReload = (props: Props): JSX.Element => {
     <>
       {show && (
         <div className="circular-progress-wrapper">
-          <CircularProgress className="circular-progress" />
+          <CircularProgress style={{ color: theme.palette.primary.light }} />
         </div>
       )}
       <div ref={ref} className="slide-to-reload">

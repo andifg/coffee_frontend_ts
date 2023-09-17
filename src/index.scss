@@ -1,33 +1,16 @@
-$primary-color: #374151;
-$primary-color-light: #b0b9c9;
-$secondary-color: #eed9cc;
-$secondary-color-light: #fdf0e4;
-
 html body {
-  width: auto !important;
+  width: auto;
 }
 
 body {
-  background-color: rgba(255, 255, 255, 0.5);
   font-family: sans-serif;
   overflow: scroll;
   overscroll-behavior: none;
 }
 
-// div.avatar {
-//   background-color: $primary-color;
-// }
-
-// .divider{
-//   margin-top: "2px";
-//   margin-bottom: "3px";
-//   background-color: $secondary-color-light
-// }
-
 hr.MuiDivider-root {
   margin-top: 2px;
   margin-bottom: 3px;
-  background-color: $primary-color;
 }
 
 .skeleton-wrapper {
@@ -41,10 +24,6 @@ hr.MuiDivider-root {
   margin-bottom: 5px;
   text-align: center;
   padding: 1px;
-}
-
-.MuiCard-root {
-  border: 1px solid $primary-color-light;
 }
 
 .coffee {
@@ -66,13 +45,9 @@ hr.MuiDivider-root {
   justify-content: center;
 }
 
-.circular-progress {
-  color: $primary-color-light;
-}
-
 .navbar-left {
   display: flex;
-  justify-content: flex-start; /* Aligns content to the left */
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -108,12 +83,12 @@ hr.MuiDivider-root {
 
 .card-content-wrapper {
   display: inline-block;
-  background-color: $primary-color-light;
   padding-left: 75px;
   padding-right: 75px;
   border-radius: 16px;
   padding-bottom: 4px;
   padding-top: 4px;
+  width: auto;
 }
 
 div.MuiCardContent-root:last-child {
@@ -126,10 +101,15 @@ div.card-content {
   padding-top: 10px;
 }
 
-button.add-rating-button {
-  color: $primary-color;
-  border-color: $primary-color;
-  margin-left: 3px;
+.board-wrapper {
+  padding: 0px;
+  margin: 0px;
+}
+
+@media screen and (min-width: 600px) {
+  .board-wrapper {
+    background-color: white;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -138,12 +118,11 @@ button.add-rating-button {
   }
 
   .board-wrapper {
-    background-color: $primary-color-light;
     padding-bottom: 2px;
   }
 
   .MuiCard-root {
-    border: 0px solid $secondary-color-light;
+    border: 0px solid;
   }
 
   body {

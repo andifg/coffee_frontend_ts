@@ -12,25 +12,23 @@ OpenAPI.BASE = window.env.BACKEND_URL;
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className="test">
-        <Provider store={store}>
-          <Row justify="center" align="middle">
-            <Col
-              className="App-header"
-              xs={24}
-              sm={24}
-              md={24}
-              lg={12}
-              xl={12}
-              xxl={12}
-            >
-              <div>
-                <CoffeeApp />
-              </div>
-            </Col>
-          </Row>
-        </Provider>
-      </div>
+      <Provider store={store}>
+        <Row justify="center" align="middle">
+          <Col
+            className="App-header"
+            xs={24}
+            sm={24}
+            md={24}
+            lg={12}
+            xl={12}
+            xxl={12}
+          >
+            <div>
+              <CoffeeApp />
+            </div>
+          </Col>
+        </Row>
+      </Provider>
     </ThemeProvider>
   );
 }

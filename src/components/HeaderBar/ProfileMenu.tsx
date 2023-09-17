@@ -51,7 +51,6 @@ export default function AccountMenu() {
               borderColor: "primary.main",
               border: "1px solid",
             }}
-            className="avatar"
           >
             A
           </Avatar>

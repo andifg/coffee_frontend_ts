@@ -7,6 +7,7 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
+import { Container } from "@mui/material";
 
 import { RatingsService } from "../../../client";
 import { Rating as RatingSchema } from "../../../client/models/Rating";
@@ -61,7 +62,10 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
 
   return (
     <>
-      <div className="card-content-wrapper">
+      <Container
+        sx={{ bgcolor: "primary.light" }}
+        className="card-content-wrapper"
+      >
         <div className="card-content-rating-summary">
           <StarIcon
             sx={{ color: "primary.main", marginRight: "2px" }}
@@ -73,13 +77,13 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
         <div style={{ marginTop: "2px", marginBottom: "2px" }}>
           {ratingCount} ratings{" "}
         </div>
-      </div>
+      </Container>
       {addRating && (
         <div className="card-content-box">
           {" "}
           <Rating
             name="half-rating"
-            sx={{ color: "primary.main" }}
+            sx={{ color: "primary.main", marginRight: "4px" }}
             value={currentRating}
             onChange={(_, newValue) => {
               if (newValue) {
@@ -95,6 +99,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
             color="primary"
             onClick={addRatingtoCoffee}
             aria-label="save"
+            sx={{ padding: "3px" }}
           >
             {" "}
             <SaveAltIcon />{" "}
@@ -103,6 +108,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
             color="warning"
             onClick={() => setAddRating(false)}
             aria-label="abort"
+            sx={{ padding: "3px" }}
           >
             {" "}
             <CloseOutlinedIcon />{" "}
@@ -116,7 +122,6 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
             size="large"
             color="primary"
             onClick={() => setAddRating(true)}
-            className="add-rating-button"
           >
             Add Rating{" "}
           </Button>{" "}

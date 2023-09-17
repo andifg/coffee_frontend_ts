@@ -5,7 +5,6 @@ import {
   RatingSummary,
 } from "../../../client";
 import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
-import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import IconButton from "@mui/material/IconButton";
 
@@ -95,7 +94,15 @@ const Coffee: React.FC<Props> = (props: Props) => {
         <CoffeeSkeleton />
       ) : (
         <div className="coffee-wrapper">
-          <Card sx={{ boxShadow: 0, borderRadius: 0 }} className="coffee">
+          <Card
+            sx={{
+              boxShadow: 0,
+              borderRadius: 0,
+              border: "1px solid",
+              borderColor: "primary.light",
+            }}
+            className="coffee"
+          >
             <CardMedia
               component="img"
               alt="green iguana"
