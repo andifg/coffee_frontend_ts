@@ -53,6 +53,7 @@ const Board: React.FC = () => {
       console.log("Load coffee ids");
       await dispatch(fetchCoffeeIds());
       console.log("New coffee length " + CoffeeIds.length);
+      childrenLoadedCount.current = 0;
       setReload((prev) => prev + 1);
     }
     fetch();
