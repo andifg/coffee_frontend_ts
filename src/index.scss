@@ -129,22 +129,3 @@ div.card-content {
     margin: 0px;
   }
 }
-
-.pull-indicator {
-  width: 100%;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-lighter);
-  transition: transform 0.2s ease-in-out;
-  z-index: 10;
-}
-
-.pull-indicator i {
-  transition: transform 0.2s ease-in-out;
-}
-
-.pull-indicator.flip i {
-  transform: rotate(180deg);
-}

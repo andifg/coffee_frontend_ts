@@ -26,6 +26,8 @@ interface Props {
   coffee_id: string;
   editCoffee: boolean;
   seteditCoffee: React.Dispatch<React.SetStateAction<boolean>>;
+  childrenLoaded: (id: string) => void;
+  reload: number;
 }
 
 const emptyRatingSummary: RatingSummary = {
@@ -48,8 +50,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Use effect executed");
-        console.log(`Try fetching data for ${props.coffee_id}`);
+        console.log("Reload number: " + props.reload);
         const coffee =
           await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
             props.coffee_id,
@@ -62,6 +63,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
         setInitialRatingSummary(ratingSummary);
 
         setData(coffee);
+        props.childrenLoaded(coffee._id);
       } catch (e: unknown) {
         if (e instanceof Error) {
           setError(e.message);
@@ -73,7 +75,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.reload]);
 
   const deleteCoffee = async () => {
     console.log("Delete coffee");

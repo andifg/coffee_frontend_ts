@@ -26,10 +26,10 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
   const [currentRating, setCurrentRating] = useState<number>(0);
 
   useEffect(() => {
+    console.log("Reload of rating triggered");
     setRatingAverage(props.initialRating);
     setRatingCount(props.initialRatingCount);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.initialRating, props.initialRatingCount]);
 
   const addRatingtoCoffee = async () => {
     const uuid = uuidv7();
