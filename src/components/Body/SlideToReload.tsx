@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/index";
 import { incrementRealoadCount } from "../../redux/GeneralConfigReducer";
 import { setRecursiveLoading } from "../../redux/GeneralConfigReducer";
+import { Typography } from "@mui/material";
+import SouthOutlinedIcon from "@mui/icons-material/SouthOutlined";
 
 interface Props {
   children: JSX.Element | JSX.Element[];
@@ -13,6 +15,7 @@ interface Props {
 const SlideToReload = (props: Props): JSX.Element => {
   const [show, setShow] = useState<boolean>(false);
   const [loadStart, setLoadStart] = useState<EpochTimeStamp>(0);
+  const [infoMessageShow, setInfoMessageShow] = useState<boolean>(false);
 
   const ref = React.useRef<HTMLDivElement>(null);
   const triggered = useRef<boolean>(false);
@@ -51,6 +54,8 @@ const SlideToReload = (props: Props): JSX.Element => {
       setShow(false);
     }, wait);
 
+    // setInfoMessageShow(false);
+
     triggered.current = false;
   }
 
@@ -88,6 +93,7 @@ const SlideToReload = (props: Props): JSX.Element => {
     if (initialY.current > 110) return;
 
     const SHOW_INDICATOR_THRESHOLD = 100;
+    const SHOW_INFO_MESSAGE_THRESHOLD = 50;
 
     // get the current Y position
     const currentY = moveEvent.touches[0].clientY;
@@ -98,18 +104,33 @@ const SlideToReload = (props: Props): JSX.Element => {
     // update the element's transform
     el.style.transform = `translateY(${appr(dy)}px)`;
 
-    console.log(
-      `dy: ${dy} show: ${show} recursiveLoading: ${recursiveLoading}`,
-    );
+    // console.log(
+    //   `dy: ${dy} show: ${show} recursiveLoading: ${recursiveLoading}`,
+    // );
+
+    if (dy > SHOW_INFO_MESSAGE_THRESHOLD) {
+      setInfoMessageShow(true);
+    }
 
     if (dy > SHOW_INDICATOR_THRESHOLD) {
-      console.log("Trigger loading");
       showLoadingSign();
     }
   }
 
   return (
     <>
+      {infoMessageShow && !triggered.current && (
+        <div className="slide-to-reload-info-message">
+          {" "}
+          <Typography
+            variant="overline"
+            sx={{ color: "primary.light", lineHeight: "2" }}
+          >
+            Slide down to reload
+          </Typography>{" "}
+          <SouthOutlinedIcon fontSize="small" sx={{ color: "primary.light" }} />{" "}
+        </div>
+      )}
       {(show || recursiveLoading) && (
         <div className="circular-progress-wrapper">
           <CircularProgress
