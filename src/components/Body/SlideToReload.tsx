@@ -119,7 +119,7 @@ const SlideToReload = (props: Props): JSX.Element => {
 
   return (
     <>
-      {infoMessageShow && !triggered.current && (
+      {infoMessageShow && !show && (
         <div className="slide-to-reload-info-message">
           {" "}
           <Typography
