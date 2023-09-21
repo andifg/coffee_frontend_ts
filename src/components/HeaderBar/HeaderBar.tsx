@@ -1,27 +1,27 @@
-// import {  UserOutlined } from "@ant-design/icons";
-// import { Menu } from "antd";
-import { Image, Row, Col } from "antd";
 import AddIcon from "./AddIcon";
 import AccountMenu from "./ProfileMenu";
+import { Grid } from "@mui/material";
 
 const HeaderBar = () => {
   return (
     <div>
       <>
-        <Row className="navbar">
-          <Col className="navbar-left" span={6}>
+        <Grid container className="navbar">
+          <Grid className="navbar-left" item xs={3}>
             <AddIcon />
-          </Col>
-          <Col span={12}>
-            <Image preview={false} src="/logo-no-background.png" />
-          </Col>
-          <Col className="navbar-right" span={6}>
+          </Grid>
+          <Grid item xs={6}>
+            <img
+              style={{ width: "100%", height: "auto", verticalAlign: "middle" }}
+              src="/logo-no-background.png"
+            />
+          </Grid>
+          <Grid className="navbar-right" item xs={3}>
             <AccountMenu />
-          </Col>
-        </Row>
+          </Grid>
+        </Grid>
       </>
     </div>
   );
 };
-
 export default HeaderBar;

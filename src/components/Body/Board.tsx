@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Coffee from "./Coffee/Coffee";
-// import { Divider } from "antd";
 import Divider from "@mui/material/Divider";
 
 import { useSelector, useDispatch } from "react-redux";
