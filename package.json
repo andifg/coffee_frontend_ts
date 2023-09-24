@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@mui/icons-material": "^5.14.8",
+    "@mui/lab": "^5.0.0-alpha.145",
     "@mui/material": "^5.14.8",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-redux": "^7.1.26",
