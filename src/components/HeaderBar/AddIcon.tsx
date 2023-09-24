@@ -3,7 +3,6 @@ import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import React from "react";
 import AddModal from "./AddModal/Modal";
 import { uuidv7 } from "uuidv7";
-
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/index";
 

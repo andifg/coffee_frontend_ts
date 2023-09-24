@@ -21,7 +21,6 @@
     "@mui/material": "^5.14.8",
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-redux": "^7.1.26",
-    "antd": "^5.8.4",
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
