@@ -1,11 +1,16 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
+import IconButton from "@mui/material/IconButton";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import React from "react";
 import AddModal from "./AddModal/Modal";
 import { uuidv7 } from "uuidv7";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/index";
 
 const AddIcon = () => {
   const [active, setActive] = React.useState(false);
   const [currentUUID, setUUID] = React.useState<string>("");
+
+  const userRole = useSelector((state: RootState) => state.userRole.userRole);
 
   const activateModal = () => {
     console.log("Clicked add button");
@@ -20,18 +25,23 @@ const AddIcon = () => {
 
   return (
     <>
-      <PlusCircleOutlined
-        onClick={activateModal}
-        className="icon-left"
-        style={{
-          fontSize: "32px",
-        }}
-      />
-      <AddModal
-        open={active}
-        closeModal={closeModal}
-        currentUUID={currentUUID}
-      />
+      {userRole === "Admin" && (
+        <>
+          <IconButton
+            color="primary"
+            onClick={activateModal}
+            aria-label="add-modal"
+          >
+            <AddOutlinedIcon />
+          </IconButton>
+
+          <AddModal
+            open={active}
+            closeModal={closeModal}
+            currentUUID={currentUUID}
+          />
+        </>
+      )}
     </>
   );
 };

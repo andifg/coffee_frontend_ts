@@ -3,8 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Rating } from "./Rating";
-
 /**
  * Describes a Coffee
  */
@@ -17,8 +15,4 @@ export type Coffee = {
    * Name of coffee
    */
   name: string;
-  /**
-   * Ratings asociated with coffee
-   */
-  ratings?: Array<Rating>;
 };

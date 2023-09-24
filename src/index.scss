@@ -1,23 +1,29 @@
+html {
+  overscroll-behavior: none;
+}
+
 html body {
-  width: auto !important;
+  width: auto;
 }
 
 body {
-  background-color: rgba(255, 255, 255, 0.5);
   font-family: sans-serif;
   overflow: scroll;
+  overscroll-behavior: none;
 }
 
-body.modal-open {
-  overflow: visible;
+hr.MuiDivider-root {
+  margin-top: 2px;
+  margin-bottom: 3px;
 }
 
-.board-add-icon {
-  display: flex;
-  justify-content: end;
-  padding-right: 2px;
-  padding-top: 2px;
-  margin-bottom: 2px;
+div.MuiDialogContent-root {
+  padding-top: 10px !important;
+}
+
+.skeleton-wrapper {
+  background-color: white;
+  margin-bottom: 8px;
 }
 
 .coffee-wrapper {
@@ -25,6 +31,7 @@ body.modal-open {
   justify-content: center;
   margin-bottom: 5px;
   text-align: center;
+  padding: 1px;
 }
 
 .coffee {
@@ -37,13 +44,18 @@ body.modal-open {
 
 .navbar-right {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+}
+
+.circular-progress-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .navbar-left {
   display: flex;
-  justify-content: flex-start; /* Aligns content to the left */
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -57,4 +69,80 @@ body.modal-open {
 
 .error {
   color: red;
+}
+
+.card-content-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  min-height: 50px;
+}
+
+.card-content-rating-summary {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  min-width: 65px;
+}
+
+.card-content-wrapper {
+  display: inline-block;
+  padding-left: 75px;
+  padding-right: 75px;
+  border-radius: 16px;
+  padding-bottom: 4px;
+  padding-top: 4px;
+  width: auto;
+}
+
+div.MuiCardContent-root:last-child {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+div.card-content {
+  padding-bottom: 0px;
+  padding-top: 10px;
+}
+
+.board-wrapper {
+  padding: 0px;
+  margin: 0px;
+}
+
+.slide-to-reload-info-message {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 600px) {
+  .board-wrapper {
+    background-color: white;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .coffee-wrapper {
+    padding: 0px;
+  }
+
+  .board-wrapper {
+    padding-bottom: 2px;
+  }
+
+  .MuiCard-root {
+    border: 0px solid;
+  }
+
+  body {
+    margin: 0px;
+  }
 }

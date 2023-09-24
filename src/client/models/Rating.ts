@@ -15,4 +15,8 @@ export type Rating = {
    * Ratings for coffee
    */
   rating: number;
+  /**
+   * The id of the coffee
+   */
+  coffee_id: string;
 };
