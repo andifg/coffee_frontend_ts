@@ -7,7 +7,7 @@ export interface UserRoleState {
 }
 
 const State: UserRoleState = {
-  userRole: "User",
+  userRole: "Admin",
 };
 
 export const UserRoleSlice = createSlice({

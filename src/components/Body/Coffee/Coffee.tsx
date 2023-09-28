@@ -4,16 +4,10 @@ import {
   Coffee as CoffeeSchema,
   RatingSummary,
 } from "../../../client";
-import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import IconButton from "@mui/material/IconButton";
-
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../redux/index";
 import { RatingsService } from "../../../client";
+import CardHeader from "@mui/material/CardHeader";
 
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 
@@ -21,6 +15,8 @@ import Typography from "@mui/material/Typography";
 
 import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
+
+import MoreMenu from "./MoreButton";
 
 interface Props {
   coffee_id: string;
@@ -42,10 +38,6 @@ const Coffee: React.FC<Props> = (props: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
-
-  const userRole = useSelector((state: RootState) => state.userRole.userRole);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,19 +69,6 @@ const Coffee: React.FC<Props> = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.reload]);
 
-  const deleteCoffee = async () => {
-    console.log("Delete coffee");
-    try {
-      await CoffeesService.deleteCoffeeByIdApiV1CoffeesCoffeeIdDelete(
-        props.coffee_id,
-      );
-      dispatch(deleteCoffeeId(props.coffee_id));
-      console.log(`Removed coffee  ${props.coffee_id}`);
-    } catch (e) {
-      console.log("ERRRIIRRRRRR");
-    }
-  };
-
   return (
     <>
       {loading ? (
@@ -105,6 +84,10 @@ const Coffee: React.FC<Props> = (props: Props) => {
             }}
             className="coffee"
           >
+            <CardHeader
+              sx={{ padding: "0px" }}
+              action={<MoreMenu coffee_id={props.coffee_id} />}
+            />
             <CardMedia
               component="img"
               alt="green iguana"
@@ -121,17 +104,6 @@ const Coffee: React.FC<Props> = (props: Props) => {
                 initialRatingCount={initalRatingSummary.rating_count}
               />
             </CardContent>
-            {userRole === "Admin" && (
-              <CardActions>
-                <IconButton
-                  color="warning"
-                  aria-label="delete"
-                  onClick={deleteCoffee}
-                >
-                  <DeleteOutlinedIcon />
-                </IconButton>
-              </CardActions>
-            )}
           </Card>
         </div>
       )}

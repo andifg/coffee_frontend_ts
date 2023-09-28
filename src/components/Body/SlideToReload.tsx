@@ -40,6 +40,8 @@ const SlideToReload = (props: Props): JSX.Element => {
   }
 
   function handleTouchEnd() {
+    if (!show) return;
+
     console.log("TOUCH END");
     const el = ref.current;
     if (!el) return;
@@ -83,7 +85,7 @@ const SlideToReload = (props: Props): JSX.Element => {
     // get the initial Y position
     initialY.current = startEvent.touches[0].clientY;
 
-    console.log("Handle touch start " + initialY.current);
+    // console.log("Handle touch start " + initialY.current);
   }
 
   function handleTouchMove(moveEvent: React.TouchEvent<HTMLDivElement>) {
