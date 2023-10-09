@@ -5,6 +5,7 @@ import {
   RatingSummary,
 } from "../../../client";
 import { RatingsService } from "../../../client";
+// import { CoffeeImagesService } from "../../../client";
 import CardHeader from "@mui/material/CardHeader";
 
 import Card from "@mui/material/Card";
@@ -34,32 +35,73 @@ const emptyRatingSummary: RatingSummary = {
 
 const Coffee: React.FC<Props> = (props: Props) => {
   const [coffee, setData] = useState<CoffeeSchema>();
+  const [coffeeImage, setCoffeeImage] = useState<Blob>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
+
+
+
+const loadCoffee = async () => {
+
+  const coffee =
+  await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
+    props.coffee_id,
+  );
+
+  setData(coffee);
+
+}
+
+const loadRatingSummary = async () => {
+
+
+  const ratingSummary =
+  await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
+    props.coffee_id,
+  );
+
+
+setInitialRatingSummary(ratingSummary);
+
+
+}
+
+const loadImage = async () => {
+
+  // Would like to use the auto generated Client here, but due to an error
+  // that converts the binary data always to text I have to use fetch.
+  // There is a PR open to fix this issue:
+  // https://github.com/ferdikoomen/openapi-typescript-codegen/pull/986
+  // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
+  // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
+
+
+  const response = await fetch(`http://localhost:8000/api/v1/coffees/${props.coffee_id}/image`)
+
+  if (response.ok) {
+    const coffeeImageBlob = await response.blob()
+    setCoffeeImage(coffeeImageBlob)
+  }
+}
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("Reload number: " + props.reload);
-        const coffee =
-          await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
-            props.coffee_id,
-          );
 
-        const ratingSummary =
-          await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
-            props.coffee_id,
-          );
-        setInitialRatingSummary(ratingSummary);
+        await loadCoffee();
 
-        setData(coffee);
-        props.childrenLoaded(coffee._id);
+        await loadRatingSummary();
+
+        await loadImage();
+
+        props.childrenLoaded(props.coffee_id);
       } catch (e: unknown) {
         if (e instanceof Error) {
-          setError(e.message);
-          console.log(error);
+          console.log("Error during fetch of coffee")
+          console.log(e.message);
         }
       } finally {
         setLoading(false);
@@ -68,6 +110,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.reload]);
+
+
 
   return (
     <>
@@ -90,9 +134,10 @@ const Coffee: React.FC<Props> = (props: Props) => {
             />
             <CardMedia
               component="img"
-              alt="green iguana"
-              height="300"
-              image="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              alt="Image"
+              height="auto"
+              src={coffeeImage ? URL.createObjectURL(coffeeImage): "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}
+              sx={{ objectFit: "contain" }}
             />
             <CardContent className="card-content">
               <Typography gutterBottom variant="h5" component="div">
