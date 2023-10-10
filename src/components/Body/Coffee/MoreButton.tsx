@@ -20,6 +20,8 @@ import SwipeableDrawerBottom from "../../Common/SwipeableDrawerBottom";
 interface Props {
   coffee_id: string;
   toggleShowEditCoffeeModal: () => void;
+  showMoreMenu: boolean;
+  toggleMoreMenuVisibility: () => void;
 }
 
 type MenuItemType = {
@@ -29,7 +31,6 @@ type MenuItemType = {
 };
 
 const MoreMenu = (props: Props): React.JSX.Element => {
-  const [showMenu, setShowMenu] = React.useState<boolean>(false);
   const MoreMenuBottonRef = React.useRef<HTMLButtonElement>(null);
   const userRole = useSelector((state: RootState) => state.userRole.userRole);
   const dispatch = useDispatch();
@@ -72,10 +73,6 @@ const MoreMenu = (props: Props): React.JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userRole]);
 
-  const toggleMenuVisibility = () => {
-    setShowMenu(!showMenu);
-  };
-
   const constructDrawerListItems = () => {
     return (
       <List>
@@ -112,7 +109,7 @@ const MoreMenu = (props: Props): React.JSX.Element => {
   return (
     <>
       <IconButton
-        onClick={toggleMenuVisibility}
+        onClick={props.toggleMoreMenuVisibility}
         sx={{ padding: "0px", marginRight: "10px" }}
         aria-label="settings"
         ref={MoreMenuBottonRef}
@@ -121,17 +118,17 @@ const MoreMenu = (props: Props): React.JSX.Element => {
       </IconButton>
       {matches ? (
         <ListMenu
-          open={showMenu}
+          open={props.showMoreMenu}
           anchorElement={MoreMenuBottonRef.current}
-          handleClose={toggleMenuVisibility}
+          handleClose={props.toggleMoreMenuVisibility}
         >
           {constructListMenuItems()}
         </ListMenu>
       ) : (
         <SwipeableDrawerBottom
-          open={showMenu}
-          onClose={toggleMenuVisibility}
-          onOpen={toggleMenuVisibility}
+          open={props.showMoreMenu}
+          onClose={props.toggleMoreMenuVisibility}
+          onOpen={props.toggleMoreMenuVisibility}
         >
           {constructDrawerListItems()}
         </SwipeableDrawerBottom>

@@ -38,6 +38,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
+  const [showMoreMenu, setShowMoreMenu] = React.useState<boolean>(false);
   const [showEditCoffeeModal, setShowEditCoffeeModal] = React.useState(false);
 
   const loadCoffee = async () => {
@@ -76,7 +77,15 @@ const Coffee: React.FC<Props> = (props: Props) => {
   };
 
   const toggleShowEditCoffeeModal = () => {
+    if (showMoreMenu) {
+      setShowMoreMenu(false);
+    }
+
     setShowEditCoffeeModal(!showEditCoffeeModal);
+  };
+
+  const toggleMoreMenuVisibility = () => {
+    setShowMoreMenu(!showMoreMenu);
   };
 
   const updateCoffeeName = (newCoffeeName: string) => {
@@ -140,6 +149,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
                 <MoreMenu
                   coffee_id={props.coffee_id}
                   toggleShowEditCoffeeModal={toggleShowEditCoffeeModal}
+                  toggleMoreMenuVisibility={toggleMoreMenuVisibility}
+                  showMoreMenu={showMoreMenu}
                 />
               }
             />
