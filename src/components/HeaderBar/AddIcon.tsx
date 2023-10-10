@@ -1,7 +1,7 @@
 import IconButton from "@mui/material/IconButton";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import React from "react";
-import AddModal from "./AddModal/Modal";
+import AddModal from "./AddModal/AddCoffeeModal";
 import { uuidv7 } from "uuidv7";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/index";

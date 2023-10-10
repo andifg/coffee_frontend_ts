@@ -46,7 +46,11 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
                 component="img"
                 src={URL.createObjectURL(props.image)}
                 alt="green iguana"
-                sx={{ height: "300px", objectFit: "contain" }}
+                sx={{
+                  height: "300px",
+                  objectFit: "contain",
+                  marginBottom: "8px",
+                }}
               />
             )}
             <Button
@@ -56,7 +60,14 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
               startIcon={<CloudUploadIcon />}
             >
               {!props.image ? "Upload file" : "Change file"}
-              <input type="file" hidden onChange={props.handleFileChange} />
+              <input
+                type="file"
+                hidden
+                onChange={props.handleFileChange}
+                onAbort={() => {
+                  console.log("Aborted image select");
+                }}
+              />
             </Button>
             <TextField
               required

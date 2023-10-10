@@ -19,6 +19,7 @@ import SwipeableDrawerBottom from "../../Common/SwipeableDrawerBottom";
 
 interface Props {
   coffee_id: string;
+  toggleShowEditCoffeeModal: () => void;
 }
 
 type MenuItemType = {
@@ -54,6 +55,7 @@ const MoreMenu = (props: Props): React.JSX.Element => {
         name: "Edit Coffee",
         onClick: () => {
           console.log("Edit coffee");
+          props.toggleShowEditCoffeeModal();
         },
       },
     ];

@@ -18,11 +18,10 @@ import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
 
 import MoreMenu from "./MoreButton";
+import EditCoffeeModal from "./EditCoffeeModal";
 
 interface Props {
   coffee_id: string;
-  editCoffee: boolean;
-  seteditCoffee: React.Dispatch<React.SetStateAction<boolean>>;
   childrenLoaded: (id: string) => void;
   reload: number;
 }
@@ -39,6 +38,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
+  const [showEditCoffeeModal, setShowEditCoffeeModal] = React.useState(false);
 
   const loadCoffee = async () => {
     const coffee = await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
@@ -66,13 +66,32 @@ const Coffee: React.FC<Props> = (props: Props) => {
     // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
 
     const response = await fetch(
-      `http://localhost:8000/api/v1/coffees/${props.coffee_id}/image`,
+      `${window.env.BACKEND_URL}/api/v1/coffees/${props.coffee_id}/image`,
     );
 
     if (response.ok) {
       const coffeeImageBlob = await response.blob();
       setCoffeeImage(coffeeImageBlob);
     }
+  };
+
+  const toggleShowEditCoffeeModal = () => {
+    setShowEditCoffeeModal(!showEditCoffeeModal);
+  };
+
+  const updateCoffeeName = (newCoffeeName: string) => {
+    setData((prevState) => {
+      if (prevState) {
+        prevState.name = newCoffeeName;
+
+        return prevState;
+      }
+      return undefined;
+    });
+  };
+
+  const updateCoffeeImage = (newCoffeeImage: File) => {
+    setCoffeeImage(newCoffeeImage);
   };
 
   useEffect(() => {
@@ -117,7 +136,12 @@ const Coffee: React.FC<Props> = (props: Props) => {
           >
             <CardHeader
               sx={{ padding: "0px" }}
-              action={<MoreMenu coffee_id={props.coffee_id} />}
+              action={
+                <MoreMenu
+                  coffee_id={props.coffee_id}
+                  toggleShowEditCoffeeModal={toggleShowEditCoffeeModal}
+                />
+              }
             />
             <CardMedia
               component="img"
@@ -141,6 +165,15 @@ const Coffee: React.FC<Props> = (props: Props) => {
               />
             </CardContent>
           </Card>
+          <EditCoffeeModal
+            open={showEditCoffeeModal}
+            closeModal={toggleShowEditCoffeeModal}
+            initalCoffeeName={coffee?.name ? coffee.name : ""}
+            initalCoffeeImage={coffeeImage && new File([coffeeImage], "coffee")}
+            coffee_id={props.coffee_id}
+            updateCoffeeName={updateCoffeeName}
+            updateCoffeeImage={updateCoffeeImage}
+          />
         </div>
       )}
     </>
