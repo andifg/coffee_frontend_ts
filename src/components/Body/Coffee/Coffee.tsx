@@ -40,51 +40,40 @@ const Coffee: React.FC<Props> = (props: Props) => {
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
 
+  const loadCoffee = async () => {
+    const coffee = await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
+      props.coffee_id,
+    );
 
+    setData(coffee);
+  };
 
-const loadCoffee = async () => {
+  const loadRatingSummary = async () => {
+    const ratingSummary =
+      await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
+        props.coffee_id,
+      );
 
-  const coffee =
-  await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
-    props.coffee_id,
-  );
+    setInitialRatingSummary(ratingSummary);
+  };
 
-  setData(coffee);
+  const loadImage = async () => {
+    // Would like to use the auto generated Client here, but due to an error
+    // that converts the binary data always to text I have to use fetch.
+    // There is a PR open to fix this issue:
+    // https://github.com/ferdikoomen/openapi-typescript-codegen/pull/986
+    // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
+    // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
 
-}
+    const response = await fetch(
+      `http://localhost:8000/api/v1/coffees/${props.coffee_id}/image`,
+    );
 
-const loadRatingSummary = async () => {
-
-
-  const ratingSummary =
-  await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
-    props.coffee_id,
-  );
-
-
-setInitialRatingSummary(ratingSummary);
-
-
-}
-
-const loadImage = async () => {
-
-  // Would like to use the auto generated Client here, but due to an error
-  // that converts the binary data always to text I have to use fetch.
-  // There is a PR open to fix this issue:
-  // https://github.com/ferdikoomen/openapi-typescript-codegen/pull/986
-  // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
-  // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
-
-
-  const response = await fetch(`http://localhost:8000/api/v1/coffees/${props.coffee_id}/image`)
-
-  if (response.ok) {
-    const coffeeImageBlob = await response.blob()
-    setCoffeeImage(coffeeImageBlob)
-  }
-}
-
+    if (response.ok) {
+      const coffeeImageBlob = await response.blob();
+      setCoffeeImage(coffeeImageBlob);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,7 +89,7 @@ const loadImage = async () => {
         props.childrenLoaded(props.coffee_id);
       } catch (e: unknown) {
         if (e instanceof Error) {
-          console.log("Error during fetch of coffee")
+          console.log("Error during fetch of coffee");
           console.log(e.message);
         }
       } finally {
@@ -110,8 +99,6 @@ const loadImage = async () => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.reload]);
-
-
 
   return (
     <>
@@ -136,7 +123,11 @@ const loadImage = async () => {
               component="img"
               alt="Image"
               height="auto"
-              src={coffeeImage ? URL.createObjectURL(coffeeImage): "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"}
+              src={
+                coffeeImage
+                  ? URL.createObjectURL(coffeeImage)
+                  : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              }
               sx={{ objectFit: "contain" }}
             />
             <CardContent className="card-content">
