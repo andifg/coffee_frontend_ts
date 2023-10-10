@@ -35,6 +35,7 @@ const emptyRatingSummary: RatingSummary = {
 const Coffee: React.FC<Props> = (props: Props) => {
   const [coffee, setData] = useState<CoffeeSchema>();
   const [coffeeImage, setCoffeeImage] = useState<Blob>();
+  const [coffeeImageURL, setCoffeeImageURL] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
@@ -73,6 +74,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
     if (response.ok) {
       const coffeeImageBlob = await response.blob();
       setCoffeeImage(coffeeImageBlob);
+      setCoffeeImageURL(URL.createObjectURL(coffeeImageBlob));
     }
   };
 
@@ -160,7 +162,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
               height="auto"
               src={
                 coffeeImage
-                  ? URL.createObjectURL(coffeeImage)
+                  ? coffeeImageURL
                   : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
               }
               sx={{ objectFit: "contain" }}

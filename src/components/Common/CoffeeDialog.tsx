@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -26,6 +26,13 @@ interface Props {
 }
 
 const CoffeeDialog: React.FC<Props> = (props: Props) => {
+  const [imageURL, setImageURL] = React.useState<string | undefined>();
+
+  useEffect(() => {
+    if (props.image) {
+      setImageURL(URL.createObjectURL(props.image));
+    }
+  }, [props.image]);
   return (
     <>
       <Dialog fullWidth open={props.open} onClose={props.handleCancel}>
@@ -44,7 +51,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
             {props.image && (
               <CardMedia
                 component="img"
-                src={URL.createObjectURL(props.image)}
+                src={imageURL}
                 alt="green iguana"
                 sx={{
                   height: "300px",
