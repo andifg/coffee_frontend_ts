@@ -102,6 +102,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
   };
 
   const updateCoffeeImage = (newCoffeeImage: File) => {
+    console.log("Updating coffee image");
+    setCoffeeImageURL(URL.createObjectURL(newCoffeeImage));
     setCoffeeImage(newCoffeeImage);
   };
 

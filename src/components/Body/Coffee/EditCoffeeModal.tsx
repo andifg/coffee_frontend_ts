@@ -7,6 +7,7 @@ import { ApiError } from "../../../client";
 import { CoffeeImagesService } from "../../../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../../client";
 import CoffeeDialog from "../../Common/CoffeeDialog";
+import heic2any from "heic2any";
 
 interface Props {
   closeModal: () => void;
@@ -34,7 +35,7 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
           props.coffee_id,
           updatedCoffee,
         );
-      props.updateCoffeeName(coffeeName);
+      props.updateCoffeeName(coffeeName); // Update the coffee name in the parent component
       console.log("Coffee name successfully changed");
       console.log(response);
       return;
@@ -63,7 +64,7 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
         props.coffee_id,
         imagepost,
       );
-      props.updateCoffeeImage(image);
+      props.updateCoffeeImage(image); // Update the image in the parent component
       console.log("Coffee image successfully changed");
       return;
     }
@@ -101,11 +102,48 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
     }
   };
 
+  const convertHEICtoPNG = async (file: File) => {
+
+    const startTime = new Date();
+
+    const png = await heic2any({
+      blob: file,
+      toType: "image/png",
+      quality: 0.5,
+    });
+
+    const endTime = new Date();
+    const elapsedTime = endTime.getTime() - startTime.getTime();
+
+    console.log(`Converted HEIC to PNG in ${elapsedTime} milliseconds`);
+
+    if (png instanceof Blob && Array.isArray(png) === false) {
+
+      const png_file = new File([png], "image.png", { type: "image/png" });
+
+      setImage(png_file);
+    } else {
+      const blob_array = png as Blob[];
+
+      const png_file = new File(blob_array, "image.png", { type: "image/png" });
+
+      setImage(png_file);
+    }
+  };
+
   // Event handler for file input change
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     console.log("File change");
     if (event.target.files && event.target.files?.length != 0) {
       console.log(event.target.files?.length);
+      const filetype = event.target.files[0].type;
+      if (filetype === "image/heic") {
+        console.log("Converting HEIC to PNG");
+        await convertHEICtoPNG(event.target.files[0]);
+        return;
+      }
       const file = event.target.files[0];
       setImage(file);
     }
