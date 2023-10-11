@@ -103,7 +103,6 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
   };
 
   const convertHEICtoPNG = async (file: File) => {
-
     const startTime = new Date();
 
     const png = await heic2any({
@@ -118,7 +117,6 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
     console.log(`Converted HEIC to PNG in ${elapsedTime} milliseconds`);
 
     if (png instanceof Blob && Array.isArray(png) === false) {
-
       const png_file = new File([png], "image.png", { type: "image/png" });
 
       setImage(png_file);
