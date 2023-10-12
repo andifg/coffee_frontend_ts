@@ -11,44 +11,131 @@ import SendIcon from "@mui/icons-material/Send";
 import DialogContentText from "@mui/material/DialogContentText";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CardMedia from "@mui/material/CardMedia";
+import heic2any from "heic2any";
 
 interface Props {
   open: boolean;
   handleCancel: () => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleCoffeeInputNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (coffeeName: string, image: File) => Promise<void>;
+  setError: React.Dispatch<React.SetStateAction<string | undefined>>;
   image: File | undefined;
   error: string | undefined;
-  coffeeName: string;
+  coffeeName: string | undefined;
   loading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
 }
 
 const CoffeeDialog: React.FC<Props> = (props: Props) => {
   const [imageURL, setImageURL] = React.useState<string | undefined>();
+  const [coffeeName, setCoffeeName] = React.useState<string>("");
+  const [image, setImage] = React.useState<File | undefined>();
+
+  const convertHEICtoPNG = async (file: File): Promise<File> => {
+    const startTime = new Date();
+
+    const png = await heic2any({
+      blob: file,
+      toType: "image/png",
+      quality: 0.5,
+    });
+
+    const endTime = new Date();
+    const elapsedTime = endTime.getTime() - startTime.getTime();
+
+    console.log(`Converted HEIC to PNG in ${elapsedTime} milliseconds`);
+
+    let png_file: File;
+    if (png instanceof Blob && Array.isArray(png) === false) {
+      png_file = new File([png], "image.png", { type: "image/png" });
+      return png_file;
+    } else {
+      const blob_array = png as Blob[];
+
+      png_file = new File(blob_array, "image.png", { type: "image/png" });
+      return png_file;
+    }
+  };
+
+  const handleCoffeeInputNameChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setCoffeeName(e.target.value);
+    if (props.error) {
+      props.setError(undefined);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    console.log("Preparing to submit coffee");
+
+    props.handleSubmit(coffeeName, image as File);
+  };
+
+  const handleCancel = () => {
+    props.handleCancel();
+    setCoffeeName("");
+    props.setError(undefined);
+    props.setLoading(false);
+    setImage(undefined);
+    setImageURL(undefined);
+  };
+
+  // Event handler for file input change
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    console.log("File change");
+    let file: File;
+    if (event.target.files && event.target.files?.length != 0) {
+      console.log(event.target.files?.length);
+      const filetype = event.target.files[0].type;
+      if (filetype === "image/heic") {
+        console.log("Converting HEIC to PNG");
+        file = await convertHEICtoPNG(event.target.files[0]);
+      } else {
+        file = event.target.files[0];
+      }
+      setImage(file);
+      setImageURL(URL.createObjectURL(file));
+    }
+  };
 
   useEffect(() => {
+    console.log("Rerendering CoffeeDialog");
+
     if (props.image) {
+      setImage(props.image);
       setImageURL(URL.createObjectURL(props.image));
+    } else {
+      setImage(undefined);
+      setImageURL(undefined);
     }
-  }, [props.image]);
+
+    if (props.coffeeName) {
+      setCoffeeName(props.coffeeName);
+    } else {
+      setCoffeeName("");
+    }
+  }, [props.image, props.coffeeName, props.open]);
   return (
     <>
-      <Dialog fullWidth open={props.open} onClose={props.handleCancel}>
+      <Dialog fullWidth open={props.open} onClose={handleCancel}>
         <DialogTitle>{props.title}</DialogTitle>
         <DialogContent className="dialog-content">
           <Box
             noValidate
             component="form"
             id="add-coffee"
-            onSubmit={props.handleSubmit}
+            onSubmit={handleSubmit}
             sx={{
               display: "flex",
               flexDirection: "column",
             }}
           >
-            {props.image && (
+            {imageURL && (
               <CardMedia
                 component="img"
                 src={imageURL}
@@ -70,7 +157,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
               <input
                 type="file"
                 hidden
-                onChange={props.handleFileChange}
+                onChange={handleFileChange}
                 onAbort={() => {
                   console.log("Aborted image select");
                 }}
@@ -81,8 +168,8 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
               error={props.error ? true : false}
               fullWidth
               id="coffee-name"
-              value={props.coffeeName}
-              onChange={props.handleCoffeeInputNameChange}
+              value={coffeeName}
+              onChange={handleCoffeeInputNameChange}
               label="Coffee Name"
             />
             {props.error && (
@@ -95,7 +182,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button sx={{ color: "warning.main" }} onClick={props.handleCancel}>
+          <Button sx={{ color: "warning.main" }} onClick={handleCancel}>
             Cancel
           </Button>
           <LoadingButton

@@ -16,8 +16,6 @@ interface Props {
 const AddModal: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>();
-  const [coffeeName, setCoffeeName] = React.useState<string>("");
-  const [image, setImage] = React.useState<File | undefined>();
   const dispatch = useDispatch();
 
   const addCoffee = async (newCoffee: CoffeeSchema) => {
@@ -27,14 +25,10 @@ const AddModal: React.FC<Props> = (props) => {
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
-    setCoffeeName("");
-    setLoading(false);
-    setError(undefined);
-    setImage(undefined);
     props.closeModal();
   };
 
-  const uploadImage = async () => {
+  const uploadImage = async (image: File | undefined) => {
     if (image) {
       const imagepost: Body__create_image_api_v1_coffees__coffee_id__image_post =
         {
@@ -48,8 +42,7 @@ const AddModal: React.FC<Props> = (props) => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (coffeeName: string, image: File | undefined) => {
     if (coffeeName === "") {
       setError("Coffee name cannot be empty");
       return;
@@ -58,7 +51,7 @@ const AddModal: React.FC<Props> = (props) => {
     try {
       await addCoffee({ _id: props.currentUUID, name: coffeeName.trim() });
 
-      await uploadImage();
+      await uploadImage(image);
 
       setError(undefined);
       setLoading(true);
@@ -68,8 +61,6 @@ const AddModal: React.FC<Props> = (props) => {
         dispatch(addCoffeeId(props.currentUUID));
         setLoading(false);
         props.closeModal();
-        setCoffeeName("");
-        setImage(undefined);
       }, 500);
     } catch (e: unknown) {
       if (e instanceof ApiError) {
@@ -80,33 +71,17 @@ const AddModal: React.FC<Props> = (props) => {
     }
   };
 
-  // Event handler for file input change
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
-    const file = event.target.files[0];
-    setImage(file);
-  };
-
-  const handleCoffeeInputNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setCoffeeName(e.target.value);
-    if (error) {
-      setError(undefined);
-    }
-  };
-
   return (
     <CoffeeDialog
       open={props.open}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
-      handleFileChange={handleFileChange}
-      handleCoffeeInputNameChange={handleCoffeeInputNameChange}
-      image={image}
+      image={undefined}
       error={error}
-      coffeeName={coffeeName}
+      setError={setError}
+      coffeeName={undefined}
       loading={loading}
+      setLoading={setLoading}
       title="Add Coffee"
     />
   );

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   CoffeesService,
   UpdateCoffee as UpdateCoffeeSchema,
@@ -7,7 +7,6 @@ import { ApiError } from "../../../client";
 import { CoffeeImagesService } from "../../../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../../client";
 import CoffeeDialog from "../../Common/CoffeeDialog";
-import heic2any from "heic2any";
 
 interface Props {
   closeModal: () => void;
@@ -22,10 +21,8 @@ interface Props {
 const EditCoffeeModal: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>();
-  const [coffeeName, setCoffeeName] = React.useState<string>("");
-  const [image, setImage] = React.useState<File | undefined>();
 
-  const updateCoffee = async () => {
+  const updateCoffee = async (coffeeName: string) => {
     if (coffeeName != props.initalCoffeeName) {
       const updatedCoffee: UpdateCoffeeSchema = {
         name: coffeeName,
@@ -44,16 +41,10 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
-    setCoffeeName("");
-    setLoading(false);
-    setError(undefined);
-    // setModalText(false);
-    setImage(undefined);
     props.closeModal();
   };
 
-  const uploadImage = async () => {
+  const uploadImage = async (image: File) => {
     if (image && image != props.initalCoffeeImage) {
       const imagepost: Body__create_image_api_v1_coffees__coffee_id__image_post =
         {
@@ -71,17 +62,16 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
     console.log("Coffee Image hasn't changed");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (coffeeName: string, image: File) => {
     if (coffeeName === "") {
       setError("Coffee name cannot be empty");
       return;
     }
 
     try {
-      await updateCoffee();
+      await updateCoffee(coffeeName);
 
-      await uploadImage();
+      await uploadImage(image);
 
       setError(undefined);
       setLoading(true);
@@ -90,8 +80,6 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
       setTimeout(() => {
         setLoading(false);
         props.closeModal();
-        setCoffeeName("");
-        setImage(undefined);
       }, 500);
     } catch (e: unknown) {
       if (e instanceof ApiError) {
@@ -102,76 +90,17 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
     }
   };
 
-  const convertHEICtoPNG = async (file: File) => {
-    const startTime = new Date();
-
-    const png = await heic2any({
-      blob: file,
-      toType: "image/png",
-      quality: 0.5,
-    });
-
-    const endTime = new Date();
-    const elapsedTime = endTime.getTime() - startTime.getTime();
-
-    console.log(`Converted HEIC to PNG in ${elapsedTime} milliseconds`);
-
-    if (png instanceof Blob && Array.isArray(png) === false) {
-      const png_file = new File([png], "image.png", { type: "image/png" });
-
-      setImage(png_file);
-    } else {
-      const blob_array = png as Blob[];
-
-      const png_file = new File(blob_array, "image.png", { type: "image/png" });
-
-      setImage(png_file);
-    }
-  };
-
-  // Event handler for file input change
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    console.log("File change");
-    if (event.target.files && event.target.files?.length != 0) {
-      console.log(event.target.files?.length);
-      const filetype = event.target.files[0].type;
-      if (filetype === "image/heic") {
-        console.log("Converting HEIC to PNG");
-        await convertHEICtoPNG(event.target.files[0]);
-        return;
-      }
-      const file = event.target.files[0];
-      setImage(file);
-    }
-  };
-
-  const handleCoffeeInputNameChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setCoffeeName(e.target.value);
-    if (error) {
-      setError(undefined);
-    }
-  };
-
-  useEffect(() => {
-    setCoffeeName(props.initalCoffeeName);
-    setImage(props.initalCoffeeImage);
-  }, [props.initalCoffeeName, props.initalCoffeeImage]);
-
   return (
     <CoffeeDialog
       open={props.open}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
-      handleFileChange={handleFileChange}
-      handleCoffeeInputNameChange={handleCoffeeInputNameChange}
-      image={image}
+      image={props.initalCoffeeImage}
       error={error}
-      coffeeName={coffeeName}
+      setError={setError}
+      coffeeName={props.initalCoffeeName}
       loading={loading}
+      setLoading={setLoading}
       title={"Edit " + props.initalCoffeeName}
     />
   );
