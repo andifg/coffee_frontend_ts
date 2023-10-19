@@ -6,15 +6,21 @@ import Tooltip from "@mui/material/Tooltip";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import ListMenu from "../Common/ListMenu";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import ContentCopy from "@mui/icons-material/ContentCopy";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/index";
 import { setUserRole } from "../../redux/UserRoleReducer";
 
+import { useAuth } from "react-oidc-context";
+
 export default function AvatarMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const menuRef = React.useRef<HTMLButtonElement>(null);
+  const auth = useAuth();
 
   const dispatch = useDispatch<AppDispatch>();
   const userRole = useSelector((state: RootState) => state.userRole.userRole);
@@ -30,6 +36,11 @@ export default function AvatarMenu() {
     setTimeout(() => {
       setAnchorEl(null);
     }, 100);
+  };
+
+  const handleLogout = () => {
+    console.log("Logout");
+    auth.removeUser();
   };
 
   return (
@@ -68,6 +79,12 @@ export default function AvatarMenu() {
             }
             label="Admin"
           />
+        </MenuItem>
+        <MenuItem onClick={handleLogout}>
+          <ListItemIcon>
+            <ContentCopy fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Logout</ListItemText>
         </MenuItem>
       </ListMenu>
     </>

@@ -8,8 +8,9 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { Container } from "@mui/material";
+import { useAuth } from "react-oidc-context";
 
-import { RatingsService } from "../../../client";
+import { ApiError, RatingsService } from "../../../client";
 import { Rating as RatingSchema } from "../../../client/models/Rating";
 import { uuidv7 } from "uuidv7";
 interface Props {
@@ -25,6 +26,9 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
   const [ratingCount, setRatingCount] = useState<number>(0);
   const [currentRating, setCurrentRating] = useState<number>(0);
 
+  const auth = useAuth();
+
+  //TODO: Throw unnecessary use effect out and replace by just setting the state
   useEffect(() => {
     console.log("Reload of rating triggered");
     setRatingAverage(props.initialRating);
@@ -55,6 +59,10 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
       setCurrentRating(0);
     } catch (e) {
       console.log(e);
+      if (e instanceof ApiError && e.message === "Unauthorized") {
+        console.log("UnauthorizedApiException");
+        auth.removeUser();
+      }
       setError("Not able to add rating");
     }
     setAddRating(false);

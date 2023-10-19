@@ -1,14 +1,18 @@
-import AddIcon from "./AddIcon";
-import AvatarMenu from "./AvatarMenu";
 import { Grid } from "@mui/material";
+import Divider from "@mui/material/Divider";
 
-const HeaderBar = () => {
+interface Props {
+  navbarLeft?: JSX.Element;
+  navbarRight?: JSX.Element;
+}
+
+const HeaderBar = (props: Props) => {
   return (
-    <div>
-      <>
-        <Grid container className="navbar">
+    <>
+      <div>
+        <Grid container className="navbar" sx={{ minHeight: "46px" }}>
           <Grid className="navbar-left" item xs={3}>
-            <AddIcon />
+            {props.navbarLeft}
           </Grid>
           <Grid item xs={6}>
             <img
@@ -17,11 +21,12 @@ const HeaderBar = () => {
             />
           </Grid>
           <Grid className="navbar-right" item xs={3}>
-            <AvatarMenu />
+            {props.navbarRight}
           </Grid>
         </Grid>
-      </>
-    </div>
+      </div>
+      <Divider className="divider" sx={{ bgcolor: "primary.main" }} />
+    </>
   );
 };
 export default HeaderBar;

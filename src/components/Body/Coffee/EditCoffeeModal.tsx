@@ -7,6 +7,7 @@ import { ApiError } from "../../../client";
 import { CoffeeImagesService } from "../../../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../../client";
 import CoffeeDialog from "../../Common/CoffeeDialog";
+import { useAuth } from "react-oidc-context";
 
 interface Props {
   closeModal: () => void;
@@ -21,6 +22,8 @@ interface Props {
 const EditCoffeeModal: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>();
+
+  const auth = useAuth();
 
   const updateCoffee = async (coffeeName: string) => {
     if (coffeeName != props.initalCoffeeName) {
@@ -70,7 +73,6 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
 
     try {
       await updateCoffee(coffeeName);
-
       await uploadImage(image);
 
       setError(undefined);
@@ -86,6 +88,11 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
         console.log("Update coffee failed:", e.body.detail);
         setLoading(false);
         setError(e.body.detail);
+
+        if (e.message === "Unauthorized") {
+          console.log("UnauthorizedApiException");
+          auth.removeUser();
+        }
       }
     }
   };
