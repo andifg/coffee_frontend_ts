@@ -14,7 +14,6 @@ import { setRecursiveLoading } from "../../redux/GeneralConfigReducer";
 import useReloadChildren from "../../hooks/useReloadChildren";
 
 const Board: React.FC = () => {
-  const [editCoffee, seteditCoffee] = useState(false);
   const [reload, setReload] = useState<number>(0);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -57,8 +56,6 @@ const Board: React.FC = () => {
                 <Coffee
                   key={coffee}
                   coffee_id={coffee}
-                  seteditCoffee={seteditCoffee}
-                  editCoffee={editCoffee}
                   childrenLoaded={childrenLoaded}
                   reload={reload}
                 />

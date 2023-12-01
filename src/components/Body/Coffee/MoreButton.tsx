@@ -8,9 +8,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/index";
@@ -18,8 +15,13 @@ import ListMenu from "../../Common/ListMenu";
 import { CoffeesService } from "../../../client";
 import theme from "../../../theme";
 
+import SwipeableDrawerBottom from "../../Common/SwipeableDrawerBottom";
+
 interface Props {
   coffee_id: string;
+  toggleShowEditCoffeeModal: () => void;
+  showMoreMenu: boolean;
+  toggleMoreMenuVisibility: () => void;
 }
 
 type MenuItemType = {
@@ -29,7 +31,6 @@ type MenuItemType = {
 };
 
 const MoreMenu = (props: Props): React.JSX.Element => {
-  const [showMenu, setShowMenu] = React.useState<boolean>(false);
   const MoreMenuBottonRef = React.useRef<HTMLButtonElement>(null);
   const userRole = useSelector((state: RootState) => state.userRole.userRole);
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const MoreMenu = (props: Props): React.JSX.Element => {
         name: "Edit Coffee",
         onClick: () => {
           console.log("Edit coffee");
+          props.toggleShowEditCoffeeModal();
         },
       },
     ];
@@ -71,15 +73,14 @@ const MoreMenu = (props: Props): React.JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userRole]);
 
-  const toggleMenuVisibility = () => {
-    setShowMenu(!showMenu);
-  };
-
   const constructDrawerListItems = () => {
     return (
       <List>
         {menuItem.map((item) => (
-          <ListItem disablePadding>
+          <ListItem
+            key={props.coffee_id + "_" + item.name + "_desk"}
+            disablePadding
+          >
             <ListItemButton
               onClick={item.onClick}
               component="a"
@@ -96,7 +97,7 @@ const MoreMenu = (props: Props): React.JSX.Element => {
   const constructListMenuItems = () => {
     return menuItem.map((item) => (
       <MenuItem
-        key={props.coffee_id + "_" + item.name}
+        key={props.coffee_id + "_" + item.name + "_mobile"}
         sx={item.textSX}
         onClick={item.onClick}
       >
@@ -108,7 +109,7 @@ const MoreMenu = (props: Props): React.JSX.Element => {
   return (
     <>
       <IconButton
-        onClick={toggleMenuVisibility}
+        onClick={props.toggleMoreMenuVisibility}
         sx={{ padding: "0px", marginRight: "10px" }}
         aria-label="settings"
         ref={MoreMenuBottonRef}
@@ -117,41 +118,20 @@ const MoreMenu = (props: Props): React.JSX.Element => {
       </IconButton>
       {matches ? (
         <ListMenu
-          open={showMenu}
+          open={props.showMoreMenu}
           anchorElement={MoreMenuBottonRef.current}
-          handleClose={toggleMenuVisibility}
+          handleClose={props.toggleMoreMenuVisibility}
         >
           {constructListMenuItems()}
         </ListMenu>
       ) : (
-        <SwipeableDrawer
-          anchor="bottom"
-          open={showMenu}
-          onOpen={toggleMenuVisibility}
-          onClose={toggleMenuVisibility}
+        <SwipeableDrawerBottom
+          open={props.showMoreMenu}
+          onClose={props.toggleMoreMenuVisibility}
+          onOpen={props.toggleMoreMenuVisibility}
         >
-          <Container
-            sx={{
-              width: "30px",
-              height: "6px",
-              borderRadius: "3px",
-              backgroundColor: "primary.main",
-              left: "calc(50% - 15px)",
-              marginTop: "3px",
-            }}
-          ></Container>
-          <Box
-            sx={{
-              margin: "5px",
-              marginBottom: "10px",
-              marginTop: "8px",
-              borderRadius: "16px",
-              backgroundColor: "primary.light",
-            }}
-          >
-            {constructDrawerListItems()}
-          </Box>
-        </SwipeableDrawer>
+          {constructDrawerListItems()}
+        </SwipeableDrawerBottom>
       )}
     </>
   );

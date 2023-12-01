@@ -1,5 +1,5 @@
 import AddIcon from "./AddIcon";
-import AccountMenu from "./ProfileMenu";
+import AvatarMenu from "./AvatarMenu";
 import { Grid } from "@mui/material";
 
 const HeaderBar = () => {
@@ -17,7 +17,7 @@ const HeaderBar = () => {
             />
           </Grid>
           <Grid className="navbar-right" item xs={3}>
-            <AccountMenu />
+            <AvatarMenu />
           </Grid>
         </Grid>
       </>

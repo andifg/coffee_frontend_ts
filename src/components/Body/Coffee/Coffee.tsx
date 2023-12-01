@@ -5,6 +5,7 @@ import {
   RatingSummary,
 } from "../../../client";
 import { RatingsService } from "../../../client";
+// import { CoffeeImagesService } from "../../../client";
 import CardHeader from "@mui/material/CardHeader";
 
 import Card from "@mui/material/Card";
@@ -17,11 +18,10 @@ import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
 
 import MoreMenu from "./MoreButton";
+import EditCoffeeModal from "./EditCoffeeModal";
 
 interface Props {
   coffee_id: string;
-  editCoffee: boolean;
-  seteditCoffee: React.Dispatch<React.SetStateAction<boolean>>;
   childrenLoaded: (id: string) => void;
   reload: number;
 }
@@ -34,32 +34,95 @@ const emptyRatingSummary: RatingSummary = {
 
 const Coffee: React.FC<Props> = (props: Props) => {
   const [coffee, setData] = useState<CoffeeSchema>();
+  const [coffeeImage, setCoffeeImage] = useState<Blob>();
+  const [coffeeImageURL, setCoffeeImageURL] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
+  const [showMoreMenu, setShowMoreMenu] = React.useState<boolean>(false);
+  const [showEditCoffeeModal, setShowEditCoffeeModal] = React.useState(false);
+
+  const loadCoffee = async () => {
+    const coffee = await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
+      props.coffee_id,
+    );
+
+    setData(coffee);
+  };
+
+  const loadRatingSummary = async () => {
+    const ratingSummary =
+      await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
+        props.coffee_id,
+      );
+
+    setInitialRatingSummary(ratingSummary);
+  };
+
+  const loadImage = async () => {
+    // Would like to use the auto generated Client here, but due to an error
+    // that converts the binary data always to text I have to use fetch.
+    // There is a PR open to fix this issue:
+    // https://github.com/ferdikoomen/openapi-typescript-codegen/pull/986
+    // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
+    // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
+
+    const response = await fetch(
+      `${window.env.BACKEND_URL}/api/v1/coffees/${props.coffee_id}/image`,
+    );
+
+    if (response.ok) {
+      const coffeeImageBlob = await response.blob();
+      setCoffeeImage(coffeeImageBlob);
+      setCoffeeImageURL(URL.createObjectURL(coffeeImageBlob));
+    }
+  };
+
+  const toggleShowEditCoffeeModal = () => {
+    if (showMoreMenu) {
+      setShowMoreMenu(false);
+    }
+
+    setShowEditCoffeeModal(!showEditCoffeeModal);
+  };
+
+  const toggleMoreMenuVisibility = () => {
+    setShowMoreMenu(!showMoreMenu);
+  };
+
+  const updateCoffeeName = (newCoffeeName: string) => {
+    setData((prevState) => {
+      if (prevState) {
+        prevState.name = newCoffeeName;
+
+        return prevState;
+      }
+      return undefined;
+    });
+  };
+
+  const updateCoffeeImage = (newCoffeeImage: File) => {
+    console.log("Updating coffee image");
+    setCoffeeImageURL(URL.createObjectURL(newCoffeeImage));
+    setCoffeeImage(newCoffeeImage);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log("Reload number: " + props.reload);
-        const coffee =
-          await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
-            props.coffee_id,
-          );
 
-        const ratingSummary =
-          await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
-            props.coffee_id,
-          );
-        setInitialRatingSummary(ratingSummary);
+        await loadCoffee();
 
-        setData(coffee);
-        props.childrenLoaded(coffee._id);
+        await loadRatingSummary();
+
+        await loadImage();
+
+        props.childrenLoaded(props.coffee_id);
       } catch (e: unknown) {
         if (e instanceof Error) {
-          setError(e.message);
-          console.log(error);
+          console.log("Error during fetch of coffee");
+          console.log(e.message);
         }
       } finally {
         setLoading(false);
@@ -86,13 +149,25 @@ const Coffee: React.FC<Props> = (props: Props) => {
           >
             <CardHeader
               sx={{ padding: "0px" }}
-              action={<MoreMenu coffee_id={props.coffee_id} />}
+              action={
+                <MoreMenu
+                  coffee_id={props.coffee_id}
+                  toggleShowEditCoffeeModal={toggleShowEditCoffeeModal}
+                  toggleMoreMenuVisibility={toggleMoreMenuVisibility}
+                  showMoreMenu={showMoreMenu}
+                />
+              }
             />
             <CardMedia
               component="img"
-              alt="green iguana"
-              height="300"
-              image="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              alt="Image"
+              height="auto"
+              src={
+                coffeeImage
+                  ? coffeeImageURL
+                  : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+              }
+              sx={{ objectFit: "contain" }}
             />
             <CardContent className="card-content">
               <Typography gutterBottom variant="h5" component="div">
@@ -105,6 +180,15 @@ const Coffee: React.FC<Props> = (props: Props) => {
               />
             </CardContent>
           </Card>
+          <EditCoffeeModal
+            open={showEditCoffeeModal}
+            closeModal={toggleShowEditCoffeeModal}
+            initalCoffeeName={coffee?.name ? coffee.name : ""}
+            initalCoffeeImage={coffeeImage && new File([coffeeImage], "coffee")}
+            coffee_id={props.coffee_id}
+            updateCoffeeName={updateCoffeeName}
+            updateCoffeeImage={updateCoffeeImage}
+          />
         </div>
       )}
     </>
