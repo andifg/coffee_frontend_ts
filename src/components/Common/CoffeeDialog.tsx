@@ -104,7 +104,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
   };
 
   useEffect(() => {
-    console.log("Rerendering CoffeeDialog");
+    // console.log("Rerendering CoffeeDialog");
 
     if (props.image) {
       setImage(props.image);

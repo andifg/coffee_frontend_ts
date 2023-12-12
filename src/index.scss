@@ -146,3 +146,19 @@ div.card-content {
     margin: 0px;
   }
 }
+
+.get-started-button {
+  animation: cycleAnimation 2s linear infinite;
+}
+
+@keyframes cycleAnimation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

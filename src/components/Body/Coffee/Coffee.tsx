@@ -8,6 +8,8 @@ import { RatingsService } from "../../../client";
 // import { CoffeeImagesService } from "../../../client";
 import CardHeader from "@mui/material/CardHeader";
 
+import { useAuth } from "react-oidc-context";
+
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -42,6 +44,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
   const [showMoreMenu, setShowMoreMenu] = React.useState<boolean>(false);
   const [showEditCoffeeModal, setShowEditCoffeeModal] = React.useState(false);
 
+  const auth = useAuth();
+
   const loadCoffee = async () => {
     const coffee = await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
       props.coffee_id,
@@ -69,12 +73,21 @@ const Coffee: React.FC<Props> = (props: Props) => {
 
     const response = await fetch(
       `${window.env.BACKEND_URL}/api/v1/coffees/${props.coffee_id}/image`,
+      {
+        method: "GET",
+        headers: {
+          Accept: "image/jpeg",
+          Authorization: `Bearer ${auth.user?.access_token}`,
+        },
+      },
     );
 
     if (response.ok) {
       const coffeeImageBlob = await response.blob();
       setCoffeeImage(coffeeImageBlob);
       setCoffeeImageURL(URL.createObjectURL(coffeeImageBlob));
+    } else if (response.status === 401) {
+      throw "Unauthorized";
     }
   };
 
@@ -123,6 +136,15 @@ const Coffee: React.FC<Props> = (props: Props) => {
         if (e instanceof Error) {
           console.log("Error during fetch of coffee");
           console.log(e.message);
+
+          if (e.message === "Unauthorized") {
+            console.log("UnauthorizedApiException");
+            auth.removeUser();
+          }
+        }
+        if (e === "Unauthorized") {
+          console.log("UnauthorizedApiException");
+          auth.removeUser();
         }
       } finally {
         setLoading(false);

@@ -1,13 +1,22 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { CoffeesService } from "../client";
+import { CoffeesService, ApiError } from "../client";
 
 export const fetchCoffeeIds = createAsyncThunk(
   "coffeeIds/fetchCoffeeIds",
-  async () => {
-    const data: string[] =
-      await CoffeesService.listCoffeeIdsApiV1CoffeesIdsGet();
-    console.log("data", data);
-    return data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const data: string[] =
+        await CoffeesService.listCoffeeIdsApiV1CoffeesIdsGet();
+      return data;
+    } catch (err: unknown) {
+      if (err instanceof ApiError) {
+        if (err.status === 401) {
+          return rejectWithValue("Unauthorized");
+        }
+        console.log(err);
+      }
+      return rejectWithValue("Error during fetchCoffeeIds");
+    }
   },
 );
 
@@ -36,7 +45,6 @@ export const coffeeIdsSlice = createSlice({
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchCoffeeIds.fulfilled, (state, action) => {
-      // Add user to the state array
       state.coffeeIds = action.payload;
     });
   },

@@ -1,7 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Coffee from "./Coffee/Coffee";
-import Divider from "@mui/material/Divider";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/index";
@@ -12,11 +11,13 @@ import SlideToReload from "./SlideToReload";
 import Container from "@mui/material/Container";
 import { setRecursiveLoading } from "../../redux/GeneralConfigReducer";
 import useReloadChildren from "../../hooks/useReloadChildren";
+import { useAuth } from "react-oidc-context";
 
 const Board: React.FC = () => {
   const [reload, setReload] = useState<number>(0);
 
   const dispatch = useDispatch<AppDispatch>();
+  const auth = useAuth();
 
   const CoffeeIds = useSelector(
     (state: RootState) => state.coffeeIds.coffeeIds,
@@ -25,18 +26,33 @@ const Board: React.FC = () => {
     (state: RootState) => state.generalConfig.realoadCount,
   );
 
+  console.log("DATA NEW was changed " + CoffeeIds.length, Date.now());
+
   const [childrenLoaded, resetChildrenLoaded] = useReloadChildren(
     CoffeeIds.length,
     setRecursiveLoading,
   );
 
+  // useEffect(() => {
+  //   console.log("DATA was changed " + CoffeeIds.length , Date.now());
+
+  // }, [CoffeeIds]);
+
   useEffect(() => {
     async function fetch() {
-      console.log("Load coffee ids");
-      await dispatch(fetchCoffeeIds());
-      console.log("New coffee length " + CoffeeIds.length);
-      resetChildrenLoaded();
-      setReload((prev) => prev + 1);
+      try {
+        await dispatch(fetchCoffeeIds()).unwrap();
+        // console.log("New coffee length " + CoffeeIds.length , Date.now());
+        resetChildrenLoaded();
+        setReload((prev) => prev + 1);
+        console.log("Data inside board " + CoffeeIds + " " + Date.now());
+      } catch (e) {
+        console.log("Error fetching coffee ids " + e);
+        if (e === "Unauthorized") {
+          console.log("UnauthorizedApiException");
+          auth.removeUser();
+        }
+      }
     }
     fetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -44,7 +60,6 @@ const Board: React.FC = () => {
 
   return (
     <>
-      <Divider className="divider" sx={{ bgcolor: "primary.main" }} />
       <SlideToReload>
         <Container
           sx={{ bgcolor: "primary.light" }}
