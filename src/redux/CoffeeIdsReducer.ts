@@ -32,7 +32,7 @@ export const coffeeIdsSlice = createSlice({
   initialState,
   reducers: {
     addCoffeeId: (state, action: PayloadAction<string>) => {
-      state.coffeeIds = [...state.coffeeIds, action.payload];
+      state.coffeeIds = [action.payload, ...state.coffeeIds];
     },
     deleteAllCoffeeIds: (state) => {
       console.log("cleanup callled");
