@@ -1,8 +1,8 @@
-import Board from "./Body/Board";
-import HomeHeaderBar from "./HeaderBar/HomeHeaderBar";
-import WelcomeScreen from "../routes/WelcomeScreen";
+import Board from "./Home/Board/Board";
+import HomeHeaderBar from "./Home/HeaderBar/HeaderBar";
+import WelcomeScreen from "./Welcome/Welcome";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import PrivateRoute from "./Common/PrivateRoute";
+import PrivateRoute from "../components/PrivateRoute";
 
 const router = createBrowserRouter([
   {

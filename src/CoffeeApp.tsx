@@ -2,9 +2,8 @@ import { useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 import { Grid } from "@mui/material";
 
-import Router from "./Router";
-
-import { OpenAPI } from "../client";
+import Router from "./routes/Router";
+import { OpenAPI } from "./client";
 
 const CoffeeApp = () => {
   const auth = useAuth();

@@ -1,4 +1,4 @@
-import CoffeeApp from "./components/CoffeeApp";
+import CoffeeApp from "./CoffeeApp";
 import { Provider } from "react-redux";
 import { store } from "./redux";
 import { ThemeProvider } from "@mui/material/styles";

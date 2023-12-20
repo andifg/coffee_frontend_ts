@@ -1,6 +1,6 @@
 import { useAuth } from "react-oidc-context";
 import Button from "@mui/material/Button";
-import HeaderBar from "../components/Common/HeaderBar";
+import HeaderBar from "../../components/HeaderBar";
 import { Box } from "@mui/material";
 
 /**

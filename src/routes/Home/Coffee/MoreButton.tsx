@@ -11,11 +11,11 @@ import MenuItem from "@mui/material/MenuItem";
 import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/index";
-import ListMenu from "../../Common/ListMenu";
+import ListMenu from "../../../components/ListMenu";
 import { CoffeesService } from "../../../client";
 import theme from "../../../theme";
 
-import SwipeableDrawerBottom from "../../Common/SwipeableDrawerBottom";
+import SwipeableDrawerBottom from "../../../components/SwipeableDrawerBottom";
 
 interface Props {
   coffee_id: string;

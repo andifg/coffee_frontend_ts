@@ -6,7 +6,7 @@ import {
 import { ApiError } from "../../../client";
 import { CoffeeImagesService } from "../../../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../../client";
-import CoffeeDialog from "../../Common/CoffeeDialog";
+import CoffeeDialog from "../../../components/CoffeeDialog";
 import { useAuth } from "react-oidc-context";
 
 interface Props {

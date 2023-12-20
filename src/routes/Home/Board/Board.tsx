@@ -1,16 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Coffee from "./Coffee/Coffee";
+import Coffee from "../Coffee/Coffee";
 
 import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/index";
-import { fetchCoffeeIds } from "../../redux/CoffeeIdsReducer";
+import { AppDispatch, RootState } from "../../../redux/index";
+import { fetchCoffeeIds } from "../../../redux/CoffeeIdsReducer";
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
 import SlideToReload from "./SlideToReload";
 import Container from "@mui/material/Container";
-import { setRecursiveLoading } from "../../redux/GeneralConfigReducer";
-import useReloadChildren from "../../hooks/useReloadChildren";
+import { setRecursiveLoading } from "../../../redux/GeneralConfigReducer";
+import useReloadChildren from "../../../hooks/useReloadChildren";
 import { useAuth } from "react-oidc-context";
 
 const Board: React.FC = () => {
@@ -33,10 +33,6 @@ const Board: React.FC = () => {
     setRecursiveLoading,
   );
 
-  // useEffect(() => {
-  //   console.log("DATA was changed " + CoffeeIds.length , Date.now());
-
-  // }, [CoffeeIds]);
 
   useEffect(() => {
     async function fetch() {

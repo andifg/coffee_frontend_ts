@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import theme from "../../theme";
+import theme from "../../../theme";
 import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/index";
-import { incrementRealoadCount } from "../../redux/GeneralConfigReducer";
-import { setRecursiveLoading } from "../../redux/GeneralConfigReducer";
+import { AppDispatch, RootState } from "../../../redux/index";
+import { incrementRealoadCount } from "../../../redux/GeneralConfigReducer";
+import { setRecursiveLoading } from "../../../redux/GeneralConfigReducer";
 import { Typography } from "@mui/material";
 import SouthOutlinedIcon from "@mui/icons-material/SouthOutlined";
 

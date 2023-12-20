@@ -5,14 +5,14 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Switch from "@mui/material/Switch";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import ListMenu from "../Common/ListMenu";
+import ListMenu from "../../../components/ListMenu";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ContentCopy from "@mui/icons-material/ContentCopy";
 
 import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/index";
-import { setUserRole } from "../../redux/UserRoleReducer";
+import { AppDispatch, RootState } from "../../../redux/index";
+import { setUserRole } from "../../../redux/UserRoleReducer";
 
 import { useAuth } from "react-oidc-context";
 
