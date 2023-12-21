@@ -21,7 +21,7 @@ const signoutRedirect = (): void => {
 const oidcConfig = {
   authority: window.env.AUTH_URL,
   client_id: "react-app",
-  redirect_uri: window.location + "/home",
+  redirect_uri: window.location + "/feed",
   onSigninCallback: onSigninCallback,
   automaticSilentRenew: true,
   onSignoutRedirect: signoutRedirect,

@@ -3,6 +3,7 @@ import HomeHeaderBar from "./Home/HeaderBar/HeaderBar";
 import WelcomeScreen from "./Welcome/Welcome";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute";
+import ButtomNavigator from "../components/BottomNavigator";
 
 const router = createBrowserRouter([
   {
@@ -10,12 +11,25 @@ const router = createBrowserRouter([
     element: <WelcomeScreen />,
   },
   {
-    path: "/home",
+    path: "/feed",
     element: (
       <PrivateRoute>
         <>
           <HomeHeaderBar />
           <Board />
+          <ButtomNavigator />
+        </>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/home",
+    element: (
+      <PrivateRoute>
+        <>
+          <HomeHeaderBar />
+          <h1>Hello Home</h1>
+          <ButtomNavigator />
         </>
       </PrivateRoute>
     ),
