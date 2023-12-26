@@ -5,9 +5,7 @@ import {
   RatingSummary,
 } from "../../../client";
 import { RatingsService } from "../../../client";
-// import { CoffeeImagesService } from "../../../client";
 import CardHeader from "@mui/material/CardHeader";
-
 import { useAuth } from "react-oidc-context";
 
 import Card from "@mui/material/Card";
@@ -15,6 +13,8 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 
 import Typography from "@mui/material/Typography";
+
+import { createDataURL } from "../../../utils/FileReader";
 
 import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
@@ -36,7 +36,6 @@ const emptyRatingSummary: RatingSummary = {
 
 const Coffee: React.FC<Props> = (props: Props) => {
   const [coffee, setData] = useState<CoffeeSchema>();
-  const [coffeeImage, setCoffeeImage] = useState<Blob>();
   const [coffeeImageURL, setCoffeeImageURL] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [initalRatingSummary, setInitialRatingSummary] =
@@ -84,8 +83,10 @@ const Coffee: React.FC<Props> = (props: Props) => {
 
     if (response.ok) {
       const coffeeImageBlob = await response.blob();
-      setCoffeeImage(coffeeImageBlob);
-      setCoffeeImageURL(URL.createObjectURL(coffeeImageBlob));
+
+      const imageURL = await createDataURL(coffeeImageBlob);
+
+      setCoffeeImageURL(imageURL);
     } else if (response.status === 401) {
       throw "Unauthorized";
     }
@@ -116,8 +117,9 @@ const Coffee: React.FC<Props> = (props: Props) => {
 
   const updateCoffeeImage = (newCoffeeImage: File) => {
     console.log("Updating coffee image");
-    setCoffeeImageURL(URL.createObjectURL(newCoffeeImage));
-    setCoffeeImage(newCoffeeImage);
+    createDataURL(newCoffeeImage).then((dataURL) => {
+      setCoffeeImageURL(dataURL);
+    });
   };
 
   useEffect(() => {
@@ -185,9 +187,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
               alt="Image"
               height="auto"
               src={
-                coffeeImage
-                  ? coffeeImageURL
-                  : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                coffeeImageURL ||
+                "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
               }
               sx={{ objectFit: "contain" }}
             />
@@ -206,7 +207,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
             open={showEditCoffeeModal}
             closeModal={toggleShowEditCoffeeModal}
             initalCoffeeName={coffee?.name ? coffee.name : ""}
-            initalCoffeeImage={coffeeImage && new File([coffeeImage], "coffee")}
+            initalCoffeeImageURL={coffeeImageURL}
             coffee_id={props.coffee_id}
             updateCoffeeName={updateCoffeeName}
             updateCoffeeImage={updateCoffeeImage}

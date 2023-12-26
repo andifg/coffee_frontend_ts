@@ -15,7 +15,7 @@ interface Props {
   coffee_id: string;
   initalCoffeeName: string;
   updateCoffeeName: (newCoffeeName: string) => void;
-  initalCoffeeImage: File | undefined;
+  initalCoffeeImageURL: string | undefined;
   updateCoffeeImage: (newCoffeeImage: File) => void;
 }
 
@@ -48,21 +48,17 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
   };
 
   const uploadImage = async (image: File) => {
-    if (image && image != props.initalCoffeeImage) {
-      const imagepost: Body__create_image_api_v1_coffees__coffee_id__image_post =
-        {
-          file: image,
-        };
+    const imagepost: Body__create_image_api_v1_coffees__coffee_id__image_post =
+      {
+        file: image,
+      };
 
-      await CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost(
-        props.coffee_id,
-        imagepost,
-      );
-      props.updateCoffeeImage(image); // Update the image in the parent component
-      console.log("Coffee image successfully changed");
-      return;
-    }
-    console.log("Coffee Image hasn't changed");
+    await CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost(
+      props.coffee_id,
+      imagepost,
+    );
+    props.updateCoffeeImage(image); // Update the image in the parent component
+    console.log("Coffee image successfully changed");
   };
 
   const handleSubmit = async (coffeeName: string, image: File) => {
@@ -102,7 +98,7 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
       open={props.open}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
-      image={props.initalCoffeeImage}
+      imageURL={props.initalCoffeeImageURL}
       error={error}
       setError={setError}
       coffeeName={props.initalCoffeeName}

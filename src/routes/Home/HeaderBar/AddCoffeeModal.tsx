@@ -76,7 +76,7 @@ const AddModal: React.FC<Props> = (props) => {
       open={props.open}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
-      image={undefined}
+      imageURL={undefined}
       error={error}
       setError={setError}
       coffeeName={undefined}

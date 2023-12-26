@@ -33,7 +33,6 @@ const Board: React.FC = () => {
     setRecursiveLoading,
   );
 
-
   useEffect(() => {
     async function fetch() {
       try {
