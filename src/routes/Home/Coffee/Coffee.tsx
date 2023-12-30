@@ -14,13 +14,13 @@ import CardMedia from "@mui/material/CardMedia";
 
 import Typography from "@mui/material/Typography";
 
-import { createDataURL } from "../../../utils/FileReader";
-
 import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
 
 import MoreMenu from "./MoreButton";
 import EditCoffeeModal from "./EditCoffeeModal";
+
+import useLoadImageURL from "../../../hooks/useLoadImage";
 
 interface Props {
   coffee_id: string;
@@ -36,12 +36,14 @@ const emptyRatingSummary: RatingSummary = {
 
 const Coffee: React.FC<Props> = (props: Props) => {
   const [coffee, setData] = useState<CoffeeSchema>();
-  const [coffeeImageURL, setCoffeeImageURL] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
   const [showMoreMenu, setShowMoreMenu] = React.useState<boolean>(false);
   const [showEditCoffeeModal, setShowEditCoffeeModal] = React.useState(false);
+  const [coffeeImageURL, fetchImageURL, updateCoffeeImage] = useLoadImageURL(
+    props.coffee_id,
+  );
 
   const auth = useAuth();
 
@@ -60,36 +62,6 @@ const Coffee: React.FC<Props> = (props: Props) => {
       );
 
     setInitialRatingSummary(ratingSummary);
-  };
-
-  const loadImage = async () => {
-    // Would like to use the auto generated Client here, but due to an error
-    // that converts the binary data always to text I have to use fetch.
-    // There is a PR open to fix this issue:
-    // https://github.com/ferdikoomen/openapi-typescript-codegen/pull/986
-    // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
-    // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
-
-    const response = await fetch(
-      `${window.env.BACKEND_URL}/api/v1/coffees/${props.coffee_id}/image`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "image/jpeg",
-          Authorization: `Bearer ${auth.user?.access_token}`,
-        },
-      },
-    );
-
-    if (response.ok) {
-      const coffeeImageBlob = await response.blob();
-
-      const imageURL = await createDataURL(coffeeImageBlob);
-
-      setCoffeeImageURL(imageURL);
-    } else if (response.status === 401) {
-      throw "Unauthorized";
-    }
   };
 
   const toggleShowEditCoffeeModal = () => {
@@ -115,23 +87,16 @@ const Coffee: React.FC<Props> = (props: Props) => {
     });
   };
 
-  const updateCoffeeImage = (newCoffeeImage: File) => {
-    console.log("Updating coffee image");
-    createDataURL(newCoffeeImage).then((dataURL) => {
-      setCoffeeImageURL(dataURL);
-    });
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
+        await fetchImageURL();
+
         console.log("Reload number: " + props.reload);
 
         await loadCoffee();
 
         await loadRatingSummary();
-
-        await loadImage();
 
         props.childrenLoaded(props.coffee_id);
       } catch (e: unknown) {
