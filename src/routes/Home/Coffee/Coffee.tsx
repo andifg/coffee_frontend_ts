@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from "react";
+
+import CardHeader from "@mui/material/CardHeader";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+
 import {
   CoffeesService,
   Coffee as CoffeeSchema,
   RatingSummary,
 } from "../../../client";
 import { RatingsService } from "../../../client";
-import CardHeader from "@mui/material/CardHeader";
-import { useAuth } from "react-oidc-context";
-
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-
-import Typography from "@mui/material/Typography";
 
 import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
-
 import MoreMenu from "./MoreButton";
 import EditCoffeeModal from "./EditCoffeeModal";
-
-import useLoadImageURL from "../../../hooks/useLoadImage";
+import useLoadImageURL from "../../../hooks/useloadImage";
+import useClientService from "../../../hooks/useClientService";
 
 interface Props {
   coffee_id: string;
@@ -45,24 +43,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
     props.coffee_id,
   );
 
-  const auth = useAuth();
-
-  const loadCoffee = async () => {
-    const coffee = await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
-      props.coffee_id,
-    );
-
-    setData(coffee);
-  };
-
-  const loadRatingSummary = async () => {
-    const ratingSummary =
-      await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
-        props.coffee_id,
-      );
-
-    setInitialRatingSummary(ratingSummary);
-  };
+  const [callClientServiceMethod] = useClientService();
 
   const toggleShowEditCoffeeModal = () => {
     if (showMoreMenu) {
@@ -89,33 +70,25 @@ const Coffee: React.FC<Props> = (props: Props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        await fetchImageURL();
+      await fetchImageURL();
 
-        console.log("Reload number: " + props.reload);
+      setData(
+        await callClientServiceMethod(
+          CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet,
+          props.coffee_id,
+        ),
+      );
 
-        await loadCoffee();
+      setInitialRatingSummary(
+        await callClientServiceMethod(
+          RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet,
+          props.coffee_id,
+        ),
+      );
 
-        await loadRatingSummary();
+      props.childrenLoaded(props.coffee_id);
 
-        props.childrenLoaded(props.coffee_id);
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          console.log("Error during fetch of coffee");
-          console.log(e.message);
-
-          if (e.message === "Unauthorized") {
-            console.log("UnauthorizedApiException");
-            auth.removeUser();
-          }
-        }
-        if (e === "Unauthorized") {
-          console.log("UnauthorizedApiException");
-          auth.removeUser();
-        }
-      } finally {
-        setLoading(false);
-      }
+      setLoading(false);
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
