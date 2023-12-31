@@ -22,7 +22,7 @@ import useClientService from "../../../hooks/useClientService";
 
 interface Props {
   coffee_id: string;
-  childrenLoaded: (id: string) => void;
+  childrenLoaded: () => void;
   reload: number;
 }
 
@@ -86,7 +86,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
         ),
       );
 
-      props.childrenLoaded(props.coffee_id);
+      props.childrenLoaded();
 
       setLoading(false);
     };
