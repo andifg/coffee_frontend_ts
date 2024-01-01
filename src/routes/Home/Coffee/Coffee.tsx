@@ -17,7 +17,7 @@ import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
 import MoreMenu from "./MoreButton";
 import EditCoffeeModal from "./EditCoffeeModal";
-import useLoadImageURL from "../../../hooks/useloadImage";
+import useLoadImageURL from "../../../hooks/useLoadImage";
 import useClientService from "../../../hooks/useClientService";
 
 interface Props {
@@ -75,6 +75,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
       setData(
         await callClientServiceMethod(
           CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet,
+          false,
           props.coffee_id,
         ),
       );
@@ -82,6 +83,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
       setInitialRatingSummary(
         await callClientServiceMethod(
           RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet,
+          false,
           props.coffee_id,
         ),
       );

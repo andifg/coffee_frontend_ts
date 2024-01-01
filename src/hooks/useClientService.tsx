@@ -5,6 +5,7 @@ export default function useClientService() {
 
   const callClientServiceMethod = async <T,>(
     func: (...args: any[]) => Promise<T>,
+    rethrowError: boolean,
     ...args: any[]
   ): Promise<T> => {
     try {
@@ -17,7 +18,12 @@ export default function useClientService() {
         if (e.message === "Unauthorized") {
           console.log("UnauthorizedApiException");
           auth.removeUser();
+          return undefined as T;
         }
+      }
+
+      if (rethrowError) {
+        throw e;
       }
     }
 
