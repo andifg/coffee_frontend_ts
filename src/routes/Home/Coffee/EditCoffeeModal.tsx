@@ -7,7 +7,8 @@ import { ApiError } from "../../../client";
 import { CoffeeImagesService } from "../../../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../../client";
 import CoffeeDialog from "../../../components/CoffeeDialog";
-import { useAuth } from "react-oidc-context";
+
+import useClientService from "../../../hooks/useClientService";
 
 interface Props {
   closeModal: () => void;
@@ -23,21 +24,23 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>();
 
-  const auth = useAuth();
+  const [callClientServiceMethod] = useClientService();
 
   const updateCoffee = async (coffeeName: string) => {
     if (coffeeName != props.initalCoffeeName) {
       const updatedCoffee: UpdateCoffeeSchema = {
         name: coffeeName,
       };
-      const response =
-        await CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch(
-          props.coffee_id,
-          updatedCoffee,
-        );
+
+      await callClientServiceMethod(
+        CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch,
+        true,
+        props.coffee_id,
+        updatedCoffee,
+      );
+
       props.updateCoffeeName(coffeeName); // Update the coffee name in the parent component
       console.log("Coffee name successfully changed");
-      console.log(response);
       return;
     }
     console.log("Coffee name hasn't changed");
@@ -53,10 +56,13 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
         file: image,
       };
 
-    await CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost(
+    await callClientServiceMethod(
+      CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost,
+      true,
       props.coffee_id,
       imagepost,
     );
+
     props.updateCoffeeImage(image); // Update the image in the parent component
     console.log("Coffee image successfully changed");
   };
@@ -84,11 +90,6 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
         console.log("Update coffee failed:", e.body.detail);
         setLoading(false);
         setError(e.body.detail);
-
-        if (e.message === "Unauthorized") {
-          console.log("UnauthorizedApiException");
-          auth.removeUser();
-        }
       }
     }
   };
