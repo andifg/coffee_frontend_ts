@@ -10,10 +10,10 @@ export default function useLoadIdsToRedux() {
   const [callClientServiceMethod] = useClientService();
 
   async function fetchCoffeeIdsToRedux() {
-    const coffeeIds = await callClientServiceMethod(
-      CoffeesService.listCoffeeIdsApiV1CoffeesIdsGet,
-      false,
-    );
+    const coffeeIds = await callClientServiceMethod({
+      function: CoffeesService.listCoffeeIdsApiV1CoffeesIdsGet,
+      args: [],
+    });
 
     if (coffeeIds) {
       dispatch(setCoffeeIds(coffeeIds));

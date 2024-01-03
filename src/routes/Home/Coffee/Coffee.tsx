@@ -73,19 +73,18 @@ const Coffee: React.FC<Props> = (props: Props) => {
       await fetchImageURL();
 
       setData(
-        await callClientServiceMethod(
-          CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet,
-          false,
-          props.coffee_id,
-        ),
+        await callClientServiceMethod({
+          function: CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet,
+          args: [props.coffee_id],
+        }),
       );
 
       setInitialRatingSummary(
-        await callClientServiceMethod(
-          RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet,
-          false,
-          props.coffee_id,
-        ),
+        await callClientServiceMethod({
+          function:
+            RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet,
+          args: [props.coffee_id],
+        }),
       );
 
       props.childrenLoaded();

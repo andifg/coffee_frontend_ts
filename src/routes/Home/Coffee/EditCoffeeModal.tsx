@@ -32,12 +32,11 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
         name: coffeeName,
       };
 
-      await callClientServiceMethod(
-        CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch,
-        true,
-        props.coffee_id,
-        updatedCoffee,
-      );
+      await callClientServiceMethod({
+        function: CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch,
+        rethrowError: true,
+        args: [props.coffee_id, updatedCoffee],
+      });
 
       props.updateCoffeeName(coffeeName); // Update the coffee name in the parent component
       console.log("Coffee name successfully changed");
@@ -56,12 +55,11 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
         file: image,
       };
 
-    await callClientServiceMethod(
-      CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost,
-      true,
-      props.coffee_id,
-      imagepost,
-    );
+    await callClientServiceMethod({
+      function: CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost,
+      rethrowError: true,
+      args: [props.coffee_id, imagepost],
+    });
 
     props.updateCoffeeImage(image); // Update the image in the parent component
     console.log("Coffee image successfully changed");

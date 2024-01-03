@@ -41,11 +41,11 @@ const MoreMenu = (props: Props): React.JSX.Element => {
   const deleteCoffee = async () => {
     console.log("Delete coffee");
     try {
-      await callClientServiceMethod(
-        CoffeesService.deleteCoffeeByIdApiV1CoffeesCoffeeIdDelete,
-        true,
-        props.coffee_id,
-      );
+      await callClientServiceMethod({
+        function: CoffeesService.deleteCoffeeByIdApiV1CoffeesCoffeeIdDelete,
+        rethrowError: true,
+        args: [props.coffee_id],
+      });
       dispatch(deleteCoffeeId(props.coffee_id));
       console.log(`Removed coffee  ${props.coffee_id}`);
     } catch (e) {

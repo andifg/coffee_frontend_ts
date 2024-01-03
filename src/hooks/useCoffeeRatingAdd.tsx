@@ -46,12 +46,12 @@ export default function useCoffeeRatingAdd(
     };
 
     try {
-      await callClientServiceMethod(
-        RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
-        true,
-        props.coffee_id,
-        rating,
-      );
+      await callClientServiceMethod({
+        function:
+          RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
+        rethrowError: true,
+        args: [props.coffee_id, rating],
+      });
     } catch (e: unknown) {
       if (e instanceof Error) {
         setError(e.message);
