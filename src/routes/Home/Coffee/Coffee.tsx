@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from "react";
+
+import CardHeader from "@mui/material/CardHeader";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+
 import {
   CoffeesService,
   Coffee as CoffeeSchema,
   RatingSummary,
 } from "../../../client";
 import { RatingsService } from "../../../client";
-// import { CoffeeImagesService } from "../../../client";
-import CardHeader from "@mui/material/CardHeader";
-
-import { useAuth } from "react-oidc-context";
-
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-
-import Typography from "@mui/material/Typography";
 
 import CoffeeSkeleton from "./CoffeeSkeleton";
 import CoffeeRating from "./CoffeeRating";
-
 import MoreMenu from "./MoreButton";
 import EditCoffeeModal from "./EditCoffeeModal";
+import useLoadImageURL from "../../../hooks/useLoadImage";
+import useClientService from "../../../hooks/useClientService";
 
 interface Props {
   coffee_id: string;
-  childrenLoaded: (id: string) => void;
+  childrenLoaded: () => void;
   reload: number;
 }
 
@@ -36,60 +34,16 @@ const emptyRatingSummary: RatingSummary = {
 
 const Coffee: React.FC<Props> = (props: Props) => {
   const [coffee, setData] = useState<CoffeeSchema>();
-  const [coffeeImage, setCoffeeImage] = useState<Blob>();
-  const [coffeeImageURL, setCoffeeImageURL] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [initalRatingSummary, setInitialRatingSummary] =
     useState<RatingSummary>(emptyRatingSummary);
   const [showMoreMenu, setShowMoreMenu] = React.useState<boolean>(false);
   const [showEditCoffeeModal, setShowEditCoffeeModal] = React.useState(false);
+  const [coffeeImageURL, fetchImageURL, updateCoffeeImage] = useLoadImageURL(
+    props.coffee_id,
+  );
 
-  const auth = useAuth();
-
-  const loadCoffee = async () => {
-    const coffee = await CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet(
-      props.coffee_id,
-    );
-
-    setData(coffee);
-  };
-
-  const loadRatingSummary = async () => {
-    const ratingSummary =
-      await RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
-        props.coffee_id,
-      );
-
-    setInitialRatingSummary(ratingSummary);
-  };
-
-  const loadImage = async () => {
-    // Would like to use the auto generated Client here, but due to an error
-    // that converts the binary data always to text I have to use fetch.
-    // There is a PR open to fix this issue:
-    // https://github.com/ferdikoomen/openapi-typescript-codegen/pull/986
-    // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
-    // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
-
-    const response = await fetch(
-      `${window.env.BACKEND_URL}/api/v1/coffees/${props.coffee_id}/image`,
-      {
-        method: "GET",
-        headers: {
-          Accept: "image/jpeg",
-          Authorization: `Bearer ${auth.user?.access_token}`,
-        },
-      },
-    );
-
-    if (response.ok) {
-      const coffeeImageBlob = await response.blob();
-      setCoffeeImage(coffeeImageBlob);
-      setCoffeeImageURL(URL.createObjectURL(coffeeImageBlob));
-    } else if (response.status === 401) {
-      throw "Unauthorized";
-    }
-  };
+  const [callClientServiceMethod] = useClientService();
 
   const toggleShowEditCoffeeModal = () => {
     if (showMoreMenu) {
@@ -114,41 +68,28 @@ const Coffee: React.FC<Props> = (props: Props) => {
     });
   };
 
-  const updateCoffeeImage = (newCoffeeImage: File) => {
-    console.log("Updating coffee image");
-    setCoffeeImageURL(URL.createObjectURL(newCoffeeImage));
-    setCoffeeImage(newCoffeeImage);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        console.log("Reload number: " + props.reload);
+      await fetchImageURL();
 
-        await loadCoffee();
+      setData(
+        await callClientServiceMethod({
+          function: CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet,
+          args: [props.coffee_id],
+        }),
+      );
 
-        await loadRatingSummary();
+      setInitialRatingSummary(
+        await callClientServiceMethod({
+          function:
+            RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet,
+          args: [props.coffee_id],
+        }),
+      );
 
-        await loadImage();
+      props.childrenLoaded();
 
-        props.childrenLoaded(props.coffee_id);
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          console.log("Error during fetch of coffee");
-          console.log(e.message);
-
-          if (e.message === "Unauthorized") {
-            console.log("UnauthorizedApiException");
-            auth.removeUser();
-          }
-        }
-        if (e === "Unauthorized") {
-          console.log("UnauthorizedApiException");
-          auth.removeUser();
-        }
-      } finally {
-        setLoading(false);
-      }
+      setLoading(false);
     };
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,9 +126,8 @@ const Coffee: React.FC<Props> = (props: Props) => {
               alt="Image"
               height="auto"
               src={
-                coffeeImage
-                  ? coffeeImageURL
-                  : "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                coffeeImageURL ||
+                "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
               }
               sx={{ objectFit: "contain" }}
             />
@@ -206,7 +146,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
             open={showEditCoffeeModal}
             closeModal={toggleShowEditCoffeeModal}
             initalCoffeeName={coffee?.name ? coffee.name : ""}
-            initalCoffeeImage={coffeeImage && new File([coffeeImage], "coffee")}
+            initalCoffeeImageURL={coffeeImageURL}
             coffee_id={props.coffee_id}
             updateCoffeeName={updateCoffeeName}
             updateCoffeeImage={updateCoffeeImage}

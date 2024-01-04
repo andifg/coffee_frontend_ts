@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
@@ -8,11 +8,9 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { Container } from "@mui/material";
-import { useAuth } from "react-oidc-context";
 
-import { ApiError, RatingsService } from "../../../client";
-import { Rating as RatingSchema } from "../../../client/models/Rating";
-import { uuidv7 } from "uuidv7";
+import useCoffeeRatingAdd from "../../../hooks/useCoffeeRatingAdd";
+
 interface Props {
   coffee_id: string;
   initialRating: number;
@@ -20,53 +18,16 @@ interface Props {
 }
 
 const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
-  const [error, setError] = useState<string | null>(null);
-  const [addRating, setAddRating] = useState<boolean>(false);
-  const [ratingAverage, setRatingAverage] = useState<number>(0);
-  const [ratingCount, setRatingCount] = useState<number>(0);
-  const [currentRating, setCurrentRating] = useState<number>(0);
+  const [showAddRatingStars, setShowAddRatingStars] = useState<boolean>(false);
 
-  const auth = useAuth();
-
-  //TODO: Throw unnecessary use effect out and replace by just setting the state
-  useEffect(() => {
-    console.log("Reload of rating triggered");
-    setRatingAverage(props.initialRating);
-    setRatingCount(props.initialRatingCount);
-  }, [props.initialRating, props.initialRatingCount]);
-
-  const addRatingtoCoffee = async () => {
-    const uuid = uuidv7();
-    const rating: RatingSchema = {
-      _id: uuid,
-      coffee_id: props.coffee_id,
-      rating: currentRating,
-    };
-    try {
-      if (currentRating === 0) {
-        return;
-      }
-      console.log(`Added rating ${currentRating}`);
-      await RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost(
-        props.coffee_id,
-        rating,
-      );
-
-      const new_average =
-        (ratingAverage * ratingCount + currentRating) / (ratingCount + 1);
-      setRatingAverage(new_average);
-      setRatingCount(ratingCount + 1);
-      setCurrentRating(0);
-    } catch (e) {
-      console.log(e);
-      if (e instanceof ApiError && e.message === "Unauthorized") {
-        console.log("UnauthorizedApiException");
-        auth.removeUser();
-      }
-      setError("Not able to add rating");
-    }
-    setAddRating(false);
-  };
+  const [
+    currentRating,
+    ratingAverage,
+    ratingCount,
+    setCurrentRating,
+    addRatingtoCoffee,
+    error,
+  ] = useCoffeeRatingAdd(props, setShowAddRatingStars);
 
   return (
     <>
@@ -86,7 +47,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
           {ratingCount} ratings{" "}
         </div>
       </Container>
-      {addRating && (
+      {showAddRatingStars && (
         <div className="card-content-box">
           {" "}
           <Rating
@@ -114,7 +75,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
           </IconButton>{" "}
           <IconButton
             color="warning"
-            onClick={() => setAddRating(false)}
+            onClick={() => setShowAddRatingStars(false)}
             aria-label="abort"
             sx={{ padding: "3px" }}
           >
@@ -123,13 +84,13 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
           </IconButton>{" "}
         </div>
       )}
-      {!addRating && (
+      {!showAddRatingStars && (
         <div className="card-content-box">
           {" "}
           <Button
             size="large"
             color="primary"
-            onClick={() => setAddRating(true)}
+            onClick={() => setShowAddRatingStars(true)}
           >
             Add Rating{" "}
           </Button>{" "}

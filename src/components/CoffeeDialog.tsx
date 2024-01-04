@@ -12,13 +12,14 @@ import DialogContentText from "@mui/material/DialogContentText";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CardMedia from "@mui/material/CardMedia";
 import heic2any from "heic2any";
+import { createDataURL } from "../utils/FileReader";
 
 interface Props {
   open: boolean;
   handleCancel: () => void;
   handleSubmit: (coffeeName: string, image: File) => Promise<void>;
   setError: React.Dispatch<React.SetStateAction<string | undefined>>;
-  image: File | undefined;
+  imageURL: string | undefined;
   error: string | undefined;
   coffeeName: string | undefined;
   loading: boolean;
@@ -99,16 +100,15 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
         file = event.target.files[0];
       }
       setImage(file);
-      setImageURL(URL.createObjectURL(file));
+      setImageURL(await createDataURL(file));
     }
   };
 
   useEffect(() => {
     // console.log("Rerendering CoffeeDialog");
 
-    if (props.image) {
-      setImage(props.image);
-      setImageURL(URL.createObjectURL(props.image));
+    if (props.imageURL) {
+      setImageURL(props.imageURL);
     } else {
       setImage(undefined);
       setImageURL(undefined);
@@ -119,7 +119,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
     } else {
       setCoffeeName("");
     }
-  }, [props.image, props.coffeeName, props.open]);
+  }, [props.imageURL, props.coffeeName, props.open]);
   return (
     <>
       <Dialog fullWidth open={props.open} onClose={handleCancel}>
@@ -153,7 +153,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
               sx={{ marginBottom: "12px" }}
               startIcon={<CloudUploadIcon />}
             >
-              {!props.image ? "Upload file" : "Change file"}
+              {!props.imageURL ? "Upload file" : "Change file"}
               <input
                 type="file"
                 hidden

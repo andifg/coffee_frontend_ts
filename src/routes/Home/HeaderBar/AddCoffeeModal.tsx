@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { ApiError } from "../../../client";
 import { CoffeeImagesService } from "../../../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../../client";
-import CoffeeDialog from "../../Common/CoffeeDialog";
+import CoffeeDialog from "../../../components/CoffeeDialog";
 
 interface Props {
   closeModal: () => void;
@@ -76,7 +76,7 @@ const AddModal: React.FC<Props> = (props) => {
       open={props.open}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
-      image={undefined}
+      imageURL={undefined}
       error={error}
       setError={setError}
       coffeeName={undefined}

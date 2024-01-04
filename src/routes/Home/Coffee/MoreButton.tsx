@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import IconButton from "@mui/material/IconButton";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -11,11 +11,12 @@ import MenuItem from "@mui/material/MenuItem";
 import { deleteCoffeeId } from "../../../redux/CoffeeIdsReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../redux/index";
-import ListMenu from "../../Common/ListMenu";
+import ListMenu from "../../../components/ListMenu";
 import { CoffeesService } from "../../../client";
 import theme from "../../../theme";
+import useClientService from "../../../hooks/useClientService";
 
-import SwipeableDrawerBottom from "../../Common/SwipeableDrawerBottom";
+import SwipeableDrawerBottom from "../../../components/SwipeableDrawerBottom";
 
 interface Props {
   coffee_id: string;
@@ -35,14 +36,16 @@ const MoreMenu = (props: Props): React.JSX.Element => {
   const userRole = useSelector((state: RootState) => state.userRole.userRole);
   const dispatch = useDispatch();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
-  const [menuItem, setMenuItem] = React.useState<MenuItemType[]>([]);
+  const [callClientServiceMethod] = useClientService();
 
   const deleteCoffee = async () => {
     console.log("Delete coffee");
     try {
-      await CoffeesService.deleteCoffeeByIdApiV1CoffeesCoffeeIdDelete(
-        props.coffee_id,
-      );
+      await callClientServiceMethod({
+        function: CoffeesService.deleteCoffeeByIdApiV1CoffeesCoffeeIdDelete,
+        rethrowError: true,
+        args: [props.coffee_id],
+      });
       dispatch(deleteCoffeeId(props.coffee_id));
       console.log(`Removed coffee  ${props.coffee_id}`);
     } catch (e) {
@@ -50,28 +53,23 @@ const MoreMenu = (props: Props): React.JSX.Element => {
     }
   };
 
-  useEffect(() => {
-    const menuItems: MenuItemType[] = [
-      {
-        name: "Edit Coffee",
-        onClick: () => {
-          console.log("Edit coffee");
-          props.toggleShowEditCoffeeModal();
-        },
+  const menuItem: MenuItemType[] = [
+    {
+      name: "Edit Coffee",
+      onClick: () => {
+        console.log("Edit coffee");
+        props.toggleShowEditCoffeeModal();
       },
-    ];
+    },
+  ];
 
-    if (userRole === "Admin") {
-      menuItems.push({
-        name: "Delete Coffee",
-        onClick: deleteCoffee,
-        textSX: { color: "error.main" },
-      });
-    }
-
-    setMenuItem(menuItems);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userRole]);
+  if (userRole === "Admin") {
+    menuItem.push({
+      name: "Delete Coffee",
+      onClick: deleteCoffee,
+      textSX: { color: "error.main" },
+    });
+  }
 
   const constructDrawerListItems = () => {
     return (
