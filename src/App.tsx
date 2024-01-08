@@ -4,6 +4,7 @@ import { store } from "./redux";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./theme";
 import { AuthProvider } from "react-oidc-context";
+import AppUpdateModal from "./components/AppUpdateModal";
 
 import { OpenAPI } from "./client";
 import { Link } from "react-router-dom";
@@ -33,6 +34,7 @@ function App() {
       <AuthProvider {...oidcConfig} scope="openid roles address">
         <Provider store={store}>
           <CoffeeApp />
+          <AppUpdateModal />
         </Provider>
       </AuthProvider>
     </ThemeProvider>
