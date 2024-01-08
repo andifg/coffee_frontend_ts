@@ -49,12 +49,11 @@ const AddModal: React.FC<Props> = (props) => {
     }
 
     try {
-      await addCoffee({ _id: props.currentUUID, name: coffeeName.trim() });
-
-      await uploadImage(image);
-
       setError(undefined);
       setLoading(true);
+
+      await addCoffee({ _id: props.currentUUID, name: coffeeName.trim() });
+      await uploadImage(image);
 
       console.log("Submitted " + '"' + coffeeName.trim() + '"');
       setTimeout(() => {
