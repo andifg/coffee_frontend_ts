@@ -8,6 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      includeAssets: ["*.png"],
       manifest: {
         name: "Rate My Coffee",
         short_name: "Coffee Rate",
