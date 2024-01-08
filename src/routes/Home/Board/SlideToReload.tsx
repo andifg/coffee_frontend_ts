@@ -33,30 +33,26 @@ const SlideToReload = (props: Props): JSX.Element => {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-  });
+  }, []);
 
   function appr(x: number) {
     return MAX * (1 - Math.exp((-k * x) / MAX));
   }
 
   function handleTouchEnd() {
-    if (!show) return;
-
-    console.log("TOUCH END");
+    // console.log("TOUCH END");
     const el = ref.current;
     if (!el) return;
+    el.style.transform = "translateY(0)";
+    if (!show) return;
 
     const timePassed = Date.now() - loadStart;
     const wait = timePassed > 5000 ? 200 : 1500;
     console.log("Will wait for " + wait + " ms");
 
-    el.style.transform = "translateY(0)";
-
     setTimeout(() => {
       setShow(false);
     }, wait);
-
-    // setInfoMessageShow(false);
 
     triggered.current = false;
   }
@@ -68,14 +64,11 @@ const SlideToReload = (props: Props): JSX.Element => {
   function showLoadingSign() {
     if (triggered.current) return;
     console.log("SHOW INDICATOR " + triggered.current);
-    console.log(recursiveLoading);
     setShow(true);
     setLoadStart(Date.now());
     triggered.current = true;
     dispatch(incrementRealoadCount());
     dispatch(setRecursiveLoading(true));
-    console.log(recursiveLoading);
-    console.log("Show indicator after set" + show);
   }
 
   function handleTouchStart(startEvent: React.TouchEvent<HTMLDivElement>) {
@@ -90,11 +83,14 @@ const SlideToReload = (props: Props): JSX.Element => {
 
   function handleTouchMove(moveEvent: React.TouchEvent<HTMLDivElement>) {
     const el = ref.current;
+
     if (!el) return;
 
-    if (initialY.current > 110) return;
+    // console.log("Touch move: " + el.getBoundingClientRect().top );
 
-    const SHOW_INDICATOR_THRESHOLD = 100;
+    if (el.getBoundingClientRect().top < 50) return;
+
+    const SHOW_INDICATOR_THRESHOLD = 110;
     const SHOW_INFO_MESSAGE_THRESHOLD = 50;
 
     // get the current Y position
