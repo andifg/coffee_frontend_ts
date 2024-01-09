@@ -20,7 +20,7 @@ export default function useCoffeeRatingAdd(
   number,
   number,
   number,
-  React.Dispatch<React.SetStateAction<number>>,
+  (newValue: number) => void,
   () => void,
   string | null,
 ] {
@@ -35,8 +35,18 @@ export default function useCoffeeRatingAdd(
 
   const [callClientServiceMethod] = useClientService();
 
+  const changeStarRating = (newValue: number) => {
+    setError(null);
+    setCurrentRating(newValue);
+  };
+
   const addRatingtoCoffee = async () => {
     setError(null);
+
+    if (currentRating === 0) {
+      setError("Please select a rating");
+      return;
+    }
 
     const uuid = uuidv7();
     const rating: RatingSchema = {
@@ -72,7 +82,7 @@ export default function useCoffeeRatingAdd(
     currentRating,
     ratingAverage,
     ratingCount,
-    setCurrentRating,
+    changeStarRating,
     addRatingtoCoffee,
     error,
   ];

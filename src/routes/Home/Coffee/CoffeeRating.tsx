@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import AddIcon from "@mui/icons-material/Add";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -24,7 +24,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
     currentRating,
     ratingAverage,
     ratingCount,
-    setCurrentRating,
+    changeStarRating,
     addRatingtoCoffee,
     error,
   ] = useCoffeeRatingAdd(props, setShowAddRatingStars);
@@ -56,7 +56,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
             value={currentRating}
             onChange={(_, newValue) => {
               if (newValue) {
-                setCurrentRating(newValue);
+                changeStarRating(newValue);
               }
             }}
             precision={0.5}
@@ -71,11 +71,14 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
             sx={{ padding: "3px" }}
           >
             {" "}
-            <SaveAltIcon />{" "}
+            <AddIcon />{" "}
           </IconButton>{" "}
           <IconButton
             color="warning"
-            onClick={() => setShowAddRatingStars(false)}
+            onClick={() => {
+              setShowAddRatingStars(false);
+              changeStarRating(0);
+            }}
             aria-label="abort"
             sx={{ padding: "3px" }}
           >
