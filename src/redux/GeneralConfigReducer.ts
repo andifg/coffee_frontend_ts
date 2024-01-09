@@ -11,7 +11,7 @@ const State: GeneralConfigState = {
 };
 
 export const GeneralConfigState = createSlice({
-  name: "UserRole",
+  name: "generalConfig",
   initialState: State,
   reducers: {
     setRecursiveLoading: (state, action: PayloadAction<boolean>) => {

@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import CoffeeIdsReducer from "./CoffeeIdsReducer";
-import UserRoleReducer from "./UserRoleReducer";
+import UserReducer from "./UserReducer";
 import GeneralConfigState from "./GeneralConfigReducer";
 
 export const store = configureStore({
   reducer: {
     coffeeIds: CoffeeIdsReducer,
-    userRole: UserRoleReducer,
+    user: UserReducer,
     generalConfig: GeneralConfigState,
   },
 });

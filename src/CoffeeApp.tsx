@@ -1,41 +1,9 @@
-import { useEffect } from "react";
-import { useAuth } from "react-oidc-context";
 import { Grid } from "@mui/material";
-
 import Router from "./routes/Router";
-import { OpenAPI } from "./client";
+import useAuthWrapper from "./hooks/useAuthWrapper";
 
 const CoffeeApp = () => {
-  const auth = useAuth();
-
-  const getUserToken = async () => {
-    return auth.user?.access_token || "";
-  };
-
-  OpenAPI.TOKEN = getUserToken;
-
-  useEffect(() => {
-    console.log("Auth event changed" + auth.events);
-    return auth.events.addUserUnloaded(() => {
-      console.log("User logged out " + Date.now());
-    });
-  }, [auth.events, auth.removeUser]);
-
-  useEffect(() => {
-    console.log(auth);
-
-    if (auth.activeNavigator) {
-      console.log("Active navigator");
-      console.log(auth.activeNavigator);
-    }
-
-    if (!auth.user && !auth.isLoading && window.location.pathname != "/") {
-      console.log("User not logged in");
-      console.log(auth);
-
-      window.location.href = "/";
-    }
-  }, [auth]);
+  useAuthWrapper();
 
   return (
     <Grid container sx={{ justifyContent: "center", alignContent: "center" }}>

@@ -10,7 +10,7 @@ const AddIcon = () => {
   const [active, setActive] = React.useState(false);
   const [currentUUID, setUUID] = React.useState<string>("");
 
-  const userRole = useSelector((state: RootState) => state.userRole.userRole);
+  const userRole = useSelector((state: RootState) => state.user.userRole);
 
   const activateModal = () => {
     console.log("Clicked add button");
