@@ -12,7 +12,7 @@ import ContentCopy from "@mui/icons-material/ContentCopy";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/index";
-import { setUserRole } from "../../../redux/UserRoleReducer";
+import { setUserRole } from "../../../redux/UserReducer";
 
 import { useAuth } from "react-oidc-context";
 
@@ -23,7 +23,9 @@ export default function AvatarMenu() {
   const auth = useAuth();
 
   const dispatch = useDispatch<AppDispatch>();
-  const userRole = useSelector((state: RootState) => state.userRole.userRole);
+  const userRole = useSelector((state: RootState) => state.user.userRole);
+
+  const given_name = useSelector((state: RootState) => state.user.givenName);
 
   const switchRole = () => {
     dispatch(setUserRole(userRole == "Admin" ? "User" : "Admin"));
@@ -63,7 +65,7 @@ export default function AvatarMenu() {
               border: "1px solid",
             }}
           >
-            A
+            {given_name?.charAt(0).toUpperCase() || "U"}
           </Avatar>
         </IconButton>
       </Tooltip>

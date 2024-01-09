@@ -33,7 +33,7 @@ type MenuItemType = {
 
 const MoreMenu = (props: Props): React.JSX.Element => {
   const MoreMenuBottonRef = React.useRef<HTMLButtonElement>(null);
-  const userRole = useSelector((state: RootState) => state.userRole.userRole);
+  const userRole = useSelector((state: RootState) => state.user.userRole);
   const dispatch = useDispatch();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const [callClientServiceMethod] = useClientService();

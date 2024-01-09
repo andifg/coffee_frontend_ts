@@ -6,6 +6,8 @@ import theme from "./theme";
 import { AuthProvider } from "react-oidc-context";
 import AppUpdateModal from "./components/AppUpdateModal";
 
+import { WebStorageStateStore } from "oidc-client-ts";
+
 import { OpenAPI } from "./client";
 import { Link } from "react-router-dom";
 
@@ -26,6 +28,7 @@ const oidcConfig = {
   onSigninCallback: onSigninCallback,
   automaticSilentRenew: true,
   onSignoutRedirect: signoutRedirect,
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
 };
 
 function App() {
