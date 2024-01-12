@@ -157,10 +157,8 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
               <input
                 type="file"
                 hidden
+                data-testid="upload-file"
                 onChange={handleFileChange}
-                onAbort={() => {
-                  console.log("Aborted image select");
-                }}
               />
             </Button>
             <TextField
@@ -168,6 +166,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
               error={props.error ? true : false}
               fullWidth
               id="coffee-name"
+              inputProps={{ "data-testid": "coffee-name-input" }}
               value={coffeeName}
               onChange={handleCoffeeInputNameChange}
               label="Coffee Name"
