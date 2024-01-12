@@ -26,3 +26,5 @@ dist-ssr
 
 # Service Worker dev build
 dev-dist/
+
+coverage/
