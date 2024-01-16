@@ -30,25 +30,19 @@ const SlideToReload = (props: Props): JSX.Element => {
     (state: RootState) => state.generalConfig.recursiveLoading,
   );
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-  }, []);
-
   function appr(x: number) {
     return MAX * (1 - Math.exp((-k * x) / MAX));
   }
 
   function handleTouchEnd() {
-    // console.log("TOUCH END");
-    const el = ref.current;
-    if (!el) return;
-    el.style.transform = "translateY(0)";
+    if (ref.current) {
+      ref.current.style.transform = "translateY(0)";
+    }
     if (!show) return;
 
     const timePassed = Date.now() - loadStart;
     const wait = timePassed > 5000 ? 200 : 1500;
-    console.log("Will wait for " + wait + " ms");
+    // console.log("Will wait for " + wait + " ms");
 
     setTimeout(() => {
       setShow(false);
@@ -72,9 +66,6 @@ const SlideToReload = (props: Props): JSX.Element => {
   }
 
   function handleTouchStart(startEvent: React.TouchEvent<HTMLDivElement>) {
-    const el = ref.current;
-    if (!el) return;
-
     // get the initial Y position
     initialY.current = startEvent.touches[0].clientY;
 
@@ -83,12 +74,10 @@ const SlideToReload = (props: Props): JSX.Element => {
 
   function handleTouchMove(moveEvent: React.TouchEvent<HTMLDivElement>) {
     const el = ref.current;
-
     if (!el) return;
+    if (el.getBoundingClientRect().top < 50) return;
 
     // console.log("Touch move: " + el.getBoundingClientRect().top );
-
-    if (el.getBoundingClientRect().top < 50) return;
 
     const SHOW_INDICATOR_THRESHOLD = 110;
     const SHOW_INFO_MESSAGE_THRESHOLD = 50;
@@ -134,6 +123,7 @@ const SlideToReload = (props: Props): JSX.Element => {
           <CircularProgress
             style={{ color: theme.palette.primary.light }}
             className="circular-progress"
+            data-testid="circular-progress"
           />
         </div>
       )}
@@ -143,6 +133,7 @@ const SlideToReload = (props: Props): JSX.Element => {
         onTouchEnd={handleTouchEnd}
         ref={ref}
         className="slide-to-reload"
+        data-testid="slide-to-reload"
       >
         {props.children}
       </div>
