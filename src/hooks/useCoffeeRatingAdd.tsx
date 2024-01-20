@@ -13,7 +13,7 @@ interface Props {
   initialRatingCount: number;
 }
 
-export default function useCoffeeRatingAdd(
+export function useCoffeeRatingAdd(
   props: Props,
   setShowAddRatingStars: React.Dispatch<React.SetStateAction<boolean>>,
 ): [

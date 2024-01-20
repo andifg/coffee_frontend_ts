@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { Container } from "@mui/material";
 
-import useCoffeeRatingAdd from "../../../hooks/useCoffeeRatingAdd";
+import { useCoffeeRatingAdd } from "../../../hooks/useCoffeeRatingAdd";
 
 interface Props {
   coffee_id: string;
@@ -81,6 +81,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
             }}
             aria-label="abort"
             sx={{ padding: "3px" }}
+            data-testid="coffee-rating-close-button"
           >
             {" "}
             <CloseOutlinedIcon />{" "}
@@ -112,4 +113,6 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
   );
 };
 
-export default CoffeeRating;
+export type { Props as CoffeeRatingProps };
+
+export { CoffeeRating };
