@@ -21,7 +21,7 @@ export function useCoffeeRatingAdd(
   number,
   number,
   (newValue: number) => void,
-  () => void,
+  () => Promise<void>,
   string | null,
 ] {
   const [error, setError] = useState<string | null>(null);
