@@ -10,13 +10,16 @@ export default function useLoadIdsToRedux() {
   const [callClientServiceMethod] = useClientService();
 
   async function fetchCoffeeIdsToRedux() {
-    const coffeeIds = await callClientServiceMethod({
-      function: CoffeesService.listCoffeeIdsApiV1CoffeesIdsGet,
-      args: [],
-    });
+    try {
+      const coffeeIds = await callClientServiceMethod({
+        function: CoffeesService.listCoffeeIdsApiV1CoffeesIdsGet,
+        rethrowError: true,
+        args: [],
+      });
 
-    if (coffeeIds) {
       dispatch(setCoffeeIds(coffeeIds));
+    } catch (e) {
+      console.log("Error during fetch coffee ids");
     }
   }
 
