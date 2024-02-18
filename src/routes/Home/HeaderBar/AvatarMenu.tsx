@@ -54,6 +54,7 @@ export default function AvatarMenu() {
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
           ref={menuRef}
+          data-testid="avatar-menu"
         >
           <Avatar
             sx={{
