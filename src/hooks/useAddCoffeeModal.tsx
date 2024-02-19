@@ -1,10 +1,10 @@
 import { ApiError } from "../client";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Coffee as CoffeeSchema } from "../client";
 import { CoffeesService, CoffeeImagesService } from "../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../client";
 import { addCoffeeId } from "../redux/CoffeeIdsReducer";
+import useClientService from "./useClientService";
 
 interface UseAddCoffeeModalProps {
   closeModal: () => void;
@@ -16,11 +16,7 @@ const useAddCoffeeModal = (props: UseAddCoffeeModalProps) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>();
   const dispatch = useDispatch();
-
-  const addCoffee = async (newCoffee: CoffeeSchema) => {
-    const response = await CoffeesService.postCoffeeApiV1CoffeesPost(newCoffee);
-    console.log(response);
-  };
+  const [callClientServiceMethod] = useClientService();
 
   const handleCancel = () => {
     console.log("Clicked cancel button");
@@ -34,10 +30,10 @@ const useAddCoffeeModal = (props: UseAddCoffeeModalProps) => {
           file: image,
         };
 
-      await CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost(
-        props.currentUUID,
-        imagepost,
-      );
+      await callClientServiceMethod({
+        function: CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost,
+        args: [props.currentUUID, imagepost],
+      });
     }
   };
 
@@ -51,7 +47,11 @@ const useAddCoffeeModal = (props: UseAddCoffeeModalProps) => {
       setError(undefined);
       setLoading(true);
 
-      await addCoffee({ _id: props.currentUUID, name: coffeeName.trim() });
+      await callClientServiceMethod({
+        function: CoffeesService.postCoffeeApiV1CoffeesPost,
+        args: [{ _id: props.currentUUID, name: coffeeName.trim() }],
+      });
+
       await uploadImage(image);
 
       console.log("Submitted " + '"' + coffeeName.trim() + '"');
