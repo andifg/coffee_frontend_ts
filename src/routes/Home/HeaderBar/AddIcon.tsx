@@ -31,6 +31,7 @@ const AddIcon = () => {
             color="primary"
             onClick={activateModal}
             aria-label="add-modal"
+            data-testid="add-modal-button"
           >
             <AddOutlinedIcon />
           </IconButton>
