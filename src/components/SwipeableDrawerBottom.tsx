@@ -18,6 +18,7 @@ const SwipeableDrawerBottom = (props: Props): React.JSX.Element => {
       open={props.open}
       onOpen={props.onOpen}
       onClose={props.onClose}
+      PaperProps={{ "data-testid": "swipeable-drawer-paper" }}
     >
       <Container
         sx={{

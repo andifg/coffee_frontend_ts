@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import CardHeader from "@mui/material/CardHeader";
 import Card from "@mui/material/Card";
@@ -6,19 +6,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-import {
-  CoffeesService,
-  Coffee as CoffeeSchema,
-  RatingSummary,
-} from "../../../client";
-import { RatingsService } from "../../../client";
-
 import CoffeeSkeleton from "./CoffeeSkeleton";
-import CoffeeRating from "./CoffeeRating";
+import { CoffeeRating } from "./CoffeeRating";
 import MoreMenu from "./MoreButton";
 import EditCoffeeModal from "./EditCoffeeModal";
-import useLoadImageURL from "../../../hooks/useLoadImage";
-import useClientService from "../../../hooks/useClientService";
+import { useCoffeeData } from "../../../hooks/useCoffeeData";
 
 interface Props {
   coffee_id: string;
@@ -26,26 +18,21 @@ interface Props {
   reload: number;
 }
 
-const emptyRatingSummary: RatingSummary = {
-  coffee_id: "",
-  rating_average: 0,
-  rating_count: 0,
-};
-
 const Coffee: React.FC<Props> = (props: Props) => {
-  const [coffee, setData] = useState<CoffeeSchema>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const [initalRatingSummary, setInitialRatingSummary] =
-    useState<RatingSummary>(emptyRatingSummary);
-  const [showMoreMenu, setShowMoreMenu] = React.useState<boolean>(false);
-  const [showEditCoffeeModal, setShowEditCoffeeModal] = React.useState(false);
-  const [coffeeImageURL, fetchImageURL, updateCoffeeImage] = useLoadImageURL(
-    props.coffee_id,
-  );
+  const [showMoreMenu, setShowMoreMenu] = useState<boolean>(false);
+  const [showEditCoffeeModal, setShowEditCoffeeModal] = useState(false);
 
-  const [callClientServiceMethod] = useClientService();
+  const [
+    coffee,
+    loading,
+    coffeeImageURL,
+    initalRatingSummary,
+    updateCoffeeName,
+    updateCoffeeImage,
+  ] = useCoffeeData(props);
 
   const toggleShowEditCoffeeModal = () => {
+    console.log("toggleShowEditCoffeeModal");
     if (showMoreMenu) {
       setShowMoreMenu(false);
     }
@@ -54,46 +41,9 @@ const Coffee: React.FC<Props> = (props: Props) => {
   };
 
   const toggleMoreMenuVisibility = () => {
+    console.log("toggleMoreMenuVisibility");
     setShowMoreMenu(!showMoreMenu);
   };
-
-  const updateCoffeeName = (newCoffeeName: string) => {
-    setData((prevState) => {
-      if (prevState) {
-        prevState.name = newCoffeeName;
-
-        return prevState;
-      }
-      return undefined;
-    });
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchImageURL();
-
-      setData(
-        await callClientServiceMethod({
-          function: CoffeesService.getCoffeeByIdApiV1CoffeesCoffeeIdGet,
-          args: [props.coffee_id],
-        }),
-      );
-
-      setInitialRatingSummary(
-        await callClientServiceMethod({
-          function:
-            RatingsService.getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet,
-          args: [props.coffee_id],
-        }),
-      );
-
-      props.childrenLoaded();
-
-      setLoading(false);
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.reload]);
 
   return (
     <>

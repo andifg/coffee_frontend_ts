@@ -11,7 +11,7 @@ import { WebStorageStateStore } from "oidc-client-ts";
 import { OpenAPI } from "./client";
 import { Link } from "react-router-dom";
 
-OpenAPI.BASE = window.env.BACKEND_URL;
+OpenAPI.BASE = window.env?.BACKEND_URL || "http://localhost:3000";
 
 const onSigninCallback = (): void => {
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -22,7 +22,7 @@ const signoutRedirect = (): void => {
 };
 
 const oidcConfig = {
-  authority: window.env.AUTH_URL,
+  authority: window.env?.AUTH_URL,
   client_id: "react-app",
   redirect_uri: window.location + "/feed",
   onSigninCallback: onSigninCallback,

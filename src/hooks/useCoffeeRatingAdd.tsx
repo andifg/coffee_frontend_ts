@@ -13,7 +13,7 @@ interface Props {
   initialRatingCount: number;
 }
 
-export default function useCoffeeRatingAdd(
+export function useCoffeeRatingAdd(
   props: Props,
   setShowAddRatingStars: React.Dispatch<React.SetStateAction<boolean>>,
 ): [
@@ -21,7 +21,7 @@ export default function useCoffeeRatingAdd(
   number,
   number,
   (newValue: number) => void,
-  () => void,
+  () => Promise<void>,
   string | null,
 ] {
   const [error, setError] = useState<string | null>(null);

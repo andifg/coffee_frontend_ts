@@ -3,7 +3,7 @@ import { Skeleton } from "@mui/material";
 
 const CoffeeSkeleton: React.FunctionComponent = () => {
   return (
-    <div className="skeleton-wrapper">
+    <div className="skeleton-wrapper" data-testid="coffee-skeleton">
       <Skeleton variant="rectangular" height={320} />
       <Skeleton
         variant="text"

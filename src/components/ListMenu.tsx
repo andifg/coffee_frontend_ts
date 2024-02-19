@@ -16,6 +16,7 @@ export default function ListMenu(props: Props) {
         open={props.open}
         onClose={props.handleClose}
         PaperProps={{
+          id: "menu-paper",
           elevation: 0,
           sx: {
             overflow: "visible",

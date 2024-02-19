@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  CoffeesService,
-  UpdateCoffee as UpdateCoffeeSchema,
-} from "../../../client";
 import { ApiError } from "../../../client";
-import { CoffeeImagesService } from "../../../client";
-import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../../client";
 import CoffeeDialog from "../../../components/CoffeeDialog";
-
-import useClientService from "../../../hooks/useClientService";
+import { useUpdateCoffeeData } from "../../../hooks/useUpdateCoffeeData";
 
 interface Props {
   closeModal: () => void;
@@ -24,45 +17,16 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>();
 
-  const [callClientServiceMethod] = useClientService();
-
-  const updateCoffee = async (coffeeName: string) => {
-    if (coffeeName != props.initalCoffeeName) {
-      const updatedCoffee: UpdateCoffeeSchema = {
-        name: coffeeName,
-      };
-
-      await callClientServiceMethod({
-        function: CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch,
-        rethrowError: true,
-        args: [props.coffee_id, updatedCoffee],
-      });
-
-      props.updateCoffeeName(coffeeName); // Update the coffee name in the parent component
-      console.log("Coffee name successfully changed");
-      return;
-    }
-    console.log("Coffee name hasn't changed");
-  };
+  const [updateCoffee, uploadImage] = useUpdateCoffeeData({
+    coffee_id: props.coffee_id,
+    initalCoffeeName: props.initalCoffeeName,
+    updateCoffeeName: props.updateCoffeeName,
+    initalCoffeeImageURL: props.initalCoffeeImageURL,
+    updateCoffeeImage: props.updateCoffeeImage,
+  });
 
   const handleCancel = () => {
     props.closeModal();
-  };
-
-  const uploadImage = async (image: File) => {
-    const imagepost: Body__create_image_api_v1_coffees__coffee_id__image_post =
-      {
-        file: image,
-      };
-
-    await callClientServiceMethod({
-      function: CoffeeImagesService.createImageApiV1CoffeesCoffeeIdImagePost,
-      rethrowError: true,
-      args: [props.coffee_id, imagepost],
-    });
-
-    props.updateCoffeeImage(image); // Update the image in the parent component
-    console.log("Coffee image successfully changed");
   };
 
   const handleSubmit = async (coffeeName: string, image: File) => {
