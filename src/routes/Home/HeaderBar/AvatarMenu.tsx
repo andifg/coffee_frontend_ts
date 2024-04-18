@@ -12,7 +12,7 @@ import ContentCopy from "@mui/icons-material/ContentCopy";
 
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/index";
-import { setUserRole } from "../../../redux/UserReducer";
+import { setUserRole } from "../../../redux/UserReducer/UserReducer";
 
 import { useAuth } from "react-oidc-context";
 
