@@ -1,7 +1,7 @@
 import React from "react";
 
 import IconButton from "@mui/material/IconButton";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -93,12 +93,12 @@ const MoreMenu = (props: Props): React.JSX.Element => {
     <>
       <IconButton
         onClick={props.toggleMoreMenuVisibility}
-        sx={{ padding: "0px", marginRight: "10px" }}
+        sx={{ padding: "0px", marginRight: "8px" }}
         aria-label="settings"
         ref={MoreMenuBottonRef}
         data-testid="more-menu-button"
       >
-        <MoreHorizIcon sx={{ color: "primary.main" }} />
+        <MoreVertIcon sx={{ color: "primary.main" }} />
       </IconButton>
       {matches ? (
         <ListMenu

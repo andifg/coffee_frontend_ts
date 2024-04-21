@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import CardHeader from "@mui/material/CardHeader";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -8,9 +7,9 @@ import Typography from "@mui/material/Typography";
 
 import CoffeeSkeleton from "./CoffeeSkeleton";
 import { CoffeeRating } from "./CoffeeRating";
-import MoreMenu from "./MoreButton";
-import EditCoffeeModal from "./EditCoffeeModal";
+import EditCoffeeModal from "./EditCoffeeModal/EditCoffeeModal";
 import { useCoffeeData } from "../../../hooks/useCoffeeData";
+import CoffeeHeader from "./CoffeeHeader/CoffeeHeader";
 
 interface Props {
   coffee_id: string;
@@ -50,58 +49,61 @@ const Coffee: React.FC<Props> = (props: Props) => {
       {loading ? (
         <CoffeeSkeleton />
       ) : (
-        <div className="coffee-wrapper">
-          <Card
-            sx={{
-              boxShadow: 0,
-              borderRadius: 0,
-              border: "1px solid",
-              borderColor: "primary.light",
-            }}
-            className="coffee"
-          >
-            <CardHeader
-              sx={{ padding: "0px" }}
-              action={
-                <MoreMenu
-                  coffee_id={props.coffee_id}
-                  toggleShowEditCoffeeModal={toggleShowEditCoffeeModal}
-                  toggleMoreMenuVisibility={toggleMoreMenuVisibility}
-                  showMoreMenu={showMoreMenu}
-                />
-              }
-            />
-            <CardMedia
-              component="img"
-              alt="Image"
-              height="auto"
-              src={
-                coffeeImageURL ||
-                "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              }
-              sx={{ objectFit: "contain" }}
-            />
-            <CardContent className="card-content">
-              <Typography gutterBottom variant="h5" component="div">
-                {coffee?.name}
-              </Typography>
-              <CoffeeRating
+        coffee && (
+          <div className="coffee-wrapper">
+            <Card
+              sx={{
+                boxShadow: 0,
+                borderRadius: 0,
+                border: "1px solid",
+                borderColor: "primary.light",
+              }}
+              className="coffee"
+            >
+              <CoffeeHeader
                 coffee_id={props.coffee_id}
-                initialRating={initalRatingSummary.rating_average}
-                initialRatingCount={initalRatingSummary.rating_count}
+                toggleMoreMenuVisibility={toggleMoreMenuVisibility}
+                toggleShowEditCoffeeModal={toggleShowEditCoffeeModal}
+                showMoreMenu={showMoreMenu}
+                coffee_owner_name={coffee.owner_name}
               />
-            </CardContent>
-          </Card>
-          <EditCoffeeModal
-            open={showEditCoffeeModal}
-            closeModal={toggleShowEditCoffeeModal}
-            initalCoffeeName={coffee?.name ? coffee.name : ""}
-            initalCoffeeImageURL={coffeeImageURL}
-            coffee_id={props.coffee_id}
-            updateCoffeeName={updateCoffeeName}
-            updateCoffeeImage={updateCoffeeImage}
-          />
-        </div>
+              <CardMedia
+                component="img"
+                alt="Image"
+                height="auto"
+                src={
+                  coffeeImageURL ||
+                  "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                }
+                sx={{ objectFit: "contain" }}
+              />
+              <CardContent className="card-content">
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                  sx={{ color: "primary.main" }}
+                >
+                  {coffee?.name}
+                </Typography>
+                <CoffeeRating
+                  coffee_id={props.coffee_id}
+                  initialRating={initalRatingSummary.rating_average}
+                  initialRatingCount={initalRatingSummary.rating_count}
+                />
+              </CardContent>
+            </Card>
+            <EditCoffeeModal
+              open={showEditCoffeeModal}
+              closeModal={toggleShowEditCoffeeModal}
+              initalCoffee={coffee}
+              initalCoffeeImageURL={coffeeImageURL}
+              coffee_id={props.coffee_id}
+              updateCoffeeName={updateCoffeeName}
+              updateCoffeeImage={updateCoffeeImage}
+            />
+          </div>
+        )
       )}
     </>
   );

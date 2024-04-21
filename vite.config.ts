@@ -23,6 +23,10 @@ export default defineConfig({
     },
   },
   base: "./",
+  optimizeDeps: {
+    include: ["@emotion/react", "@emotion/styled", "@mui/material/Tooltip"],
+    exclude: ["js-big-decimal"],
+  },
   plugins: [
     react(),
     VitePWA({

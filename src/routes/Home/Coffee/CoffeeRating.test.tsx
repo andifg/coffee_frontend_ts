@@ -31,6 +31,8 @@ describe("Coffee Rating", () => {
     {
       _id: "test-id",
       name: "test-name",
+      owner_id: "test-owner-id",
+      owner_name: "test-owner-name",
     },
     false,
     "test-url",

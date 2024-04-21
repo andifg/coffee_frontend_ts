@@ -1,13 +1,15 @@
 import React from "react";
-import { ApiError } from "../../../client";
-import CoffeeDialog from "../../../components/CoffeeDialog";
-import { useUpdateCoffeeData } from "../../../hooks/useUpdateCoffeeData";
+import { ApiError, Coffee } from "../../../../client";
+import CoffeeDialog from "../../../../components/CoffeeDialog";
+import { useUpdateCoffeeData } from "../../../../hooks/useUpdateCoffeeData";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux";
 
 interface Props {
   closeModal: () => void;
   open: boolean;
   coffee_id: string;
-  initalCoffeeName: string;
+  initalCoffee: Coffee;
   updateCoffeeName: (newCoffeeName: string) => void;
   initalCoffeeImageURL: string | undefined;
   updateCoffeeImage: (newCoffeeImage: File) => void;
@@ -19,25 +21,32 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
 
   const [updateCoffee, uploadImage] = useUpdateCoffeeData({
     coffee_id: props.coffee_id,
-    initalCoffeeName: props.initalCoffeeName,
+    initalCoffeeName: props.initalCoffee.name,
     updateCoffeeName: props.updateCoffeeName,
     initalCoffeeImageURL: props.initalCoffeeImageURL,
     updateCoffeeImage: props.updateCoffeeImage,
   });
 
+  const user = useSelector((state: RootState) => state.user);
+
   const handleCancel = () => {
     props.closeModal();
   };
 
-  const handleSubmit = async (coffeeName: string, image: File) => {
+  const handleSubmit = async (coffeeName: string, image: File | undefined) => {
     if (coffeeName === "") {
       setError("Coffee name cannot be empty");
       return;
     }
 
     try {
-      await updateCoffee(coffeeName);
-      await uploadImage(image);
+      if (!user.userId || !user.username) {
+        throw new Error("User not logged in");
+      }
+      await updateCoffee(coffeeName, user.userId, user.username);
+      if (image) {
+        await uploadImage(image);
+      }
 
       setError(undefined);
       setLoading(true);
@@ -64,10 +73,10 @@ const EditCoffeeModal: React.FC<Props> = (props) => {
       imageURL={props.initalCoffeeImageURL}
       error={error}
       setError={setError}
-      coffeeName={props.initalCoffeeName}
+      coffeeName={props.initalCoffee.name}
       loading={loading}
       setLoading={setLoading}
-      title={"Edit " + props.initalCoffeeName}
+      title={"Edit " + props.initalCoffee.name}
     />
   );
 };

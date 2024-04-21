@@ -31,6 +31,8 @@ describe("Coffee Route", () => {
       {
         _id: "test-id",
         name: "test-name",
+        owner_id: "test-owner-id",
+        owner_name: "test-owner-name",
       },
       false,
       "test-url",
@@ -53,5 +55,6 @@ describe("Coffee Route", () => {
 
     expect(await screen.findByText("3")).toBeInTheDocument();
     expect(await screen.findByText("4 ratings")).toBeInTheDocument();
+    expect(await screen.findByText("test-owner-name")).toBeInTheDocument();
   });
 });

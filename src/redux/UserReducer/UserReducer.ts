@@ -33,9 +33,14 @@ export const UserSlice = createSlice({
     setUserRole: (state, action: PayloadAction<UserRole>) => {
       state.userRole = action.payload;
     },
-
   },
 });
 
-export const { setUserRole, setUserName, setGivenName, setFamilyName, setUserId } = UserSlice.actions;
+export const {
+  setUserRole,
+  setUserName,
+  setGivenName,
+  setFamilyName,
+  setUserId,
+} = UserSlice.actions;
 export default UserSlice.reducer;

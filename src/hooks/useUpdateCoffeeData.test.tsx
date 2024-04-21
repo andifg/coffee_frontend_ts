@@ -4,7 +4,7 @@ import useClientService from "./useClientService";
 import { CoffeesService, CoffeeImagesService } from "../client";
 import { useUpdateCoffeeData } from "./useUpdateCoffeeData";
 
-describe("useDeleteCoffee", () => {
+describe("useUpdateCoffeeData", () => {
   vi.mock("./useClientService", () => ({
     default: vi.fn(),
   }));
@@ -24,7 +24,9 @@ describe("useDeleteCoffee", () => {
       }),
     );
 
-    result.current[0]("Test Coffee");
+    result.current[0]("Test Coffee", "1", "Test Owner");
+
+    expect(useClientServiceMock).not.toHaveBeenCalled();
   });
 
   it("Update name if its different from before", async () => {
@@ -49,12 +51,15 @@ describe("useDeleteCoffee", () => {
       }),
     );
 
-    await result.current[0]("Test Coffee 2");
+    await result.current[0]("Test Coffee 2", "1", "Test Owner");
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch,
       rethrowError: true,
-      args: ["1", { name: "Test Coffee 2" }],
+      args: [
+        "1",
+        { name: "Test Coffee 2", owner_id: "1", owner_name: "Test Owner" },
+      ],
     });
 
     expect(updateCoffeeNameMock).toHaveBeenCalledWith("Test Coffee 2");

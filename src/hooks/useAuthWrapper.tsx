@@ -1,12 +1,16 @@
 import { useAuth } from "react-oidc-context";
 import { OpenAPI } from "../client";
-import { setUserName, setGivenName, setFamilyName, setUserId, setUserRole } from "../redux/UserReducer/UserReducer";
+import {
+  setUserName,
+  setGivenName,
+  setFamilyName,
+  setUserId,
+  setUserRole,
+} from "../redux/UserReducer/UserReducer";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 
-
 import { JwtPayload } from "jwt-decode";
-
 
 interface CoffeeAppJWT extends JwtPayload {
   realm_access: {
@@ -45,7 +49,7 @@ const useAuthWrapper = () => {
     if (auth.user.access_token) {
       const decodedToken = jwtDecode<CoffeeAppJWT>(auth.user.access_token);
 
-      if(decodedToken.realm_access.roles.includes("Admin")) {
+      if (decodedToken.realm_access.roles.includes("Admin")) {
         dispatch(setUserRole("Admin"));
       }
     }

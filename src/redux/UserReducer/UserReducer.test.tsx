@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 import UserReducer from "./UserReducer";
-import { setUserRole, setUserName, setGivenName, setFamilyName, setUserId } from "./UserReducer";
+import {
+  setUserRole,
+  setUserName,
+  setGivenName,
+  setFamilyName,
+  setUserId,
+} from "./UserReducer";
 
 describe("UserReducer", () => {
   it("Should set user role", () => {
