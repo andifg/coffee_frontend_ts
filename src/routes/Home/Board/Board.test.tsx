@@ -13,7 +13,7 @@ describe("Board", () => {
     default: () => [vi.fn()],
   }));
 
-  vi.mock("../Coffee/Coffee", () => ({
+  vi.mock("../Coffee/CoffeeCard/Coffee", () => ({
     default: () => <div>Hello Coffee</div>,
   }));
 

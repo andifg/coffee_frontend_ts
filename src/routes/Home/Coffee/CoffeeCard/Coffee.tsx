@@ -5,11 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 
-import CoffeeSkeleton from "./CoffeeSkeleton";
-import { CoffeeRating } from "./CoffeeRating";
-import EditCoffeeModal from "./EditCoffeeModal/EditCoffeeModal";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
-import CoffeeHeader from "./CoffeeHeader/CoffeeHeader";
+import CoffeeSkeleton from "../CoffeeSkeleton";
+import { CoffeeRating } from "../CoffeeRating";
+import EditCoffeeModal from "../EditCoffeeModal/EditCoffeeModal";
+import { useCoffeeData } from "../../../../hooks/useCoffeeData";
+import CoffeeHeader from "../CoffeeHeader/CoffeeHeader";
 
 interface Props {
   coffee_id: string;

@@ -3,7 +3,7 @@ import { screen, render } from "@testing-library/react";
 import Coffee from "./Coffee";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
+import { useCoffeeData } from "../../../../hooks/useCoffeeData";
 
 describe("Coffee Route", () => {
   vi.mock("heic2any", () => ({
@@ -22,7 +22,7 @@ describe("Coffee Route", () => {
     },
   };
 
-  vi.mock("../../../hooks/useCoffeeData", () => ({
+  vi.mock("../../../../hooks/useCoffeeData", () => ({
     useCoffeeData: vi.fn(),
   }));
 
