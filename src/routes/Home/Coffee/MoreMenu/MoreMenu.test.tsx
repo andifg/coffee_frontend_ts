@@ -1,10 +1,11 @@
 import { describe, it, expect, vi } from "vitest";
 import { screen, render, waitFor } from "@testing-library/react";
-import Coffee from "./CoffeeCard/Coffee";
+import Coffee from "../CoffeeCard/Coffee";
 import userEvent from "@testing-library/user-event";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
+import { useCoffeeData } from "../../../../hooks/useCoffeeData";
+import useEditCoffeeDecider from "./useEditCoffeeDecider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 describe("More Button", () => {
@@ -21,10 +22,15 @@ describe("More Button", () => {
   const initialState = {
     user: {
       userRole: "Admin",
+      owner_id: "test-owner-id",
     },
   };
 
-  vi.mock("../../../hooks/useCoffeeData", () => ({
+  vi.mock("./useEditCoffeeDecider", () => ({
+    default: vi.fn(),
+  }));
+
+  vi.mock("../../../../hooks/useCoffeeData", () => ({
     useCoffeeData: vi.fn(),
   }));
 
@@ -52,6 +58,7 @@ describe("More Button", () => {
 
   it("should open and close edit modal when edit button is clicked", async () => {
     vi.mocked(useMediaQuery).mockReturnValue(false);
+    vi.mocked(useEditCoffeeDecider).mockReturnValue([true]);
 
     render(
       <Provider store={mockStore(initialState)}>
@@ -97,6 +104,23 @@ describe("More Button", () => {
       expect(screen.getByRole("menu")).toHaveClass(
         "MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list",
       );
+    });
+  });
+
+  it("Should not render edit and delete button if user is not allowed to edit", async () => {
+    vi.mocked(useEditCoffeeDecider).mockReturnValue([false]);
+
+    render(
+      <Provider store={mockStore(initialState)}>
+        <Coffee coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+      </Provider>,
+    );
+
+    await userEvent.click(screen.getByTestId("more-menu-button"));
+
+    await waitFor(() => {
+      expect(screen.queryByTestId("Edit Coffee")).toBeNull();
+      expect(screen.queryByTestId("Delete Coffee")).toBeNull();
     });
   });
 });

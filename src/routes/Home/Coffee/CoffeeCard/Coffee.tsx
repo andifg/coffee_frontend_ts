@@ -28,7 +28,11 @@ const Coffee: React.FC<Props> = (props: Props) => {
     initalRatingSummary,
     updateCoffeeName,
     updateCoffeeImage,
-  ] = useCoffeeData(props);
+  ] = useCoffeeData({
+    coffee_id: props.coffee_id,
+    reload: props.reload,
+    childrenLoaded: props.childrenLoaded,
+  });
 
   const toggleShowEditCoffeeModal = () => {
     console.log("toggleShowEditCoffeeModal");
@@ -61,7 +65,7 @@ const Coffee: React.FC<Props> = (props: Props) => {
               className="coffee"
             >
               <CoffeeHeader
-                coffee_id={props.coffee_id}
+                coffee={coffee}
                 toggleMoreMenuVisibility={toggleMoreMenuVisibility}
                 toggleShowEditCoffeeModal={toggleShowEditCoffeeModal}
                 showMoreMenu={showMoreMenu}

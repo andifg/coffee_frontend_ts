@@ -3,12 +3,13 @@ import "./CoffeeHeader.scss";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Unstable_Grid2";
 
-import MoreMenu from "../MoreButton";
+import MoreMenu from "../MoreMenu/MoreMenu";
 import UserAvatar from "../../../../components/UserAvatar";
 import Typography from "@mui/material/Typography";
+import { Coffee } from "../../../../client";
 
 interface CofeeHeaderProps {
-  coffee_id: string;
+  coffee: Coffee;
   coffee_owner_name: string;
   toggleShowEditCoffeeModal: () => void;
   toggleMoreMenuVisibility: () => void;
@@ -35,7 +36,7 @@ const CoffeeHeader = (props: CofeeHeaderProps) => {
         </Grid>
         <Grid className="coffee-header-right" xs={2}>
           <MoreMenu
-            coffee_id={props.coffee_id}
+            coffee={props.coffee}
             toggleShowEditCoffeeModal={props.toggleShowEditCoffeeModal}
             toggleMoreMenuVisibility={props.toggleMoreMenuVisibility}
             showMoreMenu={props.showMoreMenu}

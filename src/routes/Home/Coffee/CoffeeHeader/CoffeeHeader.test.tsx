@@ -28,7 +28,7 @@ describe("CoffeeHeader", () => {
     render(
       <Provider store={store}>
         <CoffeeHeader
-          coffee_id="test-id"
+          coffee={{_id: "1", name: "Mocha", owner_id: "1", owner_name: "MFitzgerald"}}
           coffee_owner_name="MFitzgerald"
           toggleShowEditCoffeeModal={() => {}}
           toggleMoreMenuVisibility={() => {}}
