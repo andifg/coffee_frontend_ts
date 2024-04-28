@@ -66,7 +66,6 @@ describe("useAuthWrapper", () => {
       type: "User/setUserId",
       payload: "018ef26d-ee98-77b0-b698-301809c2d394",
     });
-
   });
 
   it("should redirect to login page", () => {
