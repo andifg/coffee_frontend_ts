@@ -15,7 +15,6 @@ export default function useEditCoffeeDecider(
   const user = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    console.log("Calulating allowEdit");
     if (user.userRole === "Admin" || props.coffee.owner_id === user.userId) {
       setAllowEdit(true);
     }
