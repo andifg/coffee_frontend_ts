@@ -49,7 +49,7 @@ const useAuthWrapper = () => {
     if (auth.user.access_token) {
       const decodedToken = jwtDecode<CoffeeAppJWT>(auth.user.access_token);
 
-      if (decodedToken.realm_access.roles.includes("Admin")) {
+      if (decodedToken.realm_access.roles.includes("admin")) {
         dispatch(setUserRole("Admin"));
       }
     }

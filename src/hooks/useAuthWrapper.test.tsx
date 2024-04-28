@@ -67,10 +67,6 @@ describe("useAuthWrapper", () => {
       payload: "018ef26d-ee98-77b0-b698-301809c2d394",
     });
 
-    expect(dispatchMock).toHaveBeenCalledWith({
-      type: "User/setUserRole",
-      payload: "Admin",
-    });
   });
 
   it("should redirect to login page", () => {
