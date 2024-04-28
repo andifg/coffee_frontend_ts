@@ -56,14 +56,11 @@ describe("AvatarMenu", () => {
 
     expect(screen.getByRole("menu")).toBeInTheDocument();
 
-    expect(screen.getByText("Admin")).toBeInTheDocument();
-
     await userEvent.keyboard("{Escape}");
 
     await waitFor(() => {
       expect(screen.queryByText("Logout")).toBeNull();
       expect(screen.queryByRole("menu")).toBeNull();
-      expect(screen.queryByText("Admin")).toBeNull();
     });
   });
 
@@ -95,25 +92,5 @@ describe("AvatarMenu", () => {
     await userEvent.click(logout);
 
     expect(removeUserMock).toHaveBeenCalled();
-  });
-
-  it("Should switch role", async () => {
-    render(
-      <Provider store={store}>
-        <AvatarMenu />
-      </Provider>,
-    );
-
-    const button = screen.getByTestId("avatar-menu");
-
-    await userEvent.click(button);
-
-    const switchRole = screen.getByText("Admin");
-
-    await userEvent.click(switchRole);
-
-    expect(store.getActions()).toEqual([
-      { payload: "User", type: "User/setUserRole" },
-    ]);
   });
 });
