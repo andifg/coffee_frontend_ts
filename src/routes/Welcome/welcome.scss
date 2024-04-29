@@ -1,0 +1,24 @@
+.welcome-text-wrapper {
+  min-width: 45%;
+  margin-bottom: 35%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.welcome-container {
+  display: flex;
+  height: 100vh;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: column;
+  background-image: url("/welcome.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.get-started-button {
+  min-width: 200px;
+  min-height: 25px;
+}

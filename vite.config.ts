@@ -31,7 +31,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "prompt",
-      includeAssets: ["*.png"],
+      includeAssets: ["*.png", "*.jpg"],
       manifest: {
         name: "Rate My Coffee",
         short_name: "Coffee Rate",
