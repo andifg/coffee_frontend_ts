@@ -1,18 +1,16 @@
 import React from "react";
-import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import ListMenu from "../../../components/ListMenu";
+import UserAvatar from "../../../components/UserAvatar";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import SettingsIcon from "@mui/icons-material/Settings";
 import ContentCopy from "@mui/icons-material/ContentCopy";
 
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/index";
-import { setUserRole } from "../../../redux/UserReducer";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/index";
 
 import { useAuth } from "react-oidc-context";
 
@@ -22,14 +20,7 @@ export default function AvatarMenu() {
   const menuRef = React.useRef<HTMLButtonElement>(null);
   const auth = useAuth();
 
-  const dispatch = useDispatch<AppDispatch>();
-  const userRole = useSelector((state: RootState) => state.user.userRole);
-
   const given_name = useSelector((state: RootState) => state.user.givenName);
-
-  const switchRole = () => {
-    dispatch(setUserRole(userRole == "Admin" ? "User" : "Admin"));
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -56,18 +47,7 @@ export default function AvatarMenu() {
           ref={menuRef}
           data-testid="avatar-menu"
         >
-          <Avatar
-            sx={{
-              width: 28,
-              height: 28,
-              bgcolor: "white",
-              color: "primary.main",
-              borderColor: "primary.main",
-              border: "1px solid",
-            }}
-          >
-            {given_name?.charAt(0).toUpperCase() || "U"}
-          </Avatar>
+          <UserAvatar given_name={given_name} />
         </IconButton>
       </Tooltip>
       <ListMenu
@@ -75,13 +55,18 @@ export default function AvatarMenu() {
         anchorElement={menuRef.current}
         handleClose={handleClose}
       >
-        <MenuItem>
-          <FormControlLabel
-            control={
-              <Switch checked={userRole == "Admin"} onClick={switchRole} />
-            }
-            label="Admin"
-          />
+        <MenuItem
+          onClick={() => {
+            console.log("Account Settings");
+            window.location.replace(
+              `${window.env.AUTH_URL}/account/?referrer=react-app#/personal-info`,
+            );
+          }}
+        >
+          <ListItemIcon>
+            <SettingsIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Account Settings</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

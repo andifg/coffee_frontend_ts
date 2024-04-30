@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from "vitest";
 import { screen, render, waitFor } from "@testing-library/react";
-import Coffee from "./Coffee";
+import Coffee from "../CoffeeCard/Coffee";
 import userEvent from "@testing-library/user-event";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
-import { useUpdateCoffeeData } from "../../../hooks/useUpdateCoffeeData";
-import { ApiError } from "../../../client";
+import { useCoffeeData } from "../../../../hooks/useCoffeeData";
+import { useUpdateCoffeeData } from "../../../../hooks/useUpdateCoffeeData";
+import { ApiError } from "../../../../client";
 
 describe("Edit Coffee Modal", () => {
   vi.mock("heic2any", () => ({
@@ -21,15 +21,19 @@ describe("Edit Coffee Modal", () => {
 
   const initialState = {
     user: {
+      username: "kcowan",
+      givenName: "Kristofer",
+      familyName: "Cowan",
+      userId: "018ef1bb-c943-7253-bdc5-dd653b1b0f0e",
       userRole: "Admin",
     },
   };
 
-  vi.mock("../../../hooks/useCoffeeData", () => ({
+  vi.mock("../../../../hooks/useCoffeeData", () => ({
     useCoffeeData: vi.fn(),
   }));
 
-  vi.mock("../../../hooks/useUpdateCoffeeData", () => ({
+  vi.mock("../../../../hooks/useUpdateCoffeeData", () => ({
     useUpdateCoffeeData: vi.fn(),
   }));
 
@@ -37,6 +41,8 @@ describe("Edit Coffee Modal", () => {
     {
       _id: "test-id",
       name: "test-name",
+      owner_id: "test-owner-id",
+      owner_name: "test-owner-name",
     },
     false,
     "test-url",
@@ -126,8 +132,13 @@ describe("Edit Coffee Modal", () => {
 
     await userEvent.click(submit);
 
-    expect(updateCoffeeNameMock).toHaveBeenLastCalledWith("test-name");
-    expect(uploadImageMock).toHaveBeenLastCalledWith(undefined);
+    expect(updateCoffeeNameMock).toHaveBeenLastCalledWith(
+      "test-name",
+      "018ef1bb-c943-7253-bdc5-dd653b1b0f0e",
+      "kcowan",
+    );
+
+    expect(uploadImageMock).not.toHaveBeenCalled();
   });
 
   it("Should show error when api calls fail", async () => {

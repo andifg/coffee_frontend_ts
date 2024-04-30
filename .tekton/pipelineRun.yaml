@@ -49,8 +49,9 @@ spec:
     - name: app-pvc
       volumeClaimTemplate:
         spec:
+          storageClassName: managed-nfs-storage
           accessModes:
-            - ReadWriteOnce
+            - ReadWriteMany
           resources:
             requests:
               storage: 300Mi
@@ -58,8 +59,9 @@ spec:
     - name: argo-pvc
       volumeClaimTemplate:
         spec:
+          storageClassName: managed-nfs-storage
           accessModes:
-            - ReadWriteOnce
+            - ReadWriteMany
           resources:
             requests:
               storage: 300Mi

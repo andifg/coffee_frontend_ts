@@ -16,13 +16,22 @@ interface UseUpdateCofeeDataProps {
 
 export function useUpdateCoffeeData(
   props: UseUpdateCofeeDataProps,
-): [(coffeeName: string) => Promise<void>, (image: File) => Promise<void>] {
+): [
+  (coffeeName: string, ownerId: string, ownerName: string) => Promise<void>,
+  (image: File) => Promise<void>,
+] {
   const [callClientServiceMethod] = useClientService();
 
-  const updateCoffee = async (coffeeName: string) => {
+  const updateCoffee = async (
+    coffeeName: string,
+    ownerId: string,
+    ownerName: string,
+  ) => {
     if (coffeeName != props.initalCoffeeName) {
       const updatedCoffee: UpdateCoffeeSchema = {
         name: coffeeName,
+        owner_id: ownerId,
+        owner_name: ownerName,
       };
 
       await callClientServiceMethod({

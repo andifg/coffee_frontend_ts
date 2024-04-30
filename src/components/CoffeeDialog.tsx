@@ -71,6 +71,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
     e.preventDefault();
 
     console.log("Preparing to submit coffee");
+    console.log("Image: ", image);
 
     props.handleSubmit(coffeeName, image as File);
   };

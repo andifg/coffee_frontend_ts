@@ -29,12 +29,13 @@ const oidcConfig = {
   automaticSilentRenew: true,
   onSignoutRedirect: signoutRedirect,
   userStore: new WebStorageStateStore({ store: window.localStorage }),
+  scope: "openid roles address",
 };
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <AuthProvider {...oidcConfig} scope="openid roles address">
+      <AuthProvider {...oidcConfig}>
         <Provider store={store}>
           <CoffeeApp />
           <AppUpdateModal />

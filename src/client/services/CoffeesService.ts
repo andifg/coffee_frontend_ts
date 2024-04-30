@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Coffee } from "../models/Coffee";
+import type { CreateCoffee } from "../models/CreateCoffee";
 import type { UpdateCoffee } from "../models/UpdateCoffee";
 
 import type { CancelablePromise } from "../core/CancelablePromise";
@@ -17,7 +18,7 @@ export class CoffeesService {
    * @throws ApiError
    */
   public static postCoffeeApiV1CoffeesPost(
-    requestBody: Coffee,
+    requestBody: CreateCoffee,
   ): CancelablePromise<Coffee> {
     return __request(OpenAPI, {
       method: "POST",

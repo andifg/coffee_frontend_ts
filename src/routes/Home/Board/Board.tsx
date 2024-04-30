@@ -7,7 +7,7 @@ import SlideToReload from "./SlideToReload";
 import Container from "@mui/material/Container";
 import { useSelector } from "react-redux";
 
-import Coffee from "../Coffee/Coffee";
+import Coffee from "../Coffee/CoffeeCard/Coffee";
 import { RootState } from "../../../redux/index";
 import { setRecursiveLoading } from "../../../redux/GeneralConfigReducer";
 import useReloadChildren from "../../../hooks/useReloadChildren";

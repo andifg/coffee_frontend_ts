@@ -9,6 +9,7 @@ export type { OpenAPIConfig } from "./core/OpenAPI";
 
 export type { Body__create_image_api_v1_coffees__coffee_id__image_post } from "./models/Body__create_image_api_v1_coffees__coffee_id__image_post";
 export type { Coffee } from "./models/Coffee";
+export type { CreateCoffee } from "./models/CreateCoffee";
 export type { HealthStatus } from "./models/HealthStatus";
 export type { HTTPValidationError } from "./models/HTTPValidationError";
 export type { Rating } from "./models/Rating";

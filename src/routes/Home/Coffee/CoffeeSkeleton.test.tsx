@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { screen, render } from "@testing-library/react";
-import Coffee from "./Coffee";
+import Coffee from "./CoffeeCard/Coffee";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
 import { useCoffeeData } from "../../../hooks/useCoffeeData";
@@ -30,6 +30,8 @@ describe("Coffee Rating", () => {
     {
       _id: "test-id",
       name: "test-name",
+      owner_id: "test-owner-id",
+      owner_name: "test-owner-name",
     },
     true,
     "test-url",

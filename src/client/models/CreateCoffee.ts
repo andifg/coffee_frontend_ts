@@ -4,9 +4,11 @@
 /* eslint-disable */
 
 /**
- * Describes a Coffee
+ * Describes the create schema for a Coffee
+ *
+ * As we get the owner id and name from the JWT token, we only need the name of the coffee and the uuid.
  */
-export type Coffee = {
+export type CreateCoffee = {
   /**
    * The id of the coffee
    */
@@ -15,12 +17,4 @@ export type Coffee = {
    * Name of coffee
    */
   name: string;
-  /**
-   * The id of the owner of the coffee
-   */
-  owner_id: string;
-  /**
-   * Name of the owner of the coffee
-   */
-  owner_name: string;
 };
