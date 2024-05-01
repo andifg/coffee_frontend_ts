@@ -147,10 +147,6 @@ div.card-content {
   }
 }
 
-.get-started-button {
-  animation: cycleAnimation 2s linear infinite;
-}
-
 @keyframes cycleAnimation {
   0% {
     transform: scale(1);
