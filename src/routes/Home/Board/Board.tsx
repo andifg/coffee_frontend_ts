@@ -24,10 +24,10 @@ const Board: React.FC = () => {
     (state: RootState) => state.generalConfig.realoadCount,
   );
 
-  console.log("DATA NEW was changed " + CoffeeIds.length, Date.now());
+  console.log("DATA NEW was changed " + CoffeeIds?.length || 0, Date.now());
 
   const [childrenLoaded, resetChildrenLoaded] = useReloadChildren(
-    CoffeeIds.length,
+    CoffeeIds?.length || 0,
     setRecursiveLoading,
   );
 
@@ -46,19 +46,20 @@ const Board: React.FC = () => {
       <SlideToReload>
         <Container
           sx={{ bgcolor: "primary.light" }}
-          className={CoffeeIds.length != 0 ? "board-wrapper" : ""}
+          className={CoffeeIds?.length != 0 ? "board-wrapper" : ""}
         >
           <TransitionGroup>
-            {CoffeeIds.map((coffee) => (
-              <Collapse key={coffee + "-collapse"}>
-                <Coffee
-                  key={coffee}
-                  coffee_id={coffee}
-                  childrenLoaded={childrenLoaded}
-                  reload={reload}
-                />
-              </Collapse>
-            ))}
+            {CoffeeIds &&
+              CoffeeIds.map((coffee) => (
+                <Collapse key={coffee + "-collapse"}>
+                  <Coffee
+                    key={coffee}
+                    coffee_id={coffee}
+                    childrenLoaded={childrenLoaded}
+                    reload={reload}
+                  />
+                </Collapse>
+              ))}
           </TransitionGroup>
         </Container>
       </SlideToReload>

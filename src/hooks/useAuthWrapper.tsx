@@ -21,6 +21,13 @@ interface CoffeeAppJWT extends JwtPayload {
 const useAuthWrapper = () => {
   const auth = useAuth();
 
+  if (!auth.user && !auth.isLoading && window.location.pathname != "/") {
+    console.log("User not logged in, redirecting to login page");
+    console.log(auth);
+
+    window.location.href = "/";
+  }
+
   console.log(auth);
 
   const dispatch = useDispatch();
@@ -53,13 +60,6 @@ const useAuthWrapper = () => {
         dispatch(setUserRole("Admin"));
       }
     }
-  }
-
-  if (!auth.user && !auth.isLoading && window.location.pathname != "/") {
-    console.log("User not logged in, redirecting to login page");
-    console.log(auth);
-
-    window.location.href = "/";
   }
 };
 
