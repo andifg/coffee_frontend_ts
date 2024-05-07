@@ -1,4 +1,4 @@
-import Board from "./Home/Board/Board";
+import Board from "../components/Board/Board";
 import HomeHeaderBar from "./Home/HeaderBar/HeaderBar";
 import WelcomeScreen from "./Welcome/Welcome";
 import PrivateRoute from "../components/PrivateRoute";
