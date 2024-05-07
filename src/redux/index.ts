@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import CoffeeIdsReducer from "./CoffeeIdsReducer";
+import CoffeeIdsReducer from "./CoffeeReducer/CoffeesReducer";
 import UserReducer from "./UserReducer/UserReducer";
 import GeneralConfigState from "./GeneralConfigReducer";
 
