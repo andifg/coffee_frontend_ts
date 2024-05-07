@@ -1,9 +1,9 @@
 import React from "react";
-import { ApiError, Coffee } from "../../../../client";
-import CoffeeDialog from "../../../../components/CoffeeDialog";
-import { useUpdateCoffeeData } from "../../../../hooks/useUpdateCoffeeData";
+import { ApiError, Coffee } from "../../../client";
+import CoffeeDialog from "../../CoffeeDialog";
+import { useUpdateCoffeeData } from "../../../hooks/useUpdateCoffeeData";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux";
+import { RootState } from "../../../redux";
 
 interface Props {
   closeModal: () => void;

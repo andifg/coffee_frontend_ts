@@ -8,12 +8,12 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
-import ListMenu from "../../../../components/ListMenu";
-import theme from "../../../../theme";
-import { Coffee } from "../../../../client";
+import ListMenu from "../../ListMenu";
+import theme from "../../../theme";
+import { Coffee } from "../../../client";
 
-import SwipeableDrawerBottom from "../../../../components/SwipeableDrawerBottom";
-import useDeleteCoffee from "../../../../hooks/useDeleteCoffee";
+import SwipeableDrawerBottom from "../../SwipeableDrawerBottom";
+import useDeleteCoffee from "../../../hooks/useDeleteCoffee";
 import useEditCoffeeDecider from "./useEditCoffeeDecider";
 
 interface Props {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Coffee } from "../../../../client";
+import { Coffee } from "../../../client";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../redux";
+import { RootState } from "../../../redux";
 
 interface useEditCoffeeDeciderProps {
   coffee: Coffee;

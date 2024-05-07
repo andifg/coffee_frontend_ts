@@ -4,7 +4,7 @@ import Coffee from "../CoffeeCard/Coffee";
 import userEvent from "@testing-library/user-event";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../../hooks/useCoffeeData";
+import { useCoffeeData } from "../../../hooks/useCoffeeData";
 import useEditCoffeeDecider from "./useEditCoffeeDecider";
 import useMediaQuery from "@mui/material/useMediaQuery";
 

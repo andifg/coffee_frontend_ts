@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import { Container } from "@mui/material";
 
-import { useCoffeeRatingAdd } from "../../../hooks/useCoffeeRatingAdd";
+import { useCoffeeRatingAdd } from "../../hooks/useCoffeeRatingAdd";
 
 interface Props {
   coffee_id: string;

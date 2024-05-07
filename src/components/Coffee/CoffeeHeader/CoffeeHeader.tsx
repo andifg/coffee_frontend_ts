@@ -4,9 +4,9 @@ import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Unstable_Grid2";
 
 import MoreMenu from "../MoreMenu/MoreMenu";
-import UserAvatar from "../../../../components/UserAvatar";
+import UserAvatar from "../../UserAvatar";
 import Typography from "@mui/material/Typography";
-import { Coffee } from "../../../../client";
+import { Coffee } from "../../../client";
 
 interface CofeeHeaderProps {
   coffee: Coffee;

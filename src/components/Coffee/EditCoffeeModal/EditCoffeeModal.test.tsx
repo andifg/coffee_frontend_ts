@@ -4,9 +4,9 @@ import Coffee from "../CoffeeCard/Coffee";
 import userEvent from "@testing-library/user-event";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../../hooks/useCoffeeData";
-import { useUpdateCoffeeData } from "../../../../hooks/useUpdateCoffeeData";
-import { ApiError } from "../../../../client";
+import { useCoffeeData } from "../../../hooks/useCoffeeData";
+import { useUpdateCoffeeData } from "../../../hooks/useUpdateCoffeeData";
+import { ApiError } from "../../../client";
 
 describe("Edit Coffee Modal", () => {
   vi.mock("heic2any", () => ({
