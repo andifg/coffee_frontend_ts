@@ -1,14 +1,13 @@
+import "./SlideToReload.scss";
 import React, { useEffect, useRef, useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import theme from "../../theme";
-import { useSelector, useDispatch } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/index";
-import { incrementRealoadCount } from "../../redux/GeneralConfigReducer";
-import { setRecursiveLoading } from "../../redux/GeneralConfigReducer";
 import { Typography } from "@mui/material";
 import SouthOutlinedIcon from "@mui/icons-material/SouthOutlined";
 
 interface Props {
+  functionToTriggerLoading: boolean;
+  functionToTrigger: () => void;
   children: JSX.Element | JSX.Element[];
 }
 
@@ -24,12 +23,6 @@ const SlideToReload = (props: Props): JSX.Element => {
   const MAX = 110;
   const k = 0.3;
 
-  const dispatch = useDispatch<AppDispatch>();
-
-  const recursiveLoading = useSelector(
-    (state: RootState) => state.generalConfig.recursiveLoading,
-  );
-
   function appr(x: number) {
     return MAX * (1 - Math.exp((-k * x) / MAX));
   }
@@ -41,8 +34,8 @@ const SlideToReload = (props: Props): JSX.Element => {
     if (!show) return;
 
     const timePassed = Date.now() - loadStart;
-    const wait = timePassed > 5000 ? 200 : 1500;
-    // console.log("Will wait for " + wait + " ms");
+    const wait = timePassed > 5000 ? 200 : 1000;
+    console.log("Will wait for " + wait + " ms");
 
     setTimeout(() => {
       setShow(false);
@@ -61,8 +54,7 @@ const SlideToReload = (props: Props): JSX.Element => {
     setShow(true);
     setLoadStart(Date.now());
     triggered.current = true;
-    dispatch(incrementRealoadCount());
-    dispatch(setRecursiveLoading(true));
+    props.functionToTrigger();
   }
 
   function handleTouchStart(startEvent: React.TouchEvent<HTMLDivElement>) {
@@ -106,7 +98,7 @@ const SlideToReload = (props: Props): JSX.Element => {
 
   return (
     <>
-      {infoMessageShow && !show && !recursiveLoading && (
+      {infoMessageShow && !show && !props.functionToTriggerLoading && (
         <div className="slide-to-reload-info-message">
           {" "}
           <Typography
@@ -118,7 +110,7 @@ const SlideToReload = (props: Props): JSX.Element => {
           <SouthOutlinedIcon fontSize="small" sx={{ color: "primary.light" }} />{" "}
         </div>
       )}
-      {(show || recursiveLoading) && (
+      {((show && props.functionToTriggerLoading) || triggered.current) && (
         <div className="circular-progress-wrapper">
           <CircularProgress
             style={{ color: theme.palette.primary.light }}

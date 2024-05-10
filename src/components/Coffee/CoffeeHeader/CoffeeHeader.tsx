@@ -3,8 +3,8 @@ import "./CoffeeHeader.scss";
 import CardContent from "@mui/material/CardContent";
 import Grid from "@mui/material/Unstable_Grid2";
 
-import MoreMenu from "../MoreMenu/MoreMenu";
-import UserAvatar from "../../UserAvatar";
+import { CoffeeMoreMenu } from "../CoffeeMoreMenu/CoffeeMoreMenu";
+import UserAvatar from "../../UserAvatar/UserAvatar";
 import Typography from "@mui/material/Typography";
 import { Coffee } from "../../../client";
 
@@ -35,7 +35,7 @@ const CoffeeHeader = (props: CofeeHeaderProps) => {
           </Typography>
         </Grid>
         <Grid className="coffee-header-right" xs={2}>
-          <MoreMenu
+          <CoffeeMoreMenu
             coffee={props.coffee}
             toggleShowEditCoffeeModal={props.toggleShowEditCoffeeModal}
             toggleMoreMenuVisibility={props.toggleMoreMenuVisibility}

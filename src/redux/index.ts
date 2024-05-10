@@ -1,11 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import CoffeeIdsReducer from "./CoffeeReducer/CoffeesReducer";
 import UserReducer from "./UserReducer/UserReducer";
-import GeneralConfigState from "./GeneralConfigReducer";
+import GeneralConfigState from "./GeneralConfigReducer/GeneralConfigReducer";
 
 export const store = configureStore({
   reducer: {
-    coffeeIds: CoffeeIdsReducer,
     user: UserReducer,
     generalConfig: GeneralConfigState,
   },
