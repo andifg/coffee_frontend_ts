@@ -52,11 +52,12 @@ const Board: React.FC<Props> = (props: Props) => {
           <UpdateCoffeeContext.Provider value={updateCoffee}>
             <DeleteCoffeeContext.Provider value={deleteCoffee}>
               <TransitionGroup>
-                {coffees.map((coffee) => (
-                  <Collapse key={coffee._id + "-collapse"}>
-                    <CoffeeCard key={coffee._id} coffee={coffee} />
-                  </Collapse>
-                ))}
+                {coffees &&
+                  coffees.map((coffee) => (
+                    <Collapse key={coffee._id + "-collapse"}>
+                      <CoffeeCard key={coffee._id} coffee={coffee} />
+                    </Collapse>
+                  ))}
               </TransitionGroup>
             </DeleteCoffeeContext.Provider>
           </UpdateCoffeeContext.Provider>

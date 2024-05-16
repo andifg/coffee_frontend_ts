@@ -5,7 +5,11 @@ import HeaderBar from "../../components/HeaderBar/HeaderBar";
 const FeedHeaderBar = () => {
   return (
     <div>
-      <HeaderBar navbarLeft={<AddIcon />} navbarRight={<AvatarMenu />} />
+      <HeaderBar
+        data-testid="feed-header-bar"
+        navbarLeft={<AddIcon />}
+        navbarRight={<AvatarMenu />}
+      />
     </div>
   );
 };

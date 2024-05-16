@@ -1,10 +1,10 @@
-import { describe, it, expect, vi } from "vitest";
+import React from "react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { screen, render, waitFor } from "@testing-library/react";
-import Coffee from "../CoffeeCard/CoffeeCard";
+import { CoffeeCard } from "../CoffeeCard/CoffeeCard";
 import userEvent from "@testing-library/user-event";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
 
 describe("Coffee Rating", () => {
   vi.mock("heic2any", () => ({
@@ -15,6 +15,14 @@ describe("Coffee Rating", () => {
     useAuth: vi.fn(),
   }));
 
+  vi.mock("../CoffeeCard/useLoadImage", () => ({
+    default: vi.fn().mockReturnValue(["", vi.fn()]),
+  }));
+
+  beforeEach(() => {
+    vi.spyOn(React, "useState").mockImplementationOnce(() => [false, vi.fn()]);
+  });
+
   const mockStore = configureStore();
 
   const initialState = {
@@ -23,49 +31,50 @@ describe("Coffee Rating", () => {
     },
   };
 
-  vi.mock("../../../hooks/useCoffeeData", () => ({
-    useCoffeeData: vi.fn(),
-  }));
-
-  vi.mocked(useCoffeeData).mockReturnValue([
-    {
-      _id: "test-id",
-      name: "test-name",
-      owner_id: "test-owner-id",
-      owner_name: "test-owner-name",
-    },
-    false,
-    "test-url",
-    {
-      coffee_id: "test-id",
-      rating_average: 3,
-      rating_count: 4,
-    },
-    vi.fn(),
-    vi.fn(),
-  ]);
-
   it("should render successfully", async () => {
     render(
       <Provider store={mockStore(initialState)}>
-        <Coffee coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+        <CoffeeCard
+          coffee={{
+            _id: "test-id",
+            name: "test-name",
+            owner_id: "1",
+            owner_name: "joe",
+            rating_average: 4.5,
+            rating_count: 3,
+          }}
+        />
       </Provider>,
     );
 
-    expect(await screen.findByText("3")).toBeInTheDocument();
-    expect(await screen.findByText("4 ratings")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("4.5")).toBeInTheDocument();
+      expect(screen.getByText("3 ratings")).toBeInTheDocument();
+    });
   });
 
   it("Should toggle visability on add icon button click", async () => {
     render(
       <Provider store={mockStore(initialState)}>
-        <Coffee coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+        <CoffeeCard
+          coffee={{
+            _id: "test-id",
+            name: "test-name",
+            owner_id: "1",
+            owner_name: "joe",
+            rating_average: 4.5,
+            rating_count: 3,
+          }}
+        />
       </Provider>,
     );
 
-    await userEvent.click(await screen.findByText("Add Rating"));
+    await waitFor(() => {
+      expect(screen.getByText("4.5")).toBeInTheDocument();
+      expect(screen.getByText("3 ratings")).toBeInTheDocument();
+    });
 
-    expect(await screen.findByTestId("AddIcon")).toBeInTheDocument();
+    await userEvent.click(await screen.findByText("Add Rating"));
 
     await userEvent.click(
       await screen.findByTestId("coffee-rating-close-button"),

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { render, screen } from "@testing-library/react";
 
@@ -7,6 +7,10 @@ import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
 
 describe("CoffeeHeader", () => {
+  vi.mock("heic2any", () => ({
+    default: vi.fn(),
+  }));
+
   const initialState = {
     user: {
       userRole: "Admin",
@@ -41,8 +45,6 @@ describe("CoffeeHeader", () => {
         />
       </Provider>,
     );
-
-    screen.debug();
 
     expect(screen.getByText("MFitzgerald")).toBeInTheDocument();
     expect(screen.getByText("M")).toBeInTheDocument();

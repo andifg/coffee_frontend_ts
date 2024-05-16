@@ -1,4 +1,3 @@
-import "HeaderBar.scss";
 import HeaderBar from "./HeaderBar";
 
 import { render } from "@testing-library/react";

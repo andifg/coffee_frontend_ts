@@ -1,5 +1,5 @@
 import { ApiError, Coffee as CoffeeSchema } from "../../client";
-import React, { useContext } from "react";
+import React from "react";
 import { CoffeesService, CoffeeImagesService } from "../../client";
 import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../client";
 import useClientService from "../../hooks/useClientService";
@@ -20,7 +20,7 @@ const useAddCoffeeModal = (props: UseAddCoffeeModalProps) => {
 
   const user = useSelector((state: RootState) => state.user);
 
-  const { addCoffeeCallback } = useContext(AddCoffeeCallbackContext);
+  const { addCoffeeCallback } = React.useContext(AddCoffeeCallbackContext);
 
   const handleCancel = () => {
     console.log("Clicked cancel button");

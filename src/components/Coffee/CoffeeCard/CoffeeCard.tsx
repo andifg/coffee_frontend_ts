@@ -21,9 +21,10 @@ interface Props {
 }
 
 const CoffeeCard: React.FC<Props> = (props: Props) => {
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [showMoreMenu, setShowMoreMenu] = useState<boolean>(false);
-  const [showEditCoffeeModal, setShowEditCoffeeModal] = useState(false);
+  const [showEditCoffeeModal, setShowEditCoffeeModal] =
+    useState<boolean>(false);
 
   const [coffeeImageURL, updateCoffeeImage] = useLoadImageURL(
     props.coffee._id,

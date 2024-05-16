@@ -1,11 +1,12 @@
+import React from "react";
 import { describe, it, expect, vi } from "vitest";
 import { screen, render } from "@testing-library/react";
 import { CoffeeCard } from "./CoffeeCard";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
+import useLoadImageURL from "./useLoadImage";
 
-describe("Coffee Route", () => {
+describe("Coffee Card", () => {
   vi.mock("heic2any", () => ({
     default: vi.fn(),
   }));
@@ -13,6 +14,12 @@ describe("Coffee Route", () => {
   vi.mock("react-oidc-context", () => ({
     useAuth: vi.fn(),
   }));
+
+  vi.mock("./useLoadImage", () => ({
+    default: vi.fn(),
+  }));
+
+  vi.spyOn(React, "useState").mockImplementationOnce(() => [false, vi.fn()]);
 
   const mockStore = configureStore();
 
@@ -22,39 +29,27 @@ describe("Coffee Route", () => {
     },
   };
 
-  vi.mock("../../../../hooks/useCoffeeData", () => ({
-    useCoffeeData: vi.fn(),
-  }));
-
-  it("should render successfully", async () => {
-    vi.mocked(useCoffeeData).mockReturnValue([
-      {
-        _id: "test-id",
-        name: "test-name",
-        owner_id: "test-owner-id",
-        owner_name: "test-owner-name",
-      },
-      false,
-      "test-url",
-      {
-        coffee_id: "test-id",
-        rating_average: 3,
-        rating_count: 4,
-      },
-      vi.fn(),
-      vi.fn(),
-    ]);
+  it("should render successfully when loading equals false", async () => {
+    vi.mocked(useLoadImageURL).mockReturnValue(["test-url", vi.fn()]);
 
     render(
       <Provider store={mockStore(initialState)}>
-        <CoffeeCard coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+        <CoffeeCard
+          coffee={{
+            _id: "test-id",
+            name: "test-name",
+            owner_id: "1",
+            owner_name: "joe",
+            rating_average: 4.5,
+            rating_count: 3,
+          }}
+        />
       </Provider>,
     );
 
-    expect(await screen.findByText("test-name")).toBeInTheDocument();
-
-    expect(await screen.findByText("3")).toBeInTheDocument();
-    expect(await screen.findByText("4 ratings")).toBeInTheDocument();
-    expect(await screen.findByText("test-owner-name")).toBeInTheDocument();
+    expect(screen.getByText("test-name")).toBeInTheDocument();
+    expect(screen.getByText("3 ratings")).toBeInTheDocument();
+    expect(screen.getByText("4.5")).toBeInTheDocument();
+    expect(screen.getByText("joe")).toBeInTheDocument();
   });
 });

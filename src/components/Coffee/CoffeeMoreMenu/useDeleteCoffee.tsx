@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React from "react";
 import useClientService from "../../../hooks/useClientService";
 import { DeleteCoffeeContext } from "../../Board/Board";
 
@@ -11,7 +11,7 @@ interface useDeleteCoffeeProps {
 export default function useDeleteCoffee(
   props: useDeleteCoffeeProps,
 ): [() => Promise<void>] {
-  const deleteCoffeeInState = useContext(DeleteCoffeeContext);
+  const deleteCoffeeInState = React.useContext(DeleteCoffeeContext);
 
   const [callClientServiceMethod] = useClientService();
 

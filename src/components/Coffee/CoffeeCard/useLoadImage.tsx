@@ -59,7 +59,7 @@ export default function useLoadImageURL(
   useEffect(() => {
     setLoading(true);
     fetchImage().then(() => {
-      // console.log("Coffee image loaded");
+      console.log("Coffee image loaded ", coffee_id);
       setLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

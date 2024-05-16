@@ -6,7 +6,7 @@ import { RatingsService } from "../../../client";
 import useClientService from "../../../hooks/useClientService";
 
 describe("useCoffeeRatingAdd", () => {
-  vi.mock("./useClientService", () => ({
+  vi.mock("../../../hooks/useClientService", () => ({
     default: vi.fn(),
   }));
 

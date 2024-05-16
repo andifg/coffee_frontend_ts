@@ -31,7 +31,7 @@ describe("AddIcon", () => {
 
     await userEvent.click(cancelButton);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(screen.queryByText("Add Coffee")).not.toBeInTheDocument();
     });
   });

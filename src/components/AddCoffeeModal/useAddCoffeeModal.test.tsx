@@ -1,3 +1,4 @@
+import React from "react";
 import { describe, it, vi, expect } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 
@@ -5,19 +6,27 @@ import { useAddCoffeeModal } from "./useAddCoffeeModal";
 
 import callClientServiceMethod from "../../hooks/useClientService";
 import { CoffeesService, CoffeeImagesService } from "../../client";
-import { useDispatch } from "react-redux";
 import { ApiError } from "../../client";
 
 describe("useAddCoffeeModal", () => {
-  vi.mock("react-redux", () => ({
-    useDispatch: vi.fn(),
+  const addCoffeeCallbackMock = vi.fn();
+
+  vi.spyOn(React, "useContext").mockImplementation(() => ({
+    addCoffeeCallback: addCoffeeCallbackMock,
+    setCallback: vi.fn(),
   }));
 
   vi.mock("react-redux", () => ({
-    useDispatch: vi.fn(),
+    useSelector: vi.fn().mockReturnValue({
+      username: "testuser",
+      userId: "123",
+      userRole: "Admin",
+      givenName: "Test",
+      familyName: "User",
+    }),
   }));
 
-  vi.mock("./useClientService", () => ({
+  vi.mock("../../hooks/useClientService", () => ({
     default: vi.fn().mockReturnValue([vi.fn()]),
   }));
 
@@ -86,10 +95,6 @@ describe("useAddCoffeeModal", () => {
   });
 
   it("Handle submit with new name", async () => {
-    const useDispatchMock = vi.fn();
-
-    vi.mocked(useDispatch).mockReturnValue(useDispatchMock);
-
     const closeModelMock = vi.fn();
 
     const useClientServiceMock = vi.fn();
@@ -122,6 +127,7 @@ describe("useAddCoffeeModal", () => {
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
       args: [{ _id: "123", name: "New Coffee" }],
+      rethrowError: true,
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
@@ -130,10 +136,14 @@ describe("useAddCoffeeModal", () => {
     });
 
     await waitFor(() => {
-      expect(useDispatchMock).toHaveBeenCalledWith({
-        type: "coffeeIDs/addCoffeeId",
-        payload: "123",
-      });
+      expect(result.current.loading).toEqual(false);
+    });
+
+    expect(addCoffeeCallbackMock).toHaveBeenCalledWith({
+      _id: "123",
+      name: "New Coffee",
+      owner_id: "123",
+      owner_name: "testuser",
     });
 
     await waitFor(() => {
@@ -146,9 +156,7 @@ describe("useAddCoffeeModal", () => {
   });
 
   it("Handle trimming of coffee name", async () => {
-    const useDispatchMock = vi.fn();
-
-    vi.mocked(useDispatch).mockReturnValue(useDispatchMock);
+    // const useDispatchMock = vi.fn();
 
     const useClientServiceMock = vi.fn();
 
@@ -178,14 +186,22 @@ describe("useAddCoffeeModal", () => {
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
       args: [{ _id: "123", name: "New Coffee" }],
+      rethrowError: true,
+    });
+
+    await waitFor(() => {
+      expect(result.current.loading).toEqual(false);
+    });
+
+    expect(addCoffeeCallbackMock).toHaveBeenCalledWith({
+      _id: "123",
+      name: "New Coffee",
+      owner_id: "123",
+      owner_name: "testuser",
     });
   });
 
   it("Handle error during image upload", async () => {
-    const useDispatchMock = vi.fn();
-
-    vi.mocked(useDispatch).mockReturnValue(useDispatchMock);
-
     const useClientServiceMock = vi.fn();
 
     useClientServiceMock.mockResolvedValueOnce({
@@ -224,6 +240,7 @@ describe("useAddCoffeeModal", () => {
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
       args: [{ _id: "123", name: "New Coffee" }],
+      rethrowError: true,
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({

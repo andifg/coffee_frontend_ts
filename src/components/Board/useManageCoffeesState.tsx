@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import useClientService from "../../hooks/useClientService";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
 
 import { CoffeesService, Coffee as CoffeeSchema } from "../../client";

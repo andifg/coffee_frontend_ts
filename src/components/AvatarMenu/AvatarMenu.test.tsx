@@ -17,9 +17,6 @@ describe("AvatarMenu", () => {
       userRole: "Admin",
       givenName: "John",
     },
-    coffeeIds: {
-      coffeeIds: ["1"],
-    },
     generalConfig: {
       recursiveLoading: false,
       realoadCount: 0,

@@ -1,13 +1,43 @@
-import { renderHook } from "@testing-library/react";
-import { describe, vi, it, expect } from "vitest";
+import { renderHook, waitFor } from "@testing-library/react";
+import { describe, vi, it, expect, beforeEach } from "vitest";
 import useClientService from "../../../hooks/useClientService";
-import { CoffeesService, CoffeeImagesService } from "../../../client";
+import {
+  CoffeesService,
+  CoffeeImagesService,
+  Coffee as CoffeeSchema,
+} from "../../../client";
 import { useUpdateCoffeeData } from "./useUpdateCoffeeData";
+import { useContext } from "react";
 
 describe("useUpdateCoffeeData", () => {
-  vi.mock("./useClientService", () => ({
+  const updateCoffeeNameMock = vi.fn();
+  const updateCoffeeImageMock = vi.fn();
+
+  vi.mock("react", async (importOriginal) => {
+    const actual = await importOriginal<typeof import("react")>();
+    return {
+      ...actual,
+      useContext: vi.fn(),
+    };
+  });
+
+  vi.mock("heic2any", () => ({
     default: vi.fn(),
   }));
+
+  vi.mock("../../../hooks/useClientService", () => ({
+    default: vi.fn(),
+  }));
+
+  vi.mock("../../../hooks/useClientService", () => ({
+    default: vi.fn().mockReturnValue([vi.fn()]),
+  }));
+
+  beforeEach(() => {
+    vi.mocked(useContext)
+      .mockReturnValueOnce(updateCoffeeNameMock)
+      .mockReturnValueOnce(updateCoffeeImageMock);
+  });
 
   it("Don't update name if its same as before", () => {
     const useClientServiceMock = vi.fn();
@@ -18,9 +48,7 @@ describe("useUpdateCoffeeData", () => {
       useUpdateCoffeeData({
         coffee_id: "1",
         initalCoffeeName: "Test Coffee",
-        updateCoffeeName: vi.fn(),
         initalCoffeeImageURL: "teststring",
-        updateCoffeeImage: vi.fn(),
       }),
     );
 
@@ -32,22 +60,22 @@ describe("useUpdateCoffeeData", () => {
   it("Update name if its different from before", async () => {
     const useClientServiceMock = vi.fn();
 
-    const updateCoffeeNameMock = vi.fn();
-
     vi.mocked(useClientService).mockReturnValue([useClientServiceMock]);
 
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
       name: "Test Coffee 2",
-    });
+      owner_id: "1",
+      owner_name: "Test Owner",
+      rating_count: 2,
+      rating_average: 3,
+    } as CoffeeSchema);
 
     const { result } = renderHook(() =>
       useUpdateCoffeeData({
         coffee_id: "1",
         initalCoffeeName: "Test Coffee",
-        updateCoffeeName: updateCoffeeNameMock,
         initalCoffeeImageURL: "teststring",
-        updateCoffeeImage: vi.fn(),
       }),
     );
 
@@ -62,13 +90,18 @@ describe("useUpdateCoffeeData", () => {
       ],
     });
 
-    expect(updateCoffeeNameMock).toHaveBeenCalledWith("Test Coffee 2");
+    await waitFor(() => {
+      expect(updateCoffeeNameMock).toHaveBeenCalledWith({
+        _id: "1",
+        name: "Test Coffee 2",
+        owner_id: "1",
+        owner_name: "Test Owner",
+      } as CoffeeSchema);
+    });
   });
 
   it("Should update image", async () => {
     const useClientServiceMock = vi.fn();
-
-    const upateCoffeeFileMock = vi.fn();
 
     const image = new File([""], "test.png", {
       type: "image/png",
@@ -82,9 +115,7 @@ describe("useUpdateCoffeeData", () => {
       useUpdateCoffeeData({
         coffee_id: "1",
         initalCoffeeName: "Test Coffee",
-        updateCoffeeName: vi.fn(),
         initalCoffeeImageURL: "teststring",
-        updateCoffeeImage: upateCoffeeFileMock,
       }),
     );
 
@@ -95,7 +126,8 @@ describe("useUpdateCoffeeData", () => {
       rethrowError: true,
       args: ["1", { file: image }],
     });
-
-    expect(upateCoffeeFileMock).toHaveBeenCalledWith(image);
+    await waitFor(() => {
+      expect(updateCoffeeImageMock).toHaveBeenCalledWith(image);
+    });
   });
 });

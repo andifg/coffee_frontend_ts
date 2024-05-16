@@ -1,9 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
 import { screen, render } from "@testing-library/react";
-import Coffee from "../CoffeeCard/CoffeeCard";
+import { CoffeeCard } from "../CoffeeCard/CoffeeCard";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
 
 describe("Coffee Rating", () => {
   vi.mock("heic2any", () => ({
@@ -14,6 +13,10 @@ describe("Coffee Rating", () => {
     useAuth: vi.fn(),
   }));
 
+  vi.mock("../CoffeeCard/useLoadImage", () => ({
+    default: vi.fn().mockReturnValue(["", vi.fn()]),
+  }));
+
   const mockStore = configureStore();
 
   const initialState = {
@@ -22,32 +25,19 @@ describe("Coffee Rating", () => {
     },
   };
 
-  vi.mock("../../../hooks/useCoffeeData", () => ({
-    useCoffeeData: vi.fn(),
-  }));
-
-  vi.mocked(useCoffeeData).mockReturnValue([
-    {
-      _id: "test-id",
-      name: "test-name",
-      owner_id: "test-owner-id",
-      owner_name: "test-owner-name",
-    },
-    true,
-    "test-url",
-    {
-      coffee_id: "test-id",
-      rating_average: 3,
-      rating_count: 4,
-    },
-    vi.fn(),
-    vi.fn(),
-  ]);
-
   it("Should render skeleton when loading", async () => {
     render(
       <Provider store={mockStore(initialState)}>
-        <Coffee coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+        <CoffeeCard
+          coffee={{
+            _id: "test-id",
+            name: "test-name",
+            owner_id: "1",
+            owner_name: "joe",
+            rating_average: 4.5,
+            rating_count: 3,
+          }}
+        />
       </Provider>,
     );
 

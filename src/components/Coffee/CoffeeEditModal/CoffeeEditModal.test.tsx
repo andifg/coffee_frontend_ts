@@ -1,10 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
 import { screen, render, waitFor } from "@testing-library/react";
-import Coffee from "../CoffeeCard/CoffeeCard";
+import { CoffeeCard } from "../CoffeeCard/CoffeeCard";
 import userEvent from "@testing-library/user-event";
 import configureStore from "redux-mock-store";
 import { Provider } from "react-redux";
-import { useCoffeeData } from "../../../hooks/useCoffeeData";
 import { useUpdateCoffeeData } from "./useUpdateCoffeeData";
 import { ApiError } from "../../../client";
 
@@ -29,31 +28,9 @@ describe("Edit Coffee Modal", () => {
     },
   };
 
-  vi.mock("../../../../hooks/useCoffeeData", () => ({
-    useCoffeeData: vi.fn(),
-  }));
-
-  vi.mock("../../../../hooks/useUpdateCoffeeData", () => ({
+  vi.mock("./useUpdateCoffeeData", () => ({
     useUpdateCoffeeData: vi.fn(),
   }));
-
-  vi.mocked(useCoffeeData).mockReturnValue([
-    {
-      _id: "test-id",
-      name: "test-name",
-      owner_id: "test-owner-id",
-      owner_name: "test-owner-name",
-    },
-    false,
-    "test-url",
-    {
-      coffee_id: "test-id",
-      rating_average: 3,
-      rating_count: 4,
-    },
-    vi.fn(),
-    vi.fn(),
-  ]);
 
   const updateCoffeeNameMock = vi.fn();
   const uploadImageMock = vi.fn();
@@ -66,12 +43,21 @@ describe("Edit Coffee Modal", () => {
   it("should open and close edit modal when edit button is clicked", async () => {
     render(
       <Provider store={mockStore(initialState)}>
-        <Coffee coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+        <CoffeeCard
+          coffee={{
+            _id: "test-id",
+            name: "test-name",
+            owner_id: "1",
+            owner_name: "joe",
+            rating_average: 4.5,
+            rating_count: 3,
+          }}
+        />
       </Provider>,
     );
 
-    const drawerRoot = screen.getByTestId("swipeable-drawer-paper");
-    const editCoffee = screen.getByTestId("Edit Coffee");
+    const drawerRoot = await screen.findByTestId("swipeable-drawer-paper");
+    const editCoffee = await screen.findByTestId("Edit Coffee");
 
     //Open more menu
     userEvent.click(await screen.findByTestId("more-menu-button"));
@@ -103,16 +89,24 @@ describe("Edit Coffee Modal", () => {
   it("Should call useUpdateCoffeeData when edit coffee is submitted", async () => {
     render(
       <Provider store={mockStore(initialState)}>
-        <Coffee coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+        <CoffeeCard
+          coffee={{
+            _id: "test-id",
+            name: "test-name",
+            owner_id: "1",
+            owner_name: "joe",
+            rating_average: 4.5,
+            rating_count: 3,
+          }}
+        />
       </Provider>,
     );
 
+    const drawerRoot = await screen.findByTestId("swipeable-drawer-paper");
+    const editCoffee = await screen.findByTestId("Edit Coffee");
+
     //Open more menu
     userEvent.click(await screen.findByTestId("more-menu-button"));
-
-    const editCoffee = screen.getByTestId("Edit Coffee");
-
-    const drawerRoot = screen.getByTestId("swipeable-drawer-paper");
 
     await waitFor(() => {
       // Check that the style is NOT present
@@ -158,16 +152,24 @@ describe("Edit Coffee Modal", () => {
 
     render(
       <Provider store={mockStore(initialState)}>
-        <Coffee coffee_id="test-id" reload={4} childrenLoaded={vi.fn()} />
+        <CoffeeCard
+          coffee={{
+            _id: "test-id",
+            name: "test-name",
+            owner_id: "1",
+            owner_name: "joe",
+            rating_average: 4.5,
+            rating_count: 3,
+          }}
+        />
       </Provider>,
     );
 
+    const drawerRoot = await screen.findByTestId("swipeable-drawer-paper");
+    const editCoffee = await screen.findByTestId("Edit Coffee");
+
     //Open more menu
     userEvent.click(await screen.findByTestId("more-menu-button"));
-
-    const editCoffee = screen.getByTestId("Edit Coffee");
-
-    const drawerRoot = screen.getByTestId("swipeable-drawer-paper");
 
     await waitFor(() => {
       // Check that the style is NOT present

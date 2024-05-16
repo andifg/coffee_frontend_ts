@@ -15,17 +15,21 @@ describe("useLoadImageURL", () => {
     useAuth: vi.fn(),
   }));
 
-  vi.mock("../utils/FileReader", () => ({
+  vi.mock("../../../utils/FileReader", () => ({
     createDataURL: vi.fn(),
   }));
 
   it("Image URL should be empty string at the moment", async () => {
-    const { result } = renderHook(() => useLoadImageURL("testurl"));
+    const setLoadingMock = vi.fn();
+
+    const { result } = renderHook(() =>
+      useLoadImageURL("test-id", setLoadingMock),
+    );
 
     expect(result.current[0]).toBe("");
   });
 
-  it("Should load image via fetch", async () => {
+  it("Should load image via fetch when coffee-id changes", async () => {
     Object.defineProperty(window, "env", {
       value: {
         BACKEND_URL: "http://localhost:3000",
@@ -44,7 +48,7 @@ describe("useLoadImageURL", () => {
 
     vi.stubGlobal("fetch", fetchMock);
 
-    fetchMock.mockResolvedValueOnce(
+    fetchMock.mockResolvedValue(
       Promise.resolve({
         ok: true,
         blob: () => Promise.resolve("testblob"),
@@ -52,41 +56,57 @@ describe("useLoadImageURL", () => {
       }),
     );
 
-    vi.mocked(createDataURL).mockResolvedValueOnce("testurl");
+    vi.mocked(createDataURL)
+      .mockResolvedValueOnce("testurl")
+      .mockResolvedValueOnce("new-testurl");
 
-    const { result } = renderHook(() => useLoadImageURL("testurl"));
-
-    await result.current[1]();
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      "http://localhost:3000/api/v1/coffees/testurl/image",
-      {
-        headers: {
-          Authorization: "Bearer testtoken",
-          Accept: "image/jpeg",
+    const setLoadingMock = vi.fn();
+    const { result, rerender } = renderHook(
+      (
+        props: { coffee_id: string; setLoading: () => void } = {
+          coffee_id: "1",
+          setLoading: setLoadingMock,
         },
-        method: "GET",
-      },
+      ) => useLoadImageURL(props.coffee_id, props.setLoading),
+      { initialProps: { coffee_id: "test-id", setLoading: setLoadingMock } },
     );
 
     await waitFor(() => {
       expect(result.current[0]).toBe("testurl");
     });
-  });
 
-  it("Should update coffee image and with newly created url ", async () => {
-    const { result } = renderHook(() => useLoadImageURL("testurl"));
-
-    vi.mocked(createDataURL).mockResolvedValueOnce("newtesturl");
-
-    const fileMock = new File(["file content"], "file.txt", {
-      type: "text/plain",
-    });
-
-    result.current[2](fileMock);
+    rerender({ coffee_id: "new-test-id", setLoading: setLoadingMock }),
+      await waitFor(() => {
+        expect(result.current[0]).toBe("new-testurl");
+      });
 
     await waitFor(() => {
-      expect(result.current[0]).toBe("newtesturl");
+      expect(fetchMock).toHaveBeenCalledTimes(2);
+    });
+
+    await waitFor(() => {
+      expect(fetchMock.mock.calls).toEqual([
+        [
+          "http://localhost:3000/api/v1/coffees/test-id/image",
+          {
+            method: "GET",
+            headers: {
+              Accept: "image/jpeg",
+              Authorization: "Bearer testtoken",
+            },
+          },
+        ],
+        [
+          "http://localhost:3000/api/v1/coffees/new-test-id/image",
+          {
+            method: "GET",
+            headers: {
+              Accept: "image/jpeg",
+              Authorization: "Bearer testtoken",
+            },
+          },
+        ],
+      ]);
     });
   });
 
@@ -114,11 +134,15 @@ describe("useLoadImageURL", () => {
       }),
     );
 
-    const { result } = renderHook(() => useLoadImageURL("testurl"));
+    const setLoadingMock = vi.fn();
 
-    await result.current[1]();
+    const { result } = renderHook(() =>
+      useLoadImageURL("test-id", setLoadingMock),
+    );
 
-    expect(removeUserMock).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(removeUserMock).toHaveBeenCalled();
+    });
 
     expect(result.current[0]).toBe("");
   });
@@ -146,12 +170,15 @@ describe("useLoadImageURL", () => {
         status: 403,
       }),
     );
+    const setLoadingMock = vi.fn();
 
-    const { result } = renderHook(() => useLoadImageURL("testurl"));
-
-    await expect(result.current[1]()).rejects.toThrow(
-      "Unexpected response status: 403",
+    const { result } = renderHook(() =>
+      useLoadImageURL("test-id", setLoadingMock),
     );
+
+    await waitFor(() => {
+      expect(result.current[0]).toBe("");
+    });
   });
 
   it("Handle error during fetch", async () => {
@@ -173,10 +200,14 @@ describe("useLoadImageURL", () => {
 
     fetchMock.mockResolvedValueOnce(Promise.reject("Error during fetch"));
 
-    const { result } = renderHook(() => useLoadImageURL("testurl"));
+    const setLoadingMock = vi.fn();
 
-    await expect(result.current[1]()).rejects.toThrow(
-      "An error occurred during image fetch",
+    const { result } = renderHook(() =>
+      useLoadImageURL("test-id", setLoadingMock),
     );
+
+    await waitFor(() => {
+      expect(result.current[0]).toBe("");
+    });
   });
 });

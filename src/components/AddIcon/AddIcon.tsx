@@ -1,7 +1,7 @@
 import IconButton from "@mui/material/IconButton";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import React from "react";
-import AddModal from "../AddCofeeModal/AddCoffeeModal";
+import AddModal from "../AddCoffeeModal/AddCoffeeModal";
 import { uuidv7 } from "uuidv7";
 
 const AddIcon = () => {

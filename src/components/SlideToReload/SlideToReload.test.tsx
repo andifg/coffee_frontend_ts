@@ -5,19 +5,25 @@ import configureStore from "redux-mock-store";
 import { expect, it, describe, vi } from "vitest";
 
 // Mocking the store and required actions
-const mockStore = configureStore();
-const initialState = {
-  generalConfig: {
-    recursiveLoading: false,
-  },
-};
-const store = mockStore(initialState);
 
 describe("SlideToReload", () => {
+  const mockStore = configureStore();
+  const initialState = {
+    generalConfig: {
+      recursiveLoading: false,
+    },
+  };
+  const store = mockStore(initialState);
+
+  const functionToTriggerMock = vi.fn();
+
   it("renders without errors", () => {
     render(
       <Provider store={store}>
-        <SlideToReload>
+        <SlideToReload
+          functionToTrigger={functionToTriggerMock}
+          functionToTriggerLoading={false}
+        >
           <div>Test Content</div>
         </SlideToReload>
       </Provider>,
@@ -29,7 +35,10 @@ describe("SlideToReload", () => {
   it("shows info message on touch move larger 50", async () => {
     render(
       <Provider store={store}>
-        <SlideToReload>
+        <SlideToReload
+          functionToTrigger={functionToTriggerMock}
+          functionToTriggerLoading={false}
+        >
           <div role="presentation">Test Content</div>
         </SlideToReload>
       </Provider>,
@@ -74,7 +83,10 @@ describe("SlideToReload", () => {
   it("doesn't show message when ref element is lower than 50 on screen (or above viewsight", async () => {
     render(
       <Provider store={store}>
-        <SlideToReload>
+        <SlideToReload
+          functionToTrigger={functionToTriggerMock}
+          functionToTriggerLoading={false}
+        >
           <div role="presentation">Test Content</div>
         </SlideToReload>
       </Provider>,
@@ -121,7 +133,10 @@ describe("SlideToReload", () => {
   it("shows loading sign on reaching the threshold and dissapear after time", async () => {
     render(
       <Provider store={store}>
-        <SlideToReload>
+        <SlideToReload
+          functionToTrigger={functionToTriggerMock}
+          functionToTriggerLoading={false}
+        >
           <div role="presentation">Test Content</div>
         </SlideToReload>
       </Provider>,
@@ -170,30 +185,4 @@ describe("SlideToReload", () => {
       { timeout: 2000 },
     );
   });
-
-  //   it('hides loading sign after waiting for some time', async () => {
-  //     vi.useFakeTimers();
-
-  //     render(
-  //       <Provider store={store}>
-  //         <SlideToReload>
-  //           <div>Test Content</div>
-  //         </SlideToReload>
-  //       </Provider>
-  //     );
-
-  //     fireEvent.touchStart(screen.getByRole('presentation'), {
-  //       touches: [{ clientY: 0 }],
-  //     });
-  //     fireEvent.touchMove(screen.getByRole('presentation'), {
-  //       touches: [{ clientY: 120 }],
-  //     });
-
-  //     await waitFor(() => {
-  //       vi.advanceTimersByTime(2000); // Adjust the time as needed
-  //       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
-  //     });
-
-  //     vi.useRealTimers();
-  //   });
 });

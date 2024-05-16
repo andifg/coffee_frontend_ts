@@ -1,27 +1,31 @@
+import React from "react";
 import useDeleteCoffee from "./useDeleteCoffee";
 import { renderHook } from "@testing-library/react";
 import { describe, vi, it, expect } from "vitest";
-import { useDispatch } from "react-redux";
 import useClientService from "../../../hooks/useClientService";
 import { CoffeesService } from "../../../client";
 
 describe("useDeleteCoffee", async () => {
-  vi.mock("./useClientService", () => ({
-    default: vi.fn().mockReturnValue([vi.fn()]),
+  vi.mock("heic2any", () => ({
+    default: vi.fn(),
   }));
 
-  vi.mock("react-redux", () => ({
-    useDispatch: vi.fn(),
+  const useContextMock = vi.fn();
+
+  vi.spyOn(React, "useContext").mockReturnValue(useContextMock);
+
+  vi.mock("../../../hooks/useClientService", () => ({
+    default: vi.fn(),
   }));
 
   const useClientServiceMock = vi.fn();
-  const useDispatchMock = vi.fn();
 
   vi.mocked(useClientService).mockReturnValue([useClientServiceMock]);
-  vi.mocked(useDispatch).mockReturnValue(useDispatchMock);
 
   it("Handle delete coffe by calling useClientService and dispatch", async () => {
     const { result } = renderHook(() => useDeleteCoffee({ coffee_id: "1" }));
+
+    useClientServiceMock.mockResolvedValueOnce({});
 
     // Call delete coffee function
     await result.current[0]();
@@ -32,10 +36,7 @@ describe("useDeleteCoffee", async () => {
       args: ["1"],
     });
 
-    expect(useDispatchMock).toHaveBeenCalledWith({
-      type: "coffeeIDs/deleteCoffeeId",
-      payload: "1",
-    });
+    expect(useContextMock).toHaveBeenCalledWith("1");
   });
 
   it("Handle error during delete coffee", async () => {
@@ -52,6 +53,6 @@ describe("useDeleteCoffee", async () => {
       args: ["1"],
     });
 
-    expect(useDispatchMock).not.toHaveBeenCalled();
+    expect(useContextMock).not.toHaveBeenCalled();
   });
 });

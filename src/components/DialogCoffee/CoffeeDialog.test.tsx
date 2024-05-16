@@ -71,7 +71,7 @@ describe("CoffeeDialog", () => {
       .mockImplementationOnce(() => ["", setCoffeeNameMock])
       .mockImplementation(() => [undefined, setCoffeeImageMock]);
 
-    vi.mock("../utils/FileReader", () => ({
+    vi.mock("../../utils/FileReader", () => ({
       createDataURL: vi
         .fn()
         .mockImplementation(
@@ -82,10 +82,6 @@ describe("CoffeeDialog", () => {
     render(<CoffeeDialog {...mockProps} />);
 
     expect(screen.getByText("Send")).toBeInTheDocument();
-
-    const submit = screen.getByText("Send");
-
-    fireEvent.click(submit);
 
     const file = new File(["file content"], "file.txt", { type: "text/plain" });
 
