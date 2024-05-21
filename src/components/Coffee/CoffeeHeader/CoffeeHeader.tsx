@@ -19,7 +19,7 @@ interface CofeeHeaderProps {
 const CoffeeHeader = (props: CofeeHeaderProps) => {
   return (
     <CardContent
-      sx={{ padding: "0px", paddingTop: "2px", paddingBottom: "2px" }}
+      sx={{ padding: "0px", paddingTop: "4px", paddingBottom: "4px" }}
     >
       <Grid container>
         <Grid className="coffee-header-left" xs={1}>

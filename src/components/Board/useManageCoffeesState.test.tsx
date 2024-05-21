@@ -6,6 +6,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { CoffeesService } from "../../client";
 import { useSelector } from "react-redux";
 import { Coffee as CoffeeSchema } from "../../client";
+import useInfiniteScroll from "./useInfinteScroll";
 
 describe("useManageCoffeesState", () => {
   vi.mock("react", async (importOriginal) => {
@@ -22,15 +23,21 @@ describe("useManageCoffeesState", () => {
     useSelector: vi.fn(),
   }));
 
+  vi.mock("./useInfinteScroll", () => ({
+    default: vi.fn(),
+  }));
+
   vi.mock("../../hooks/useClientService", () => ({
     default: vi.fn().mockReturnValue(vi.fn()),
   }));
 
-  it("Should fetch coffees on intial render", async () => {
+  it("Should fetch first coffee page on intial render", async () => {
     const useClientMock = vi.fn();
+    const resetTriggeredMock = vi.fn();
 
     vi.mocked(useSelector).mockReturnValue(undefined);
 
+    vi.mocked(useInfiniteScroll).mockReturnValue([true, resetTriggeredMock]);
     vi.mocked(useClientService).mockReturnValue([useClientMock]);
 
     useClientMock.mockResolvedValue([
@@ -87,16 +94,20 @@ describe("useManageCoffeesState", () => {
 
     expect(useClientMock).toHaveBeenCalledWith({
       function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-      args: [1, 10, undefined],
+      args: [1, 5, undefined],
     });
+
+    expect(resetTriggeredMock).toHaveBeenCalled();
   });
 
   it("Should fetch coffees when personlized changes", async () => {
     const useClientMock = vi.fn();
+    const resetTriggeredMock = vi.fn();
 
     vi.mocked(useSelector).mockReturnValue("1");
 
     vi.mocked(useClientService).mockReturnValue([useClientMock]);
+    vi.mocked(useInfiniteScroll).mockReturnValue([true, resetTriggeredMock]);
 
     useClientMock.mockResolvedValueOnce([]);
 
@@ -138,7 +149,7 @@ describe("useManageCoffeesState", () => {
 
     expect(useClientMock).toHaveBeenCalledWith({
       function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-      args: [1, 10, "1"],
+      args: [1, 5, "1"],
     });
 
     expect(useClientMock).toHaveBeenCalledTimes(2);
@@ -169,12 +180,14 @@ describe("useManageCoffeesState", () => {
     });
   });
 
-  it("Should fetch coffees when fetchCoffees gets called", async () => {
+  it("Should fetch coffees when fetchFirstPage gets called", async () => {
     const useClientMock = vi.fn();
+    const resetTriggeredMock = vi.fn();
 
     vi.mocked(useSelector).mockReturnValue("1");
 
     vi.mocked(useClientService).mockReturnValue([useClientMock]);
+    vi.mocked(useInfiniteScroll).mockReturnValue([true, resetTriggeredMock]);
 
     useClientMock.mockResolvedValueOnce([]);
 
@@ -211,7 +224,7 @@ describe("useManageCoffeesState", () => {
 
     expect(useClientMock).toHaveBeenCalledWith({
       function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-      args: [1, 10, "1"],
+      args: [1, 5, "1"],
     });
 
     await waitFor(() => {
@@ -234,6 +247,221 @@ describe("useManageCoffeesState", () => {
         },
       ]);
     });
+
+    expect(resetTriggeredMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("Should fetch next page when loadNextPage gets called", async () => {
+    const useClientMock = vi.fn();
+    let fetchMore: () => Promise<void> = () => Promise.resolve();
+    const useInfiniteScrollMock = ({
+      functionToTrigger,
+    }: {
+      functionToTrigger: () => Promise<void>;
+    }): [boolean, () => void] => {
+      fetchMore = functionToTrigger;
+      return [true, () => {}];
+    };
+
+    vi.mocked(useSelector).mockReturnValue("1");
+
+    vi.mocked(useClientService).mockReturnValue([useClientMock]);
+    vi.mocked(useInfiniteScroll).mockImplementation(useInfiniteScrollMock);
+
+    useClientMock.mockResolvedValueOnce([
+      {
+        _id: "1",
+        name: "Coffee 1",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+      {
+        _id: "2",
+        name: "Coffee 2",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+      {
+        _id: "3",
+        name: "Coffee 3",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+      {
+        _id: "4",
+        name: "Coffee 4",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+      {
+        _id: "5",
+        name: "Coffee 5",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+    ]);
+
+    const { result } = renderHook(() =>
+      useManageCoffeesState({
+        personalized: true,
+      }),
+    );
+
+    await waitFor(() => {
+      expect(result.current[2]).toEqual(false);
+    });
+
+    await waitFor(() => {
+      expect(result.current[0]).toEqual([
+        {
+          _id: "1",
+          name: "Coffee 1",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "2",
+          name: "Coffee 2",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "3",
+          name: "Coffee 3",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "4",
+          name: "Coffee 4",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "5",
+          name: "Coffee 5",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+      ]);
+    });
+
+    useClientMock.mockResolvedValueOnce([
+      {
+        _id: "6",
+        name: "Coffee 6",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+      {
+        _id: "7",
+        name: "Coffee 7",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+    ]);
+
+    await fetchMore();
+
+    waitFor(() => {
+      expect(result.current[0]).toEqual([
+        {
+          _id: "1",
+          name: "Coffee 1",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "2",
+          name: "Coffee 2",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "3",
+          name: "Coffee 3",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "4",
+          name: "Coffee 4",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "5",
+          name: "Coffee 5",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "6",
+          name: "Coffee 6",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+        {
+          _id: "7",
+          name: "Coffee 7",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+      ]);
+    });
+
+    expect(useClientMock.mock.calls).toEqual([
+      [
+        {
+          function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
+          args: [1, 5, "1"],
+        },
+      ],
+      [
+        {
+          function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
+          args: [2, 5, "1"],
+        },
+      ],
+    ]);
   });
 
   it("Should add coffee to coffees", async () => {

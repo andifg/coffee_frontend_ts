@@ -1,9 +1,8 @@
 import "./SlideToReload.scss";
 import React, { useEffect, useRef, useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import theme from "../../theme";
 import { Typography } from "@mui/material";
 import SouthOutlinedIcon from "@mui/icons-material/SouthOutlined";
+import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
 
 interface Props {
   functionToTriggerLoading: boolean;
@@ -111,13 +110,7 @@ const SlideToReload = (props: Props): JSX.Element => {
         </div>
       )}
       {((show && props.functionToTriggerLoading) || triggered.current) && (
-        <div className="circular-progress-wrapper">
-          <CircularProgress
-            style={{ color: theme.palette.primary.light }}
-            className="circular-progress"
-            data-testid="circular-progress"
-          />
-        </div>
+        <LoadingCircle />
       )}
       <div
         onTouchStart={handleTouchStart}

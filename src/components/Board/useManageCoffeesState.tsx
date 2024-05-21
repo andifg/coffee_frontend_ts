@@ -1,10 +1,11 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import useClientService from "../../hooks/useClientService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
 
 import { CoffeesService, Coffee as CoffeeSchema } from "../../client";
 import { AddCoffeeCallbackContext } from "../AddCoffeeCallbackContext/AddCoffeeCallbackContext";
+import useInfiniteScroll from "./useInfinteScroll";
 
 interface Props {
   personalized: boolean;
@@ -18,12 +19,15 @@ function useManageCoffeesState(
   boolean,
   (coffee: CoffeeSchema) => void,
   (coffeeId: string) => void,
+  boolean,
 ] {
   const [callClientServiceMethod] = useClientService();
   const [coffees, setCoffees] = useState<CoffeeSchema[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const { setCallback } = useContext(AddCoffeeCallbackContext);
+
+  const page = useRef<number>(0);
 
   const ownerId = useSelector((state: RootState) => {
     if (props.personalized) {
@@ -52,26 +56,58 @@ function useManageCoffeesState(
     setCoffees(newCoffees);
   };
 
-  const fetchCoffees = async () => {
-    setCallback(() => addCoffee);
-    setCoffees(
-      await callClientServiceMethod({
-        function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-        args: [1, 10, ownerId],
-      }),
-    );
+  const loadNextPage = async () => {
+    console.log("Load page: ", page.current + 1);
+
+    const newCoffees = await callClientServiceMethod({
+      function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
+      args: [page.current + 1, 5, ownerId],
+    });
+
+    if (newCoffees.length === 0) {
+      console.log("No more data");
+      return Promise.reject("No more data");
+    }
+
+    if (page.current === 0) {
+      setCoffees(newCoffees);
+    } else {
+      setCoffees((prevState) => [...prevState, ...newCoffees]);
+    }
+
+    page.current += 1;
+  };
+
+  const [showInfitescroll, resetTriggered] = useInfiniteScroll({
+    functionToTrigger: loadNextPage,
+  });
+
+  const fetchFirstPage = async () => {
+    page.current = 0;
+    setLoading(true);
+    try {
+      await loadNextPage();
+    } catch (error) {
+      console.error(error);
+    }
+    setLoading(false);
+    resetTriggered();
   };
 
   useEffect(() => {
-    // console.log("Fetching coffees");
-    setLoading(true);
-    fetchCoffees().then(() => {
-      setLoading(false);
-    });
+    setCallback(() => addCoffee);
+    fetchFirstPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.personalized]);
 
-  return [coffees, fetchCoffees, loading, updateCoffee, deleteCoffee];
+  return [
+    coffees,
+    fetchFirstPage,
+    loading,
+    updateCoffee,
+    deleteCoffee,
+    showInfitescroll,
+  ];
 }
 
 export { useManageCoffeesState };

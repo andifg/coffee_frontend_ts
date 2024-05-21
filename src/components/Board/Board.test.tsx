@@ -20,6 +20,12 @@ describe("Board", () => {
   const mockStore = configureStore();
   const store = mockStore(initialState);
 
+  vi.mock("react-router-dom", () => ({
+    useLocation: () => ({
+      pathname: "/",
+    }),
+  }));
+
   vi.mock("./useManageCoffeesState", () => ({
     useManageCoffeesState: vi.fn(),
   }));
@@ -53,6 +59,7 @@ describe("Board", () => {
       false,
       vi.fn(),
       vi.fn(),
+      false,
     ]);
 
     render(
@@ -71,6 +78,7 @@ describe("Board", () => {
       false,
       vi.fn(),
       vi.fn(),
+      false,
     ]);
 
     render(

@@ -1,0 +1,18 @@
+.board-wrapper {
+  padding: 0px;
+  margin: 0px;
+}
+
+// .board-wrapper:first-child:first-child .coffee-wrapper {
+//     margin-top: 0px;
+// }
+
+// .transition-group-wrapper:first-child .coffee-wrapper {
+//     margin-top: 0px;
+// }
+
+@media screen and (min-width: 600px) {
+  .board-wrapper {
+    background-color: white;
+  }
+}

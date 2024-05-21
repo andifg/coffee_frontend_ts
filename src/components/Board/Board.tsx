@@ -1,3 +1,4 @@
+import "./Board.scss";
 import React from "react";
 import { useEffect, createContext } from "react";
 
@@ -12,6 +13,10 @@ import { CoffeeCard } from "../Coffee/CoffeeCard/CoffeeCard";
 
 import { useManageCoffeesState } from "./useManageCoffeesState";
 
+import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
+
+import { useLocation } from "react-router-dom";
+
 const UpdateCoffeeContext = createContext<(coffee: CoffeeSchema) => void>(
   () => {},
 );
@@ -25,15 +30,22 @@ interface Props {
 }
 
 const Board: React.FC<Props> = (props: Props) => {
+  const location = useLocation();
+
   const [
     coffees,
-    fetchCoffees,
+    fetchFirstPage,
     fetchCoffeesLoading,
     updateCoffee,
     deleteCoffee,
+    showInfitescroll,
   ] = useManageCoffeesState({
     personalized: props.personalized,
   });
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location]);
 
   useEffect(() => {
     console.log("DATA NEW was changed " + coffees?.length || 0, Date.now());
@@ -42,7 +54,7 @@ const Board: React.FC<Props> = (props: Props) => {
   return (
     <>
       <SlideToReload
-        functionToTrigger={fetchCoffees}
+        functionToTrigger={fetchFirstPage}
         functionToTriggerLoading={fetchCoffeesLoading}
       >
         <Container
@@ -51,7 +63,7 @@ const Board: React.FC<Props> = (props: Props) => {
         >
           <UpdateCoffeeContext.Provider value={updateCoffee}>
             <DeleteCoffeeContext.Provider value={deleteCoffee}>
-              <TransitionGroup>
+              <TransitionGroup className="transition-group-wrapper">
                 {coffees &&
                   coffees.map((coffee) => (
                     <Collapse key={coffee._id + "-collapse"}>
@@ -59,6 +71,7 @@ const Board: React.FC<Props> = (props: Props) => {
                     </Collapse>
                   ))}
               </TransitionGroup>
+              {showInfitescroll && <LoadingCircle />}
             </DeleteCoffeeContext.Provider>
           </UpdateCoffeeContext.Provider>
         </Container>
