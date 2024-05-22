@@ -37,6 +37,7 @@ export class CoffeesService {
    * @param page Page number
    * @param pageSize Page size
    * @param ownerId
+   * @param firstId
    * @returns Coffee Successful Response
    * @throws ApiError
    */
@@ -44,6 +45,7 @@ export class CoffeesService {
     page: number = 1,
     pageSize: number = 10,
     ownerId?: string,
+    firstId?: string,
   ): CancelablePromise<Array<Coffee>> {
     return __request(OpenAPI, {
       method: "GET",
@@ -52,6 +54,7 @@ export class CoffeesService {
         page: page,
         page_size: pageSize,
         owner_id: ownerId,
+        first_id: firstId,
       },
       errors: {
         422: `Validation Error`,

@@ -28,6 +28,7 @@ function useManageCoffeesState(
   const { setCallback } = useContext(AddCoffeeCallbackContext);
 
   const page = useRef<number>(0);
+  const infiniteScrollFirstCoffee = useRef<string | undefined>(undefined);
 
   const ownerId = useSelector((state: RootState) => {
     if (props.personalized) {
@@ -61,7 +62,7 @@ function useManageCoffeesState(
 
     const newCoffees = await callClientServiceMethod({
       function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-      args: [page.current + 1, 5, ownerId],
+      args: [page.current + 1, 5, ownerId, infiniteScrollFirstCoffee.current],
     });
 
     if (newCoffees.length === 0) {
@@ -71,6 +72,7 @@ function useManageCoffeesState(
 
     if (page.current === 0) {
       setCoffees(newCoffees);
+      infiniteScrollFirstCoffee.current = newCoffees[0]._id;
     } else {
       setCoffees((prevState) => [...prevState, ...newCoffees]);
     }
@@ -84,6 +86,7 @@ function useManageCoffeesState(
 
   const fetchFirstPage = async () => {
     page.current = 0;
+    infiniteScrollFirstCoffee.current = undefined;
     setLoading(true);
     try {
       await loadNextPage();

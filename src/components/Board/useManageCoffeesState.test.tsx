@@ -94,7 +94,7 @@ describe("useManageCoffeesState", () => {
 
     expect(useClientMock).toHaveBeenCalledWith({
       function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-      args: [1, 5, undefined],
+      args: [1, 5, undefined, undefined],
     });
 
     expect(resetTriggeredMock).toHaveBeenCalled();
@@ -149,7 +149,7 @@ describe("useManageCoffeesState", () => {
 
     expect(useClientMock).toHaveBeenCalledWith({
       function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-      args: [1, 5, "1"],
+      args: [1, 5, "1", undefined],
     });
 
     expect(useClientMock).toHaveBeenCalledTimes(2);
@@ -224,7 +224,7 @@ describe("useManageCoffeesState", () => {
 
     expect(useClientMock).toHaveBeenCalledWith({
       function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-      args: [1, 5, "1"],
+      args: [1, 5, "1", undefined],
     });
 
     await waitFor(() => {
@@ -452,13 +452,13 @@ describe("useManageCoffeesState", () => {
       [
         {
           function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-          args: [1, 5, "1"],
+          args: [1, 5, "1", undefined],
         },
       ],
       [
         {
           function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
-          args: [2, 5, "1"],
+          args: [2, 5, "1", "1"],
         },
       ],
     ]);

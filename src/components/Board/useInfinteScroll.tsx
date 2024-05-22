@@ -14,7 +14,6 @@ const useInfiniteScroll = (props: Props): [boolean, () => void] => {
   };
 
   const handleScroll = useCallback(() => {
-    console.log("handleScroll");
     if (
       window.scrollY + window.innerHeight >=
         document.documentElement.scrollHeight - 100 &&
