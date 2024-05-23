@@ -7,7 +7,7 @@ const LoadingCircle = (): React.JSX.Element => {
   return (
     <div className="circular-progress-wrapper">
       <CircularProgress
-        style={{ color: theme.palette.primary.light }}
+        style={{ color: theme.palette.primary.main }}
         className="circular-progress"
         data-testid="circular-progress"
       />

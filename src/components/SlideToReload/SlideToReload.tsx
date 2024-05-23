@@ -66,7 +66,7 @@ const SlideToReload = (props: Props): JSX.Element => {
   function handleTouchMove(moveEvent: React.TouchEvent<HTMLDivElement>) {
     const el = ref.current;
     if (!el) return;
-    if (el.getBoundingClientRect().top < 50) return;
+    if (el.getBoundingClientRect().top < 40) return;
 
     // console.log("Touch move: " + el.getBoundingClientRect().top );
 
@@ -102,11 +102,11 @@ const SlideToReload = (props: Props): JSX.Element => {
           {" "}
           <Typography
             variant="overline"
-            sx={{ color: "primary.light", lineHeight: "2" }}
+            sx={{ color: "primary.main", lineHeight: "2" }}
           >
             Slide down to reload
           </Typography>{" "}
-          <SouthOutlinedIcon fontSize="small" sx={{ color: "primary.light" }} />{" "}
+          <SouthOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />{" "}
         </div>
       )}
       {((show && props.functionToTriggerLoading) || triggered.current) && (
