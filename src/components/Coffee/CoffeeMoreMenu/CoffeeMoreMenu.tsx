@@ -64,7 +64,6 @@ const CoffeeMoreMenu = (props: Props): React.JSX.Element => {
             <ListItemButton
               onClick={item.onClick}
               component="a"
-              href="#simple-list"
               data-testid={item.name}
             >
               <ListItemText primary={item.name} sx={item.textSX} />

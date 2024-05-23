@@ -22,7 +22,7 @@ const BottomNavigator = (): React.JSX.Element => {
         <BottomNavigation
           sx={{ backgroundColor: "primary.main", paddingBottom: "15px" }}
           value={useLocation().pathname}
-          onChange={(event, newValue) => {
+          onChange={(_, newValue) => {
             setValue(newValue);
           }}
         >

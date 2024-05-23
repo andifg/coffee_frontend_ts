@@ -57,7 +57,7 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
                 boxShadow: 0,
                 borderRadius: 0,
                 border: "1px solid",
-                borderColor: "primary.light",
+                borderColor: "secondary.light",
               }}
               className="coffee"
             >
