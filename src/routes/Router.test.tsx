@@ -7,6 +7,8 @@ import { User } from "oidc-client-ts";
 import { AuthContextProps, useAuth } from "react-oidc-context";
 import { Provider } from "react-redux";
 import configureStore from "redux-mock-store";
+import { HomeHeaderBar } from "./Home/HomeHeaderBar";
+import { FeedHeaderBar } from "./Feed/FeedHeaderBar";
 
 describe("Router", () => {
   vi.mock("react-oidc-context", () => ({
@@ -15,6 +17,14 @@ describe("Router", () => {
 
   vi.mock("heic2any", () => ({
     default: vi.fn(),
+  }));
+
+  vi.mock("./Home/HomeHeaderBar", () => ({
+    HomeHeaderBar: vi.fn(),
+  }));
+
+  vi.mock("./Feed/FeedHeaderBar", () => ({
+    FeedHeaderBar: vi.fn(),
   }));
 
   vi.mock("react-redux", async (importOriginal) => {
@@ -35,9 +45,6 @@ describe("Router", () => {
       userRole: "Admin",
       givenName: "John",
     },
-    coffeeIds: {
-      coffeeIds: ["1"],
-    },
     generalConfig: {
       recursiveLoading: false,
       realoadCount: 0,
@@ -56,14 +63,19 @@ describe("Router", () => {
       initialEntries: ["/home"],
     });
 
+    vi.mocked(HomeHeaderBar).mockReturnValue(
+      <div data-testid="home-header-bar"></div>,
+    );
+
     render(
       <Provider store={store}>
         <RouterProvider router={router} />
       </Provider>,
     );
 
-    expect(screen.getByText("Hello Home")).toBeInTheDocument();
-    expect(screen.getByText("Hello Home")).toBeInTheDocument();
+    expect(screen.getByTestId("home-header-bar")).toBeInTheDocument();
+
+    screen.debug();
   });
 
   it("Should render Feed", () => {
@@ -71,9 +83,9 @@ describe("Router", () => {
       initialEntries: ["/feed"],
     });
 
-    vi.mock("./Home/Board/Board", () => ({
-      default: () => <div>Hello Feed</div>,
-    }));
+    vi.mocked(FeedHeaderBar).mockReturnValue(
+      <div data-testid="feed-header-bar"></div>,
+    );
 
     render(
       <Provider store={store}>
@@ -81,7 +93,6 @@ describe("Router", () => {
       </Provider>,
     );
 
-    expect(screen.queryByText("Hello Home")).not.toBeInTheDocument();
-    expect(screen.queryByText("Hello Feed")).toBeInTheDocument();
+    expect(screen.getByTestId("feed-header-bar")).toBeInTheDocument();
   });
 });

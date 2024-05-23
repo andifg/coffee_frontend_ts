@@ -1,8 +1,10 @@
-import Board from "./Home/Board/Board";
-import HomeHeaderBar from "./Home/HeaderBar/HeaderBar";
+import { Board } from "../components/Board/Board";
+import { HomeHeaderBar } from "./Home/HomeHeaderBar";
+import { FeedHeaderBar } from "./Feed/FeedHeaderBar";
 import WelcomeScreen from "./Welcome/Welcome";
-import PrivateRoute from "../components/PrivateRoute";
-import ButtomNavigator from "../components/BottomNavigator";
+import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
+import ButtomNavigator from "../components/BottomNavigator/BottomNavigator";
+import { AddCoffeeCallback } from "../components/AddCoffeeCallbackContext/AddCoffeeCallbackContext";
 
 export const routerConfig = [
   {
@@ -14,9 +16,11 @@ export const routerConfig = [
     element: (
       <PrivateRoute>
         <>
-          <HomeHeaderBar />
-          <Board />
-          <ButtomNavigator />
+          <AddCoffeeCallback>
+            <FeedHeaderBar />
+            <Board personalized={false} />
+            <ButtomNavigator />
+          </AddCoffeeCallback>
         </>
       </PrivateRoute>
     ),
@@ -26,9 +30,11 @@ export const routerConfig = [
     element: (
       <PrivateRoute>
         <>
-          <HomeHeaderBar />
-          <h1>Hello Home</h1>
-          <ButtomNavigator />
+          <AddCoffeeCallback>
+            <HomeHeaderBar />
+            <Board personalized={true} />
+            <ButtomNavigator />
+          </AddCoffeeCallback>
         </>
       </PrivateRoute>
     ),

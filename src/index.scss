@@ -21,44 +21,6 @@ div.MuiDialogContent-root {
   padding-top: 10px !important;
 }
 
-.skeleton-wrapper {
-  background-color: white;
-  margin-bottom: 8px;
-}
-
-.coffee-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 5px;
-  text-align: center;
-  padding: 1px;
-}
-
-.coffee {
-  width: 100%;
-}
-
-.navbar {
-  align-items: center;
-}
-
-.navbar-right {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.circular-progress-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.navbar-left {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
 .icon-left {
   margin-left: 10px;
 }
@@ -71,62 +33,14 @@ div.MuiDialogContent-root {
   color: red;
 }
 
-.card-content-box {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 8px;
-  min-height: 50px;
-}
-
-.card-content-rating-summary {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 2px;
-  min-width: 65px;
-}
-
-.card-content-wrapper {
-  display: inline-block;
-  padding-left: 75px;
-  padding-right: 75px;
-  border-radius: 16px;
-  padding-bottom: 4px;
-  padding-top: 4px;
-  width: auto;
-}
-
 div.MuiCardContent-root:last-child {
-  padding-bottom: 10px;
+  padding-bottom: 30px;
   padding-top: 10px;
 }
 
 div.card-content {
   padding-bottom: 0px;
   padding-top: 10px;
-}
-
-.board-wrapper {
-  padding: 0px;
-  margin: 0px;
-}
-
-.slide-to-reload-info-message {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-@media screen and (min-width: 600px) {
-  .board-wrapper {
-    background-color: white;
-  }
 }
 
 @media screen and (max-width: 600px) {
@@ -144,17 +58,5 @@ div.card-content {
 
   body {
     margin: 0px;
-  }
-}
-
-@keyframes cycleAnimation {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
   }
 }

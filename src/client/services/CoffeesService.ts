@@ -32,15 +32,33 @@ export class CoffeesService {
   }
 
   /**
-   *  List Coffee
-   * Get list of coffees
+   *  List Coffees With Rating Summary
+   * Get list of coffees including rating summary
+   * @param page Page number
+   * @param pageSize Page size
+   * @param ownerId
+   * @param firstId
    * @returns Coffee Successful Response
    * @throws ApiError
    */
-  public static listCoffeeApiV1CoffeesGet(): CancelablePromise<Array<Coffee>> {
+  public static listCoffeesWithRatingSummaryApiV1CoffeesGet(
+    page: number = 1,
+    pageSize: number = 10,
+    ownerId?: string,
+    firstId?: string,
+  ): CancelablePromise<Array<Coffee>> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/v1/coffees",
+      query: {
+        page: page,
+        page_size: pageSize,
+        owner_id: ownerId,
+        first_id: firstId,
+      },
+      errors: {
+        422: `Validation Error`,
+      },
     });
   }
 

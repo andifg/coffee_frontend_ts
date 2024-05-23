@@ -4,9 +4,10 @@
 /* eslint-disable */
 
 /**
- * Describes the create schema for a Coffee
+ * Describes the create schema for a Coffee.
  *
- * As we get the owner id and name from the JWT token, we only need the name of the coffee and the uuid.
+ * As we get the owner id and name from the JWT token,
+ * we only need the name of the coffee and the uuid.
  */
 export type CreateCoffee = {
   /**

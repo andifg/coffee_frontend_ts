@@ -23,4 +23,12 @@ export type Coffee = {
    * Name of the owner of the coffee
    */
   owner_name: string;
+  /**
+   * The number of ratings for the coffee
+   */
+  rating_count?: number;
+  /**
+   * The average rating for the coffee
+   */
+  rating_average?: number;
 };
