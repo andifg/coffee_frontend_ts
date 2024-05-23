@@ -165,6 +165,7 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
             <TextField
               required
               error={props.error ? true : false}
+              InputLabelProps={{ sx: { color: "primary.main" } }}
               fullWidth
               id="coffee-name"
               inputProps={{ "data-testid": "coffee-name-input" }}

@@ -58,7 +58,7 @@ const Board: React.FC<Props> = (props: Props) => {
         functionToTriggerLoading={fetchCoffeesLoading}
       >
         <Container
-          sx={{ bgcolor: "primary.light" }}
+          sx={{ bgcolor: "secondary.main" }}
           className={coffees?.length != 0 ? "board-wrapper" : ""}
         >
           <UpdateCoffeeContext.Provider value={updateCoffee}>

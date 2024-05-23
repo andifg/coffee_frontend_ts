@@ -33,7 +33,7 @@ const CoffeeRating: React.FunctionComponent<Props> = (props: Props) => {
   return (
     <>
       <Container
-        sx={{ bgcolor: "primary.light" }}
+        sx={{ bgcolor: "secondary.light" }}
         className="card-content-wrapper"
       >
         <div className="card-content-rating-summary">

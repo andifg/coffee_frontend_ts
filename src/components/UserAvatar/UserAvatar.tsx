@@ -11,8 +11,8 @@ const UserAvatar = (props: userAvaterProps) => {
         width: 28,
         height: 28,
         bgcolor: "white",
-        color: "primary.main",
-        borderColor: "primary.main",
+        color: "text.primary",
+        borderColor: "text.primary",
         border: "1px solid",
       }}
     >

@@ -84,7 +84,7 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
                   gutterBottom
                   variant="h5"
                   component="div"
-                  sx={{ color: "primary.main" }}
+                  sx={{ color: "text.primary" }}
                 >
                   {props.coffee?.name}
                 </Typography>

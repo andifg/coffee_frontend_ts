@@ -1,6 +1,6 @@
 import "./HeaderBar.scss";
 import { Grid } from "@mui/material";
-import Divider from "@mui/material/Divider";
+// import Divider from "@mui/material/Divider";
 
 interface Props {
   navbarLeft?: JSX.Element;
@@ -18,7 +18,7 @@ const HeaderBar = (props: Props) => {
           <Grid item xs={6}>
             <img
               style={{ width: "100%", height: "auto", verticalAlign: "middle" }}
-              src="/logo-no-background.png"
+              src="/logo-no-background.svg"
             />
           </Grid>
           <Grid className="navbar-right" item xs={3}>
@@ -26,7 +26,7 @@ const HeaderBar = (props: Props) => {
           </Grid>
         </Grid>
       </div>
-      <Divider className="divider" sx={{ bgcolor: "primary.main" }} />
+      {/* <Divider className="divider" sx={{ bgcolor: "primary.main" }} /> */}
     </>
   );
 };
