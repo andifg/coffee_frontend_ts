@@ -38,11 +38,16 @@ export default defineConfig({
       registerType: "prompt",
       includeAssets: ["*.png", "*.jpg"],
       manifest: {
-        name: "Rate My Coffee",
-        short_name: "Coffee Rate",
+        name: "Bean Score",
+        short_name: "Bean Score",
         description: "My Awesome App Coffee Rating App!",
         theme_color: "#ffffff",
         icons: [
+          {
+            src: "pwa-64x64.png",
+            sizes: "64x64",
+            type: "image/png",
+          },
           {
             src: "pwa-192x192.png",
             sizes: "192x192",
