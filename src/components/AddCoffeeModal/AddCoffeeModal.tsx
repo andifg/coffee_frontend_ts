@@ -1,16 +1,27 @@
 import React from "react";
 import CoffeeDialog from "../DialogCoffee/CoffeeDialog";
 import { useAddCoffeeModal } from "./useAddCoffeeModal";
+import { uuidv7 } from "uuidv7";
 
 interface Props {
-  closeModal: () => void;
   open: boolean;
-  currentUUID: string;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddModal: React.FC<Props> = (props) => {
+const AddCoffeeModal: React.FC<Props> = (props) => {
+  const currentUUID = uuidv7();
+
+  const closeModal = () => {
+    console.log("Clicked cancel button");
+    props.setOpen(false);
+  };
+
   const { loading, error, handleCancel, handleSubmit, setError, setLoading } =
-    useAddCoffeeModal(props);
+    useAddCoffeeModal({
+      closeModal: closeModal,
+      currentUUID: currentUUID,
+      open: props.open,
+    });
 
   return (
     <CoffeeDialog
@@ -27,4 +38,4 @@ const AddModal: React.FC<Props> = (props) => {
     />
   );
 };
-export default AddModal;
+export default AddCoffeeModal;

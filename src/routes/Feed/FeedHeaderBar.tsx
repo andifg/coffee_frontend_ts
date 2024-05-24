@@ -1,4 +1,4 @@
-import AddIcon from "../../components/AddIcon/AddIcon";
+// import AddIcon from "../../components/AddIcon/AddIcon";
 import AvatarMenu from "../../components/AvatarMenu/AvatarMenu";
 import HeaderBar from "../../components/HeaderBar/HeaderBar";
 
@@ -7,7 +7,7 @@ const FeedHeaderBar = () => {
     <div>
       <HeaderBar
         data-testid="feed-header-bar"
-        navbarLeft={<AddIcon />}
+        // navbarLeft={<AddIcon />}
         navbarRight={<AvatarMenu />}
       />
     </div>

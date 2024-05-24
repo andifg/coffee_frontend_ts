@@ -34,7 +34,7 @@ const SlideToReload = (props: Props): JSX.Element => {
 
     const timePassed = Date.now() - loadStart;
     const wait = timePassed > 5000 ? 200 : 1000;
-    console.log("Will wait for " + wait + " ms");
+    // console.log("Will wait for " + wait + " ms");
 
     setTimeout(() => {
       setShow(false);
@@ -44,12 +44,12 @@ const SlideToReload = (props: Props): JSX.Element => {
   }
 
   useEffect(() => {
-    console.log("Show has changed " + show);
+    // console.log("Show has changed " + show);
   }, [show]);
 
   function showLoadingSign() {
     if (triggered.current) return;
-    console.log("SHOW INDICATOR " + triggered.current);
+    // console.log("SHOW INDICATOR " + triggered.current);
     setShow(true);
     setLoadStart(Date.now());
     triggered.current = true;
