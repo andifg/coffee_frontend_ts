@@ -5,7 +5,10 @@ import { CircularProgress } from "@mui/material";
 
 const LoadingCircle = (): React.JSX.Element => {
   return (
-    <div className="circular-progress-wrapper">
+    <div
+      className="circular-progress-wrapper"
+      style={{ backgroundColor: theme.palette.secondary.light }}
+    >
       <CircularProgress
         style={{ color: theme.palette.primary.main }}
         className="circular-progress"

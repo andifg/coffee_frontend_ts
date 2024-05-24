@@ -7,7 +7,12 @@ const FeedHeaderBar = () => {
     <div>
       <HeaderBar
         data-testid="feed-header-bar"
-        // navbarLeft={<AddIcon />}
+        navbarCenter={
+          <img
+            style={{ width: "100%", height: "auto", verticalAlign: "middle" }}
+            src="/logo-no-background.svg"
+          />
+        }
         navbarRight={<AvatarMenu />}
       />
     </div>

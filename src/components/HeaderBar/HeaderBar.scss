@@ -8,6 +8,12 @@
   align-items: center;
 }
 
+.navbar-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .navbar-left {
   display: flex;
   justify-content: flex-start;
