@@ -1,4 +1,4 @@
-FROM docker.io/node:19.4.0 as builder
+FROM docker.io/node:19.9.0 as builder
 
 RUN mkdir -p /usr/src/app
 
