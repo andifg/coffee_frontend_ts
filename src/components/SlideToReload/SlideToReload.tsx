@@ -30,6 +30,7 @@ const SlideToReload = (props: Props): JSX.Element => {
     if (ref.current) {
       ref.current.style.transform = "translateY(0)";
     }
+    setInfoMessageShow(false);
     if (!show) return;
 
     const timePassed = Date.now() - loadStart;
@@ -38,9 +39,8 @@ const SlideToReload = (props: Props): JSX.Element => {
 
     setTimeout(() => {
       setShow(false);
+      triggered.current = false;
     }, wait);
-
-    triggered.current = false;
   }
 
   useEffect(() => {
@@ -97,18 +97,24 @@ const SlideToReload = (props: Props): JSX.Element => {
 
   return (
     <>
-      {infoMessageShow && !show && !props.functionToTriggerLoading && (
-        <div className="slide-to-reload-info-message">
-          {" "}
-          <Typography
-            variant="overline"
-            sx={{ color: "primary.main", lineHeight: "2" }}
-          >
-            Slide down to reload
-          </Typography>{" "}
-          <SouthOutlinedIcon fontSize="small" sx={{ color: "primary.main" }} />{" "}
-        </div>
-      )}
+      {infoMessageShow &&
+        !show &&
+        !props.functionToTriggerLoading &&
+        !triggered.current && (
+          <div className="slide-to-reload-info-message">
+            {" "}
+            <Typography
+              variant="overline"
+              sx={{ color: "primary.main", lineHeight: "2" }}
+            >
+              Slide down to reload
+            </Typography>{" "}
+            <SouthOutlinedIcon
+              fontSize="small"
+              sx={{ color: "primary.main" }}
+            />{" "}
+          </div>
+        )}
       {((show && props.functionToTriggerLoading) || triggered.current) && (
         <LoadingCircle />
       )}
