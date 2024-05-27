@@ -10,7 +10,7 @@ import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlin
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import HomeIcon from "@mui/icons-material/Home";
-import AddCoffeeModal from "../AddCoffeeModal/AddCoffeeModal";
+import AddCoffeeModal from "../AddCoffee/AddCoffee";
 
 const BottomNavigator = (): React.JSX.Element => {
   const [value, setValue] = useState<string>("/feed");

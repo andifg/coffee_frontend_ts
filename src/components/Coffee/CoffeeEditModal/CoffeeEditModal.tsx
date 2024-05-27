@@ -62,6 +62,7 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
 
   return (
     <CoffeeDialog
+      editExisting={true}
       open={props.open}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}
@@ -69,6 +70,7 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
       error={error}
       setError={setError}
       coffeeName={props.initalCoffee.name}
+      roastingCompany="Martermühle"
       loading={loading}
       setLoading={setLoading}
       title={"Edit " + props.initalCoffee.name}

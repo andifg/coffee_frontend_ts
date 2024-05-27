@@ -2,7 +2,7 @@ import React from "react";
 import { describe, it, vi, expect } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 
-import { useAddCoffeeModal } from "./useAddCoffeeModal";
+import { useAddCoffeeModal } from "./useAddCoffee";
 
 import callClientServiceMethod from "../../hooks/useClientService";
 import { CoffeesService, CoffeeImagesService } from "../../client";
