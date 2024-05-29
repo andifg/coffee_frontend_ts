@@ -62,7 +62,6 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
 
   return (
     <CoffeeDialog
-      editExisting={true}
       open={props.open}
       handleCancel={handleCancel}
       handleSubmit={handleSubmit}

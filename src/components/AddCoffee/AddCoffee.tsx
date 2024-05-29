@@ -1,7 +1,6 @@
 import React from "react";
 import CoffeeDialog from "../DialogCoffee/CoffeeDialog";
 import { useAddCoffeeModal } from "./useAddCoffee";
-import { MobileWebFork } from "../MobileWebFork/MobileWebFork";
 import { uuidv7 } from "uuidv7";
 
 interface Props {
@@ -33,9 +32,9 @@ const AddCoffeeModal: React.FC<Props> = (props) => {
       error={error}
       setError={setError}
       coffeeName={undefined}
+      roastingCompany={undefined}
       loading={loading}
       setLoading={setLoading}
-      title="Add Coffee"
     />
   );
 };
