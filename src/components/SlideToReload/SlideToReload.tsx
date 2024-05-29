@@ -66,8 +66,9 @@ const SlideToReload = (props: Props): JSX.Element => {
   function handleTouchMove(moveEvent: React.TouchEvent<HTMLDivElement>) {
     const el = ref.current;
     if (!el) return;
+    // console.log("Touch: ",  moveEvent.touches[0].clientY)
     if (el.getBoundingClientRect().top < 40) return;
-
+    if (moveEvent.touches[0].clientY > 600) return;
     // console.log("Touch move: " + el.getBoundingClientRect().top );
 
     const SHOW_INDICATOR_THRESHOLD = 110;
@@ -76,6 +77,7 @@ const SlideToReload = (props: Props): JSX.Element => {
     // get the current Y position
     const currentY = moveEvent.touches[0].clientY;
 
+    // console.log("Current Y: " + currentY )
     // get the difference
     const dy = currentY - initialY.current;
 
