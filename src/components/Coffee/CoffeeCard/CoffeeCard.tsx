@@ -2,17 +2,15 @@ import "./CoffeeCard.scss";
 import React, { useState, createContext } from "react";
 
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
 
 import { Coffee as CoffeeSchema } from "../../../client";
 
 import { CoffeeSkeleton } from "../CoffeeSkeleton/CoffeeSkeleton";
-import { CoffeeRating } from "../CoffeeRating/CoffeeRating";
 import { CoffeeEditModal } from "../CoffeeEditModal/CoffeeEditModal";
 import useLoadImageURL from "./useLoadImage";
 import CoffeeHeader from "../CoffeeHeader/CoffeeHeader";
+import { CoffeeCardContent } from "./CoffeeCardContent";
 
 const UpdateCoffeeImageContext = createContext<(image: File) => void>(() => {});
 
@@ -79,21 +77,7 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
                 }
                 sx={{ objectFit: "contain" }}
               />
-              <CardContent className="card-content">
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="div"
-                  sx={{ color: "text.primary" }}
-                >
-                  {props.coffee?.name}
-                </Typography>
-                <CoffeeRating
-                  coffee_id={props.coffee._id}
-                  initialRating={props.coffee.rating_average || 0}
-                  initialRatingCount={props.coffee.rating_count || 0}
-                />
-              </CardContent>
+              <CoffeeCardContent coffee={props.coffee} />
             </Card>
             <UpdateCoffeeImageContext.Provider value={updateCoffeeImage}>
               <CoffeeEditModal
