@@ -140,7 +140,6 @@ const CoffeeDialogContent = (props: Props) => {
           type="submit"
           form="add-coffee"
           variant="contained"
-          loadingPosition="end"
           sx={{ width: "80%" }}
           disabled={!input.coffeeName || !input.roastingCompany}
         >

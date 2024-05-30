@@ -11,7 +11,7 @@
 }
 
 .coffee-card-content-names-and-rating-child {
-  flex: 1;
+  width: 50%;
   display: flex;
   flex-direction: column;
 }
@@ -24,8 +24,10 @@
 
 .coffee-card-content-names-coffee-name {
   font-weight: 300;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   margin-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .coffee-card-content-rating {
@@ -36,7 +38,7 @@
 }
 .coffee-card-content-rating-average-text {
   font-weight: 300;
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   margin-left: 3px;
   margin-right: 5px;
 }

@@ -30,17 +30,17 @@ const CoffeeCardContent = (props: Props) => {
             <div className="coffee-card-content-rating">
               <Rating
                 name="simple-controlled"
-                value={props.coffee.rating_average}
+                value={props.coffee.rating_average || 0}
                 precision={0.5}
                 sx={{ color: "primary.main", fontSize: "1.5rem" }}
                 disabled={true}
               />
               <div className="coffee-card-content-rating-average-text">
-                {props.coffee.rating_average}
+                {props.coffee.rating_average || 0}
               </div>
             </div>
             <div className="coffee-card-content-rating-length">
-              {props.coffee.rating_count} ratings
+              {props.coffee.rating_count || 0} ratings
             </div>
           </div>
         </div>

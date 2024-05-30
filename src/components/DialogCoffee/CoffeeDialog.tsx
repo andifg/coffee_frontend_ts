@@ -45,7 +45,11 @@ const CoffeeDialog: React.FC<Props> = (props: Props) => {
           />
         }
         mobileChild={
-          <Drawer anchor="left" open={props.open} sx={{ height: "100vh" }}>
+          <Drawer
+            anchor="left"
+            open={props.open}
+            PaperProps={{ sx: { height: "100vh", width: "100vw" } }}
+          >
             <div
               style={{
                 height: "100vh",

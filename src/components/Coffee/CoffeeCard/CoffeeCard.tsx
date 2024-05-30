@@ -75,7 +75,7 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
                   coffeeImageURL ||
                   "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
                 }
-                sx={{ objectFit: "contain" }}
+                sx={{ objectFit: "contain", maxHeight: "600px" }}
               />
               <CoffeeCardContent coffee={props.coffee} />
             </Card>
