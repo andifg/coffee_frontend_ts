@@ -28,6 +28,7 @@
   margin-bottom: 2px;
   text-overflow: ellipsis;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .coffee-card-content-rating {
@@ -64,12 +65,16 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-bottom: 5px;
   margin-right: 7px;
+  margin-top: 2px;
+  margin-bottom: 2px;
 }
 
 .coffee-card-content-footer-add-rating {
   margin-right: 5px;
+  margin-left:5px;
+  margin-top:4px;
+  margin-bottom: 5px;
 }
 
 span.Mui-disabled.MuiRating-root {
