@@ -1,7 +1,5 @@
 import "./CoffeeCardContent.scss";
 import { Coffee as CoffeeSchema } from "../../../client";
-// import StarLogo from "../../../assets/star-review.svg";
-// import EspressoCup from "../../../assets/star-2.svg";
 import EspressoCup from "../../../assets/espresso-cup.svg";
 import theme from "../../../theme";
 import { Rating } from "@mui/material";
@@ -24,7 +22,7 @@ const CoffeeCardContent = (props: Props) => {
               style={{ color: theme.palette.secondary.main }}
               className="coffee-card-content-names-roasting-company"
             >
-              Martermühle
+              {props.coffee.roasting_company}
             </div>
           </div>
         </div>

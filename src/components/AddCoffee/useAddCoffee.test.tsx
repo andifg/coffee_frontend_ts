@@ -87,14 +87,14 @@ describe("useAddCoffeeModal", () => {
       }),
     );
 
-    await result.current.handleSubmit("", undefined);
+    await result.current.handleSubmit("", "", undefined);
 
     await waitFor(() => {
       expect(result.current.error).toEqual("Coffee name cannot be empty");
     });
   });
 
-  it("Handle submit with new name", async () => {
+  it("Handle submit with new name and roasting company", async () => {
     const closeModelMock = vi.fn();
 
     const useClientServiceMock = vi.fn();
@@ -102,6 +102,7 @@ describe("useAddCoffeeModal", () => {
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
       name: "Test Coffee",
+      roasting_company: "Test Roasting Company",
     });
 
     useClientServiceMock.mockResolvedValueOnce({});
@@ -118,7 +119,7 @@ describe("useAddCoffeeModal", () => {
 
     const file = new File([""], "filename", { type: "text/plain" });
 
-    await result.current.handleSubmit("New Coffee", file);
+    await result.current.handleSubmit("New Coffee", "New Roasting Company", file);
 
     await waitFor(() => {
       expect(result.current.loading).toEqual(true);
@@ -126,7 +127,7 @@ describe("useAddCoffeeModal", () => {
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
-      args: [{ _id: "123", name: "New Coffee" }],
+      args: [{ _id: "123", name: "New Coffee", roasting_company: "New Roasting Company" }],
       rethrowError: true,
     });
 
@@ -142,6 +143,7 @@ describe("useAddCoffeeModal", () => {
     expect(addCoffeeCallbackMock).toHaveBeenCalledWith({
       _id: "123",
       name: "New Coffee",
+      roasting_company: "New Roasting Company",
       owner_id: "123",
       owner_name: "testuser",
     });
@@ -163,6 +165,7 @@ describe("useAddCoffeeModal", () => {
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
       name: "Test Coffee",
+      roasting_company: "Test Roasting Company",
     });
 
     useClientServiceMock.mockResolvedValueOnce({});
@@ -177,7 +180,7 @@ describe("useAddCoffeeModal", () => {
       }),
     );
 
-    await result.current.handleSubmit("New Coffee ", undefined);
+    await result.current.handleSubmit("New Coffee ","New Roast", undefined);
 
     await waitFor(() => {
       expect(result.current.loading).toEqual(true);
@@ -185,7 +188,7 @@ describe("useAddCoffeeModal", () => {
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
-      args: [{ _id: "123", name: "New Coffee" }],
+      args: [{ _id: "123", name: "New Coffee", roasting_company: "New Roast" }],
       rethrowError: true,
     });
 
@@ -196,6 +199,7 @@ describe("useAddCoffeeModal", () => {
     expect(addCoffeeCallbackMock).toHaveBeenCalledWith({
       _id: "123",
       name: "New Coffee",
+      roasting_company: "New Roast",
       owner_id: "123",
       owner_name: "testuser",
     });
@@ -207,6 +211,7 @@ describe("useAddCoffeeModal", () => {
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
       name: "Test Coffee",
+      roasting_company: "Test Roasting Company",
     });
 
     useClientServiceMock.mockRejectedValueOnce(
@@ -235,11 +240,11 @@ describe("useAddCoffeeModal", () => {
 
     const file = new File([""], "filename", { type: "text/plain" });
 
-    await result.current.handleSubmit("New Coffee", file);
+    await result.current.handleSubmit("New Coffee","Roasty", file);
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
-      args: [{ _id: "123", name: "New Coffee" }],
+      args: [{ _id: "123", name: "New Coffee", roasting_company: "Roasty"}],
       rethrowError: true,
     });
 

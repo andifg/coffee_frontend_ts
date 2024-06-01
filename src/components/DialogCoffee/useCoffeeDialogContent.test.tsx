@@ -212,6 +212,6 @@ describe("useCoffeeDialogContent", () => {
       result.current[5](submitEvent);
     });
 
-    expect(submitMock).toHaveBeenCalledWith("New Coffee Name", file);
+    expect(submitMock).toHaveBeenCalledWith("New Coffee Name","New Roasting Company",  file);
   });
 });

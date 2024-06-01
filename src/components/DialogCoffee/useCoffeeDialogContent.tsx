@@ -15,7 +15,7 @@ interface InputError {
 interface Props {
   open: boolean;
   handleCancel: () => void;
-  handleSubmit: (coffeeName: string, image: File) => Promise<void>;
+  handleSubmit: (coffeeName: string, roasting_company: string, image: File) => Promise<void>;
   setError: React.Dispatch<React.SetStateAction<string | undefined>>;
   imageURL: string | undefined;
   error: string | undefined;
@@ -78,7 +78,7 @@ const useCoffeeDialogContent = (
   const handleCoffeeInputNameChange = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    console.log("Target: ", e.target.value);
+    // console.log("Target: ", e.target.value);
     setInput({ ...input, coffeeName: e.target.value });
     if (props.error) {
       props.setError(undefined);
@@ -104,7 +104,7 @@ const useCoffeeDialogContent = (
 
     console.log("Submitting ", input);
 
-    props.handleSubmit(input.coffeeName, image as File);
+    props.handleSubmit(input.coffeeName, input.roastingCompany, image as File);
   };
 
   const handleCancel = () => {

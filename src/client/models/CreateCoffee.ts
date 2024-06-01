@@ -10,12 +10,17 @@
  * we only need the name of the coffee and the uuid.
  */
 export type CreateCoffee = {
-  /**
-   * The id of the coffee
-   */
-  _id: string;
-  /**
-   * Name of coffee
-   */
-  name: string;
+    /**
+     * The id of the coffee
+     */
+    _id: string;
+    /**
+     * Name of coffee
+     */
+    name: string;
+    /**
+     * Name of the roasting company
+     */
+    roasting_company: string;
 };
+

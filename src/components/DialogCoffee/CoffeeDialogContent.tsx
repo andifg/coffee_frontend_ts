@@ -17,7 +17,7 @@ import { useCoffeeDialogContent } from "./useCoffeeDialogContent";
 interface Props {
   open: boolean;
   handleCancel: () => void;
-  handleSubmit: (coffeeName: string, image: File) => Promise<void>;
+  handleSubmit: (coffeeName: string, roasting_company: string, image: File) => Promise<void>;
   setError: React.Dispatch<React.SetStateAction<string | undefined>>;
   imageURL: string | undefined;
   error: string | undefined;
