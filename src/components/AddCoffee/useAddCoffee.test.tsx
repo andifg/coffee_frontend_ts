@@ -119,7 +119,11 @@ describe("useAddCoffeeModal", () => {
 
     const file = new File([""], "filename", { type: "text/plain" });
 
-    await result.current.handleSubmit("New Coffee", "New Roasting Company", file);
+    await result.current.handleSubmit(
+      "New Coffee",
+      "New Roasting Company",
+      file,
+    );
 
     await waitFor(() => {
       expect(result.current.loading).toEqual(true);
@@ -127,7 +131,13 @@ describe("useAddCoffeeModal", () => {
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
-      args: [{ _id: "123", name: "New Coffee", roasting_company: "New Roasting Company" }],
+      args: [
+        {
+          _id: "123",
+          name: "New Coffee",
+          roasting_company: "New Roasting Company",
+        },
+      ],
       rethrowError: true,
     });
 
@@ -180,7 +190,7 @@ describe("useAddCoffeeModal", () => {
       }),
     );
 
-    await result.current.handleSubmit("New Coffee ","New Roast", undefined);
+    await result.current.handleSubmit("New Coffee ", "New Roast", undefined);
 
     await waitFor(() => {
       expect(result.current.loading).toEqual(true);
@@ -240,11 +250,11 @@ describe("useAddCoffeeModal", () => {
 
     const file = new File([""], "filename", { type: "text/plain" });
 
-    await result.current.handleSubmit("New Coffee","Roasty", file);
+    await result.current.handleSubmit("New Coffee", "Roasty", file);
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.postCoffeeApiV1CoffeesPost,
-      args: [{ _id: "123", name: "New Coffee", roasting_company: "Roasty"}],
+      args: [{ _id: "123", name: "New Coffee", roasting_company: "Roasty" }],
       rethrowError: true,
     });
 

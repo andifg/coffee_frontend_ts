@@ -41,7 +41,11 @@ const useAddCoffeeModal = (props: UseAddCoffeeModalProps) => {
     }
   };
 
-  const handleSubmit = async (coffeeName: string, roastingCompany: string, image: File | undefined) => {
+  const handleSubmit = async (
+    coffeeName: string,
+    roastingCompany: string,
+    image: File | undefined,
+  ) => {
     if (coffeeName === "") {
       setError("Coffee name cannot be empty");
       return;
@@ -53,7 +57,13 @@ const useAddCoffeeModal = (props: UseAddCoffeeModalProps) => {
 
       await callClientServiceMethod({
         function: CoffeesService.postCoffeeApiV1CoffeesPost,
-        args: [{ _id: props.currentUUID, name: coffeeName.trim(), roasting_company: roastingCompany.trim()}],
+        args: [
+          {
+            _id: props.currentUUID,
+            name: coffeeName.trim(),
+            roasting_company: roastingCompany.trim(),
+          },
+        ],
         rethrowError: true,
       });
 

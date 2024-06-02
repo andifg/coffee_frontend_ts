@@ -3,7 +3,7 @@ import { Coffee as CoffeeSchema } from "../../../client";
 import EspressoCup from "../../../assets/espresso-cup.svg";
 import theme from "../../../theme";
 import { Rating } from "@mui/material";
-import {ButtonBase} from "@mui/material";
+import { ButtonBase } from "@mui/material";
 
 interface Props {
   coffee: CoffeeSchema;
@@ -47,15 +47,14 @@ const CoffeeCardContent = (props: Props) => {
         </div>
       </div>
       <div className="coffee-card-content-footer">
-        <ButtonBase >
-        <img
-          src={EspressoCup}
-          className="coffee-card-content-footer-add-rating"
-          alt="star"
-          style={{ color: theme.palette.primary.main, height: "32px" }}
-        />
+        <ButtonBase>
+          <img
+            src={EspressoCup}
+            className="coffee-card-content-footer-add-rating"
+            alt="star"
+            style={{ color: theme.palette.primary.main, height: "32px" }}
+          />
         </ButtonBase>
-
       </div>
     </div>
   );

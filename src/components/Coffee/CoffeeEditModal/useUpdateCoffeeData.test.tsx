@@ -53,7 +53,7 @@ describe("useUpdateCoffeeData", () => {
       }),
     );
 
-    result.current[0]("Test Coffee", "Roasting Company" , "1", "Test Owner");
+    result.current[0]("Test Coffee", "Roasting Company", "1", "Test Owner");
 
     expect(useClientServiceMock).not.toHaveBeenCalled();
   });
@@ -82,14 +82,24 @@ describe("useUpdateCoffeeData", () => {
       }),
     );
 
-    await result.current[0]("Test Coffee 2", "Roasting Company 3",  "1", "Test Owner");
+    await result.current[0](
+      "Test Coffee 2",
+      "Roasting Company 3",
+      "1",
+      "Test Owner",
+    );
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch,
       rethrowError: true,
       args: [
         "1",
-        { name: "Test Coffee 2", roasting_company: "Roasting Company 3", owner_id: "1", owner_name: "Test Owner" },
+        {
+          name: "Test Coffee 2",
+          roasting_company: "Roasting Company 3",
+          owner_id: "1",
+          owner_name: "Test Owner",
+        },
       ],
     });
 

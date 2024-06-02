@@ -24,7 +24,12 @@ interface UseUpdateCofeeDataProps {
 export function useUpdateCoffeeData(
   props: UseUpdateCofeeDataProps,
 ): [
-  (coffeeName: string, roasting_company: string, ownerId: string, ownerName: string) => Promise<void>,
+  (
+    coffeeName: string,
+    roasting_company: string,
+    ownerId: string,
+    ownerName: string,
+  ) => Promise<void>,
   (image: File) => Promise<void>,
 ] {
   const [callClientServiceMethod] = useClientService();
@@ -37,7 +42,10 @@ export function useUpdateCoffeeData(
     ownerId: string,
     ownerName: string,
   ) => {
-    if (coffeeName != props.initalCoffeeName || roasting_company != props.initialRoastingCompany) {
+    if (
+      coffeeName != props.initalCoffeeName ||
+      roasting_company != props.initialRoastingCompany
+    ) {
       const updatedCoffee: UpdateCoffeeSchema = {
         name: coffeeName,
         roasting_company: roasting_company,
