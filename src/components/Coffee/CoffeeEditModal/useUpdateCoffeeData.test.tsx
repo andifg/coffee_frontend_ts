@@ -39,7 +39,7 @@ describe("useUpdateCoffeeData", () => {
       .mockReturnValueOnce(updateCoffeeImageMock);
   });
 
-  it("Don't update name if its same as before", () => {
+  it("Don't update name or roasting company if its same as before", () => {
     const useClientServiceMock = vi.fn();
 
     vi.mocked(useClientService).mockReturnValue([useClientServiceMock]);
@@ -48,11 +48,12 @@ describe("useUpdateCoffeeData", () => {
       useUpdateCoffeeData({
         coffee_id: "1",
         initalCoffeeName: "Test Coffee",
+        initialRoastingCompany: "Roasting Company",
         initalCoffeeImageURL: "teststring",
       }),
     );
 
-    result.current[0]("Test Coffee", "1", "Test Owner");
+    result.current[0]("Test Coffee", "Roasting Company" , "1", "Test Owner");
 
     expect(useClientServiceMock).not.toHaveBeenCalled();
   });
@@ -65,6 +66,7 @@ describe("useUpdateCoffeeData", () => {
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
       name: "Test Coffee 2",
+      roasting_company: "Roasting Company",
       owner_id: "1",
       owner_name: "Test Owner",
       rating_count: 2,
@@ -75,18 +77,19 @@ describe("useUpdateCoffeeData", () => {
       useUpdateCoffeeData({
         coffee_id: "1",
         initalCoffeeName: "Test Coffee",
+        initialRoastingCompany: "Roasting Company Old",
         initalCoffeeImageURL: "teststring",
       }),
     );
 
-    await result.current[0]("Test Coffee 2", "1", "Test Owner");
+    await result.current[0]("Test Coffee 2", "Roasting Company 3",  "1", "Test Owner");
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
       function: CoffeesService.patchCoffeeApiV1CoffeesCoffeeIdPatch,
       rethrowError: true,
       args: [
         "1",
-        { name: "Test Coffee 2", owner_id: "1", owner_name: "Test Owner" },
+        { name: "Test Coffee 2", roasting_company: "Roasting Company 3", owner_id: "1", owner_name: "Test Owner" },
       ],
     });
 
@@ -94,6 +97,7 @@ describe("useUpdateCoffeeData", () => {
       expect(updateCoffeeNameMock).toHaveBeenCalledWith({
         _id: "1",
         name: "Test Coffee 2",
+        roasting_company: "Roasting Company 3",
         owner_id: "1",
         owner_name: "Test Owner",
       } as CoffeeSchema);
@@ -115,6 +119,7 @@ describe("useUpdateCoffeeData", () => {
       useUpdateCoffeeData({
         coffee_id: "1",
         initalCoffeeName: "Test Coffee",
+        initialRoastingCompany: "Roasting Company",
         initalCoffeeImageURL: "teststring",
       }),
     );

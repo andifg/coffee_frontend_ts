@@ -520,6 +520,7 @@ describe("useManageCoffeesState", () => {
     callback({
       _id: "3",
       name: "Coffee 3",
+      roasting_company: "Roasting Company 3",
       owner_id: "1",
       owner_name: "Owner 1",
       rating_average: 4,
@@ -531,6 +532,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "3",
           name: "Coffee 3",
+          roasting_company: "Roasting Company 3",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -542,6 +544,7 @@ describe("useManageCoffeesState", () => {
     callback({
       _id: "4",
       name: "Coffee 4",
+      roasting_company: "Roasting Company 4",
       owner_id: "1",
       owner_name: "Owner 1",
       rating_average: 4,
@@ -553,6 +556,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "4",
           name: "Coffee 4",
+          roasting_company: "Roasting Company 4",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -561,6 +565,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "3",
           name: "Coffee 3",
+          roasting_company: "Roasting Company 3",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -581,6 +586,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "1",
         name: "Coffee 1",
+        roasting_company: "Roasting Company 1",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -589,6 +595,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "2",
         name: "Coffee 2",
+        roasting_company: "Roasting Company 2",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -609,6 +616,7 @@ describe("useManageCoffeesState", () => {
     const coffee: CoffeeSchema = {
       _id: "1",
       name: "Coffee 1 Updated",
+      roasting_company: "Roasting Company 1",
       owner_id: "1",
       owner_name: "Owner 1",
       rating_average: 4,
@@ -622,6 +630,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "1",
           name: "Coffee 1 Updated",
+          roasting_company: "Roasting Company 1",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -630,6 +639,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "2",
           name: "Coffee 2",
+          roasting_company: "Roasting Company 2",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -650,6 +660,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "1",
         name: "Coffee 1",
+        roasting_company: "Roasting Company 1",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -658,6 +669,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "2",
         name: "Coffee 2",
+        roasting_company: "Roasting Company 2",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -682,6 +694,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "2",
           name: "Coffee 2",
+          roasting_company: "Roasting Company 2",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,

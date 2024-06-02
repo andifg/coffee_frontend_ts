@@ -17,13 +17,14 @@ import { useContext } from "react";
 interface UseUpdateCofeeDataProps {
   coffee_id: string;
   initalCoffeeName: string;
+  initialRoastingCompany: string;
   initalCoffeeImageURL: string | undefined;
 }
 
 export function useUpdateCoffeeData(
   props: UseUpdateCofeeDataProps,
 ): [
-  (coffeeName: string, ownerId: string, ownerName: string) => Promise<void>,
+  (coffeeName: string, roasting_company: string, ownerId: string, ownerName: string) => Promise<void>,
   (image: File) => Promise<void>,
 ] {
   const [callClientServiceMethod] = useClientService();
@@ -32,12 +33,14 @@ export function useUpdateCoffeeData(
 
   const updateCoffee = async (
     coffeeName: string,
+    roasting_company: string,
     ownerId: string,
     ownerName: string,
   ) => {
-    if (coffeeName != props.initalCoffeeName) {
+    if (coffeeName != props.initalCoffeeName || roasting_company != props.initialRoastingCompany) {
       const updatedCoffee: UpdateCoffeeSchema = {
         name: coffeeName,
+        roasting_company: roasting_company,
         owner_id: ownerId,
         owner_name: ownerName,
       };
@@ -51,6 +54,7 @@ export function useUpdateCoffeeData(
       updateCoffeeInContext({
         _id: props.coffee_id,
         name: coffeeName,
+        roasting_company: roasting_company,
         owner_id: ownerId,
         owner_name: ownerName,
       } as CoffeeSchema);
