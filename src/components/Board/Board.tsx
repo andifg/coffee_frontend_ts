@@ -2,26 +2,27 @@ import "./Board.scss";
 import React from "react";
 import { useEffect, createContext } from "react";
 
-import { Coffee as CoffeeSchema } from "../../client";
-
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
-import SlideToReload from "../SlideToReload/SlideToReload";
+import { useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
 
+import { Coffee as CoffeeSchema, Rating } from "../../client";
 import { CoffeeCard } from "../Coffee/CoffeeCard/CoffeeCard";
-
+import SlideToReload from "../SlideToReload/SlideToReload";
 import { useManageCoffeesState } from "./useManageCoffeesState";
-
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
-
-import { useLocation } from "react-router-dom";
+import { RatingDialog } from "../RatingDialog/RatingDialog";
 
 const UpdateCoffeeContext = createContext<(coffee: CoffeeSchema) => void>(
   () => {},
 );
 
 const DeleteCoffeeContext = createContext<(coffee_id: string) => void>(
+  () => {},
+);
+
+const AddRatingToCoffeeContext = createContext<(rating: Rating) => void>(
   () => {},
 );
 
@@ -37,6 +38,7 @@ const Board: React.FC<Props> = (props: Props) => {
     fetchFirstPage,
     fetchCoffeesLoading,
     updateCoffee,
+    addRatingToCoffee,
     deleteCoffee,
     showInfitescroll,
   ] = useManageCoffeesState({
@@ -53,6 +55,9 @@ const Board: React.FC<Props> = (props: Props) => {
 
   return (
     <>
+      <AddRatingToCoffeeContext.Provider value={addRatingToCoffee}>
+        <RatingDialog />
+      </AddRatingToCoffeeContext.Provider>
       <SlideToReload
         functionToTrigger={fetchFirstPage}
         functionToTriggerLoading={fetchCoffeesLoading}
@@ -80,4 +85,9 @@ const Board: React.FC<Props> = (props: Props) => {
   );
 };
 
-export { Board, UpdateCoffeeContext, DeleteCoffeeContext };
+export {
+  Board,
+  UpdateCoffeeContext,
+  DeleteCoffeeContext,
+  AddRatingToCoffeeContext,
+};

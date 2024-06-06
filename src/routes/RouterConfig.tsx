@@ -12,7 +12,7 @@ export const routerConfig = [
     element: <WelcomeScreen />,
   },
   {
-    path: "/feed",
+    path: "/feed/*",
     element: (
       <PrivateRoute>
         <>
@@ -26,7 +26,7 @@ export const routerConfig = [
     ),
   },
   {
-    path: "/home",
+    path: "/home/*",
     element: (
       <PrivateRoute>
         <>
