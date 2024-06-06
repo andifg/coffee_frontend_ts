@@ -649,6 +649,76 @@ describe("useManageCoffeesState", () => {
     });
   });
 
+  it("Should add rating to coffee in coffees", async () => {
+    const useClientMock = vi.fn();
+
+    vi.mocked(useSelector).mockReturnValue(undefined);
+
+    vi.mocked(useClientService).mockReturnValue([useClientMock]);
+
+    useClientMock.mockResolvedValueOnce([
+      {
+        _id: "1",
+        name: "Coffee 1",
+        roasting_company: "Roasting Company 1",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+      {
+        _id: "2",
+        name: "Coffee 2",
+        roasting_company: "Roasting Company 2",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+    ]);
+
+    const { result } = renderHook(() =>
+      useManageCoffeesState({
+        personalized: false,
+      }),
+    );
+
+    await waitFor(() => {
+      expect(result.current[2]).toEqual(false);
+    });
+
+    const rating = {
+      _id: "1",
+      coffee_id: "1",
+      rating: 5,
+    };
+
+    result.current[4](rating);
+
+    await waitFor(() => {
+      expect(result.current[0]).toEqual([
+        {
+          _id: "1",
+          name: "Coffee 1",
+          roasting_company: "Roasting Company 1",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4.5,
+          rating_count: 2,
+        },
+        {
+          _id: "2",
+          name: "Coffee 2",
+          roasting_company: "Roasting Company 2",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+      ]);
+    });
+  });
+
   it("Should delete coffee from coffees", async () => {
     const useClientMock = vi.fn();
 
@@ -687,7 +757,7 @@ describe("useManageCoffeesState", () => {
       expect(result.current[2]).toEqual(false);
     });
 
-    result.current[4]("1");
+    result.current[5]("1");
 
     await waitFor(() => {
       expect(result.current[0]).toEqual([
