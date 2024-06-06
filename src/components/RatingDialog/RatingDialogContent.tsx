@@ -68,7 +68,6 @@ const RatingDialogContent = (props: Props) => {
   };
 
   const submit = async () => {
-    console.log("submit: ", rating);
     setLoading(true);
 
     if (!rating) {

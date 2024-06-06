@@ -26,7 +26,6 @@ function useManageCoffeesState(
   const [coffees, setCoffees] = useState<CoffeeSchema[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log("coffees ", coffees);
 
   const { setCallback } = useContext(AddCoffeeCallbackContext);
 
