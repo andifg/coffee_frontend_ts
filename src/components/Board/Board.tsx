@@ -7,7 +7,7 @@ import Collapse from "@mui/material/Collapse";
 import { useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
 
-import { Coffee as CoffeeSchema, Rating } from "../../client";
+import { Coffee as CoffeeSchema, CreateRating } from "../../client";
 import { CoffeeCard } from "../Coffee/CoffeeCard/CoffeeCard";
 import SlideToReload from "../SlideToReload/SlideToReload";
 import { useManageCoffeesState } from "./useManageCoffeesState";
@@ -22,7 +22,7 @@ const DeleteCoffeeContext = createContext<(coffee_id: string) => void>(
   () => {},
 );
 
-const AddRatingToCoffeeContext = createContext<(rating: Rating) => void>(
+const AddRatingToCoffeeContext = createContext<(rating: CreateRating) => void>(
   () => {},
 );
 

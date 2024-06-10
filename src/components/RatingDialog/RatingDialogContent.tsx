@@ -19,7 +19,14 @@ interface Props {
   close: () => void;
 }
 
-const brewingMethod = ["Espresso", "Capuccino", "Latte", "Americano"];
+const brewingMethod = [
+  "Espresso",
+  "Cappuccino",
+  "Latte",
+  "Americano",
+  "Filter",
+  "Bialetti",
+];
 
 const RatingDialogContent = (props: Props) => {
   const [

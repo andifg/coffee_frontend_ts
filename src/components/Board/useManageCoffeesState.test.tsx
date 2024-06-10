@@ -3,7 +3,7 @@ import { describe, vi, it, expect } from "vitest";
 import useClientService from "../../hooks/useClientService";
 import { useManageCoffeesState } from "./useManageCoffeesState";
 import { renderHook, waitFor } from "@testing-library/react";
-import { CoffeesService } from "../../client";
+import { BrewingMethod, CoffeesService } from "../../client";
 import { useSelector } from "react-redux";
 import { Coffee as CoffeeSchema } from "../../client";
 import useInfiniteScroll from "./useInfinteScroll";
@@ -690,6 +690,7 @@ describe("useManageCoffeesState", () => {
     const rating = {
       _id: "1",
       coffee_id: "1",
+      brewing_method: "Espresso" as BrewingMethod,
       rating: 5,
     };
 

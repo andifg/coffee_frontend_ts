@@ -107,6 +107,7 @@ describe("useAddCoffeeBrewRating", () => {
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
       coffee_id: "1",
+      brewing_method: "Espresso",
       rating: 3,
     } as Rating);
 
@@ -138,7 +139,14 @@ describe("useAddCoffeeBrewRating", () => {
       function:
         RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
       rethrowError: true,
-      args: ["1", { _id: "1", coffee_id: "1", rating: 3 }],
+      args: [
+        {
+          _id: "1",
+          coffee_id: "1",
+          rating: 3,
+          brewing_method: "New Brewing Method",
+        },
+      ],
     });
 
     waitFor(() => {
@@ -180,7 +188,14 @@ describe("useAddCoffeeBrewRating", () => {
       function:
         RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
       rethrowError: true,
-      args: ["1", { _id: "1", coffee_id: "1", rating: 3 }],
+      args: [
+        {
+          _id: "1",
+          coffee_id: "1",
+          brewing_method: "New Brewing Method",
+          rating: 3,
+        },
+      ],
     });
 
     waitFor(() => {

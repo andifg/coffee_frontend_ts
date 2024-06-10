@@ -6,9 +6,11 @@
 import type { BrewingMethod } from "./BrewingMethod";
 
 /**
- * Describes one rating
+ * Describes the request body for creating a rating
+ *
+ * We get the user id and name from the JWT token.
  */
-export type Rating = {
+export type CreateRating = {
   /**
    * The id of the rating
    */
@@ -25,12 +27,4 @@ export type Rating = {
    * The id of the coffee
    */
   coffee_id: string;
-  /**
-   * The id of the user created the rating
-   */
-  user_id: string;
-  /**
-   * Name of the user created the rating
-   */
-  user_name: string;
 };
