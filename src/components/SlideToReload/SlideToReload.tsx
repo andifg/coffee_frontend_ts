@@ -30,26 +30,26 @@ const SlideToReload = (props: Props): JSX.Element => {
     if (ref.current) {
       ref.current.style.transform = "translateY(0)";
     }
+    setInfoMessageShow(false);
     if (!show) return;
 
     const timePassed = Date.now() - loadStart;
     const wait = timePassed > 5000 ? 200 : 1000;
-    console.log("Will wait for " + wait + " ms");
+    // console.log("Will wait for " + wait + " ms");
 
     setTimeout(() => {
       setShow(false);
+      triggered.current = false;
     }, wait);
-
-    triggered.current = false;
   }
 
   useEffect(() => {
-    console.log("Show has changed " + show);
+    // console.log("Show has changed " + show);
   }, [show]);
 
   function showLoadingSign() {
     if (triggered.current) return;
-    console.log("SHOW INDICATOR " + triggered.current);
+    // console.log("SHOW INDICATOR " + triggered.current);
     setShow(true);
     setLoadStart(Date.now());
     triggered.current = true;
@@ -66,8 +66,9 @@ const SlideToReload = (props: Props): JSX.Element => {
   function handleTouchMove(moveEvent: React.TouchEvent<HTMLDivElement>) {
     const el = ref.current;
     if (!el) return;
-    if (el.getBoundingClientRect().top < 50) return;
-
+    // console.log("Touch: ",  moveEvent.touches[0].clientY)
+    if (el.getBoundingClientRect().top < 40) return;
+    if (moveEvent.touches[0].clientY > 600) return;
     // console.log("Touch move: " + el.getBoundingClientRect().top );
 
     const SHOW_INDICATOR_THRESHOLD = 110;
@@ -76,6 +77,7 @@ const SlideToReload = (props: Props): JSX.Element => {
     // get the current Y position
     const currentY = moveEvent.touches[0].clientY;
 
+    // console.log("Current Y: " + currentY )
     // get the difference
     const dy = currentY - initialY.current;
 
@@ -97,18 +99,24 @@ const SlideToReload = (props: Props): JSX.Element => {
 
   return (
     <>
-      {infoMessageShow && !show && !props.functionToTriggerLoading && (
-        <div className="slide-to-reload-info-message">
-          {" "}
-          <Typography
-            variant="overline"
-            sx={{ color: "primary.light", lineHeight: "2" }}
-          >
-            Slide down to reload
-          </Typography>{" "}
-          <SouthOutlinedIcon fontSize="small" sx={{ color: "primary.light" }} />{" "}
-        </div>
-      )}
+      {infoMessageShow &&
+        !show &&
+        !props.functionToTriggerLoading &&
+        !triggered.current && (
+          <div className="slide-to-reload-info-message">
+            {" "}
+            <Typography
+              variant="overline"
+              sx={{ color: "primary.main", lineHeight: "2" }}
+            >
+              Slide down to reload
+            </Typography>{" "}
+            <SouthOutlinedIcon
+              fontSize="small"
+              sx={{ color: "primary.main" }}
+            />{" "}
+          </div>
+        )}
       {((show && props.functionToTriggerLoading) || triggered.current) && (
         <LoadingCircle />
       )}

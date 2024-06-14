@@ -29,7 +29,7 @@ const CoffeeHeader = (props: CofeeHeaderProps) => {
           <Typography
             variant="body1"
             component="div"
-            sx={{ color: "primary.main" }}
+            sx={{ color: "text.primary" }}
           >
             {props.coffee_owner_name}
           </Typography>

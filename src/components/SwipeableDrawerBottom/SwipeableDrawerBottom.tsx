@@ -25,7 +25,7 @@ const SwipeableDrawerBottom = (props: Props): React.JSX.Element => {
           width: "30px",
           height: "6px",
           borderRadius: "3px",
-          backgroundColor: "primary.main",
+          backgroundColor: "secondary.light",
           left: "calc(50% - 15px)",
           marginTop: "3px",
         }}
@@ -36,7 +36,7 @@ const SwipeableDrawerBottom = (props: Props): React.JSX.Element => {
           marginBottom: "10px",
           marginTop: "8px",
           borderRadius: "16px",
-          backgroundColor: "primary.light",
+          backgroundColor: "secondary.light",
         }}
       >
         {props.children}

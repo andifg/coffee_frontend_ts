@@ -12,6 +12,10 @@ export type UpdateCoffee = {
    */
   name: string;
   /**
+   * Name of the roasting company
+   */
+  roasting_company: string;
+  /**
    * The id of the owner of the coffee
    */
   owner_id: string;

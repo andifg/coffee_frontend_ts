@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { CreateRating } from "../models/CreateRating";
 import type { Rating } from "../models/Rating";
 import type { RatingSummary } from "../models/RatingSummary";
 
@@ -95,21 +96,16 @@ export class RatingsService {
   /**
    *  Create Coffee Rating
    * Get list of all ratings
-   * @param coffeeId
    * @param requestBody
    * @returns Rating Successful Response
    * @throws ApiError
    */
   public static createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost(
-    coffeeId: string,
-    requestBody: Rating,
+    requestBody: CreateRating,
   ): CancelablePromise<Rating> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/v1/coffees/{coffee_id}/ratings",
-      path: {
-        coffee_id: coffeeId,
-      },
       body: requestBody,
       mediaType: "application/json",
       errors: {

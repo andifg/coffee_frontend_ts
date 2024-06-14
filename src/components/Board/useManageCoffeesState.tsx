@@ -3,7 +3,11 @@ import useClientService from "../../hooks/useClientService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux";
 
-import { CoffeesService, Coffee as CoffeeSchema } from "../../client";
+import {
+  CoffeesService,
+  Coffee as CoffeeSchema,
+  CreateRating,
+} from "../../client";
 import { AddCoffeeCallbackContext } from "../AddCoffeeCallbackContext/AddCoffeeCallbackContext";
 import useInfiniteScroll from "./useInfinteScroll";
 
@@ -18,6 +22,7 @@ function useManageCoffeesState(
   () => Promise<void>,
   boolean,
   (coffee: CoffeeSchema) => void,
+  (rating: CreateRating) => void,
   (coffeeId: string) => void,
   boolean,
 ] {
@@ -49,6 +54,22 @@ function useManageCoffeesState(
       return c;
     });
 
+    setCoffees(newCoffees);
+  };
+
+  const addRatingToCoffee = (rating: CreateRating) => {
+    const newCoffees = coffees.map((c) => {
+      if (c._id === rating.coffee_id) {
+        return {
+          ...c,
+          rating_count: (c.rating_count ?? 0) + 1,
+          rating_average:
+            ((c.rating_average ?? 0) * (c.rating_count ?? 0) + rating.rating) /
+            ((c.rating_count ?? 0) + 1),
+        };
+      }
+      return c;
+    });
     setCoffees(newCoffees);
   };
 
@@ -108,6 +129,7 @@ function useManageCoffeesState(
     fetchFirstPage,
     loading,
     updateCoffee,
+    addRatingToCoffee,
     deleteCoffee,
     showInfitescroll,
   ];

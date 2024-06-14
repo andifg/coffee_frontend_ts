@@ -1,0 +1,82 @@
+.coffee-card-content-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.coffee-card-content-names-and-rating-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 7px 7px 0px 7px;
+}
+
+.coffee-card-content-names-and-rating-child {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.coffee-card-content-names {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.coffee-card-content-names-coffee-name {
+  font-weight: 300;
+  font-size: 1.6rem;
+  margin-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.coffee-card-content-rating {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+.coffee-card-content-rating-average-text {
+  font-weight: 300;
+  font-size: 1.6rem;
+  margin-left: 3px;
+  margin-right: 5px;
+}
+
+.coffee-card-content-rating-wrapper {
+  display: block;
+  align-self: flex-end;
+  width: fit-content;
+}
+
+.coffee-card-content-rating-length {
+  text-align: justify;
+  font-size: 0.8rem;
+  margin-left: 3px;
+}
+
+.coffee-card-content-names-roasting-company {
+  font-weight: 200;
+  font-size: 1.2rem;
+}
+
+.coffee-card-content-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-right: 7px;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.coffee-card-content-footer-add-rating {
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-top: 4px;
+  margin-bottom: 5px;
+}
+
+span.Mui-disabled.MuiRating-root {
+  opacity: 1;
+}

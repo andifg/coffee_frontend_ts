@@ -3,6 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import type { BrewingMethod } from "./BrewingMethod";
+
 /**
  * Describes one rating
  */
@@ -12,6 +14,10 @@ export type Rating = {
    */
   _id: string;
   /**
+   * Brewing method
+   */
+  brewing_method: BrewingMethod;
+  /**
    * Ratings for coffee
    */
   rating: number;
@@ -19,4 +25,12 @@ export type Rating = {
    * The id of the coffee
    */
   coffee_id: string;
+  /**
+   * The id of the user created the rating
+   */
+  user_id: string;
+  /**
+   * Name of the user created the rating
+   */
+  user_name: string;
 };

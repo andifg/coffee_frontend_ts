@@ -18,7 +18,7 @@ const WelcomeScreen = () => {
           <Typography
             variant="h5"
             className="welcome-text"
-            sx={{ color: "primary.light", marginBottom: "20px" }}
+            sx={{ color: "white", marginBottom: "20px" }}
           >
             Good Coffee, Good Taste
           </Typography>

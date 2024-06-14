@@ -3,7 +3,7 @@ import { describe, vi, it, expect } from "vitest";
 import useClientService from "../../hooks/useClientService";
 import { useManageCoffeesState } from "./useManageCoffeesState";
 import { renderHook, waitFor } from "@testing-library/react";
-import { CoffeesService } from "../../client";
+import { BrewingMethod, CoffeesService } from "../../client";
 import { useSelector } from "react-redux";
 import { Coffee as CoffeeSchema } from "../../client";
 import useInfiniteScroll from "./useInfinteScroll";
@@ -520,6 +520,7 @@ describe("useManageCoffeesState", () => {
     callback({
       _id: "3",
       name: "Coffee 3",
+      roasting_company: "Roasting Company 3",
       owner_id: "1",
       owner_name: "Owner 1",
       rating_average: 4,
@@ -531,6 +532,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "3",
           name: "Coffee 3",
+          roasting_company: "Roasting Company 3",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -542,6 +544,7 @@ describe("useManageCoffeesState", () => {
     callback({
       _id: "4",
       name: "Coffee 4",
+      roasting_company: "Roasting Company 4",
       owner_id: "1",
       owner_name: "Owner 1",
       rating_average: 4,
@@ -553,6 +556,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "4",
           name: "Coffee 4",
+          roasting_company: "Roasting Company 4",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -561,6 +565,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "3",
           name: "Coffee 3",
+          roasting_company: "Roasting Company 3",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -581,6 +586,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "1",
         name: "Coffee 1",
+        roasting_company: "Roasting Company 1",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -589,6 +595,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "2",
         name: "Coffee 2",
+        roasting_company: "Roasting Company 2",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -609,6 +616,7 @@ describe("useManageCoffeesState", () => {
     const coffee: CoffeeSchema = {
       _id: "1",
       name: "Coffee 1 Updated",
+      roasting_company: "Roasting Company 1",
       owner_id: "1",
       owner_name: "Owner 1",
       rating_average: 4,
@@ -622,6 +630,7 @@ describe("useManageCoffeesState", () => {
         {
           _id: "1",
           name: "Coffee 1 Updated",
+          roasting_company: "Roasting Company 1",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -630,6 +639,78 @@ describe("useManageCoffeesState", () => {
         {
           _id: "2",
           name: "Coffee 2",
+          roasting_company: "Roasting Company 2",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4,
+          rating_count: 1,
+        },
+      ]);
+    });
+  });
+
+  it("Should add rating to coffee in coffees", async () => {
+    const useClientMock = vi.fn();
+
+    vi.mocked(useSelector).mockReturnValue(undefined);
+
+    vi.mocked(useClientService).mockReturnValue([useClientMock]);
+
+    useClientMock.mockResolvedValueOnce([
+      {
+        _id: "1",
+        name: "Coffee 1",
+        roasting_company: "Roasting Company 1",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+      {
+        _id: "2",
+        name: "Coffee 2",
+        roasting_company: "Roasting Company 2",
+        owner_id: "1",
+        owner_name: "Owner 1",
+        rating_average: 4,
+        rating_count: 1,
+      },
+    ]);
+
+    const { result } = renderHook(() =>
+      useManageCoffeesState({
+        personalized: false,
+      }),
+    );
+
+    await waitFor(() => {
+      expect(result.current[2]).toEqual(false);
+    });
+
+    const rating = {
+      _id: "1",
+      coffee_id: "1",
+      brewing_method: "Espresso" as BrewingMethod,
+      rating: 5,
+    };
+
+    result.current[4](rating);
+
+    await waitFor(() => {
+      expect(result.current[0]).toEqual([
+        {
+          _id: "1",
+          name: "Coffee 1",
+          roasting_company: "Roasting Company 1",
+          owner_id: "1",
+          owner_name: "Owner 1",
+          rating_average: 4.5,
+          rating_count: 2,
+        },
+        {
+          _id: "2",
+          name: "Coffee 2",
+          roasting_company: "Roasting Company 2",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,
@@ -650,6 +731,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "1",
         name: "Coffee 1",
+        roasting_company: "Roasting Company 1",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -658,6 +740,7 @@ describe("useManageCoffeesState", () => {
       {
         _id: "2",
         name: "Coffee 2",
+        roasting_company: "Roasting Company 2",
         owner_id: "1",
         owner_name: "Owner 1",
         rating_average: 4,
@@ -675,13 +758,14 @@ describe("useManageCoffeesState", () => {
       expect(result.current[2]).toEqual(false);
     });
 
-    result.current[4]("1");
+    result.current[5]("1");
 
     await waitFor(() => {
       expect(result.current[0]).toEqual([
         {
           _id: "2",
           name: "Coffee 2",
+          roasting_company: "Roasting Company 2",
           owner_id: "1",
           owner_name: "Owner 1",
           rating_average: 4,

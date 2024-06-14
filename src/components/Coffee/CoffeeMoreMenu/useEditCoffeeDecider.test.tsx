@@ -29,6 +29,7 @@ describe("useEditCoffeeDecider", () => {
           coffee: {
             _id: "test-id",
             name: "test-name",
+            roasting_company: "test-roasting-company",
             owner_id: "test-owner-id",
             owner_name: "test-owner-name",
           },
@@ -61,6 +62,7 @@ describe("useEditCoffeeDecider", () => {
           coffee: {
             _id: "test-id",
             name: "test-name",
+            roasting_company: "test-roasting-company",
             owner_id: "test-user-id",
             owner_name: "test-owner-name",
           },
@@ -93,6 +95,7 @@ describe("useEditCoffeeDecider", () => {
           coffee: {
             _id: "test-id",
             name: "test-name",
+            roasting_company: "test-roasting-company",
             owner_id: "other-user-id",
             owner_name: "test-owner-name",
           },

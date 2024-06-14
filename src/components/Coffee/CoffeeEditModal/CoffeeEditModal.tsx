@@ -19,6 +19,7 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
   const [updateCoffee, uploadImage] = useUpdateCoffeeData({
     coffee_id: props.initalCoffee._id,
     initalCoffeeName: props.initalCoffee.name,
+    initialRoastingCompany: props.initalCoffee.roasting_company,
     initalCoffeeImageURL: props.initalCoffeeImageURL,
   });
 
@@ -28,7 +29,11 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
     props.closeModal();
   };
 
-  const handleSubmit = async (coffeeName: string, image: File | undefined) => {
+  const handleSubmit = async (
+    coffeeName: string,
+    roasting_company: string,
+    image: File | undefined,
+  ) => {
     if (coffeeName === "") {
       setError("Coffee name cannot be empty");
       return;
@@ -38,7 +43,12 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
       if (!user.userId || !user.username) {
         throw new Error("User not logged in");
       }
-      await updateCoffee(coffeeName, user.userId, user.username);
+      await updateCoffee(
+        coffeeName,
+        roasting_company,
+        user.userId,
+        user.username,
+      );
       if (image) {
         await uploadImage(image);
       }
@@ -69,6 +79,7 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
       error={error}
       setError={setError}
       coffeeName={props.initalCoffee.name}
+      roastingCompany={props.initalCoffee.roasting_company}
       loading={loading}
       setLoading={setLoading}
       title={"Edit " + props.initalCoffee.name}

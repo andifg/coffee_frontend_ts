@@ -6,7 +6,14 @@ const AppGrid = () => {
   useAuthWrapper();
 
   return (
-    <Grid container sx={{ justifyContent: "center", alignContent: "center" }}>
+    <Grid
+      container
+      sx={{
+        justifyContent: "center",
+        alignContent: "center",
+        backgroundColor: "secondary.light",
+      }}
+    >
       <Grid
         item
         sx={{ position: "relative" }}

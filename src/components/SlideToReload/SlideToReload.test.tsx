@@ -68,16 +68,15 @@ describe("SlideToReload", () => {
       touches: [{ clientY: 111 }],
     });
 
+    expect(screen.getByText("Slide down to reload")).toBeInTheDocument();
+
     fireEvent.touchEnd(screen.getByRole("presentation"), {
       touches: [{ clientY: 111 }],
     });
 
-    await waitFor(
-      () => {
-        expect(screen.getByText("Slide down to reload")).toBeInTheDocument();
-      },
-      { timeout: 1000 },
-    );
+    expect(
+      screen.queryByTestId("Slide down to reload"),
+    ).not.toBeInTheDocument();
   });
 
   it("doesn't show message when ref element is lower than 50 on screen (or above viewsight", async () => {

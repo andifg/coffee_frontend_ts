@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 /**
- * Describes a Coffee
+ * Describes a Coffee type
  */
 export type Coffee = {
   /**
@@ -15,6 +15,10 @@ export type Coffee = {
    * Name of coffee
    */
   name: string;
+  /**
+   * Name of the roasting company
+   */
+  roasting_company: string;
   /**
    * The id of the owner of the coffee
    */

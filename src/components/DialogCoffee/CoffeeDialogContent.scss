@@ -1,0 +1,53 @@
+.coffee-dialog-title {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  min-height: 35px;
+}
+
+.coffee-dialog-title-back-button {
+  position: absolute;
+  left: 0px;
+}
+
+.coffee-dialog-title-text {
+  text-align: center;
+  font-size: 0.85rem;
+  display: flex;
+  margin-bottom: 0;
+  align-items: center;
+  align-self: center;
+}
+
+.coffee-dialog-image {
+  object-fit: contain;
+  max-height: 500px;
+}
+
+.coffee-dialog-fields-area {
+  background-color: white;
+  position: relative;
+  width: 100%;
+  bottom: 10px;
+  border-radius: 10px 10px 0 0;
+  border-top: 0.5px solid;
+}
+
+.coffee-dialog-fields-wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.coffee-dialog-text-input {
+  margin-bottom: 15px;
+}
+
+.coffee-dialog-actions {
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
+}

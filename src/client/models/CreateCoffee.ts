@@ -18,4 +18,8 @@ export type CreateCoffee = {
    * Name of coffee
    */
   name: string;
+  /**
+   * Name of the roasting company
+   */
+  roasting_company: string;
 };
