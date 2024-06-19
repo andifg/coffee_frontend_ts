@@ -36,6 +36,21 @@ export function useUpdateCoffeeData(
   const updateCoffeeInContext = useContext(UpdateCoffeeContext);
   const updateCoffeeImage = useContext(UpdateCoffeeImageContext);
 
+  const deleteEntryFromCache = async () => {
+    try {
+      const cache = await caches.open("coffee-images");
+      cache.keys().then((keys) => {
+        keys.forEach((key) => {
+          if (key.url.includes(props.coffee_id)) {
+            cache.delete(key);
+          }
+        });
+      });
+    } catch (error) {
+      console.log("Error deleting cache entry: ", error);
+    }
+  };
+
   const updateCoffee = async (
     coffeeName: string,
     roasting_company: string,
@@ -83,6 +98,8 @@ export function useUpdateCoffeeData(
       rethrowError: true,
       args: [props.coffee_id, imagepost],
     });
+
+    await deleteEntryFromCache();
 
     updateCoffeeImage(image); // Update the image in the parent component
     console.log("Coffee image successfully changed");

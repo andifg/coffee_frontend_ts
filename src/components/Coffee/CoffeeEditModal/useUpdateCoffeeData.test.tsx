@@ -13,6 +13,28 @@ describe("useUpdateCoffeeData", () => {
   const updateCoffeeNameMock = vi.fn();
   const updateCoffeeImageMock = vi.fn();
 
+  const cachesDeleteMock = vi.fn();
+
+  const coffeeImageCacheMock = {
+    delete: cachesDeleteMock,
+    keys: vi.fn().mockResolvedValueOnce([
+      {
+        url: "/api/v1/coffees/1/image",
+      },
+      {
+        url: "teststring2",
+      },
+    ]),
+  };
+
+  const cachesOpenMock = vi.fn().mockResolvedValueOnce(coffeeImageCacheMock);
+
+  const cachesMock = {
+    open: cachesOpenMock,
+  };
+
+  vi.stubGlobal("caches", cachesMock);
+
   vi.mock("react", async (importOriginal) => {
     const actual = await importOriginal<typeof import("react")>();
     return {
@@ -143,6 +165,16 @@ describe("useUpdateCoffeeData", () => {
     });
     await waitFor(() => {
       expect(updateCoffeeImageMock).toHaveBeenCalledWith(image);
+    });
+
+    await waitFor(() => {
+      expect(cachesOpenMock).toHaveBeenCalledWith("coffee-images");
+    });
+
+    await waitFor(() => {
+      expect(cachesDeleteMock).toHaveBeenCalledWith({
+        url: "/api/v1/coffees/1/image",
+      });
     });
   });
 });

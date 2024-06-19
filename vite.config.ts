@@ -63,6 +63,24 @@ export default defineConfig({
       devOptions: {
         enabled: true,
       },
+      workbox: {
+        runtimeCaching: [
+          {
+            urlPattern: /.*\/api\/.*\/image/,
+            handler: "CacheFirst" as const,
+            options: {
+              cacheName: "coffee-images",
+              expiration: {
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60, // 1 hour
+              },
+              cacheableResponse: {
+                statuses: [0, 200],
+              },
+            },
+          },
+        ],
+      },
     }),
   ],
 });
