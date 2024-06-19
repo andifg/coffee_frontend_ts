@@ -30,11 +30,11 @@ const RatingDialog = () => {
           <Drawer
             anchor="left"
             open={show}
-            PaperProps={{ sx: { height: "100vh", width: "100vw" } }}
+            PaperProps={{ sx: { height: "100%", width: "100%" } }}
           >
             <div
               style={{
-                height: "100vh",
+                height: "100%",
                 display: "flex",
                 flexDirection: "column",
               }}
