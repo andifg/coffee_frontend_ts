@@ -34,6 +34,9 @@ const useAddCoffeeBrewRating = (
   const [searchParams, setSearchParams] = useSearchParams();
   const [error, setError] = useState<string | null>(null);
 
+  const [imageURL, setImageURL] = React.useState<string | undefined>();
+  const [image, setImage] = React.useState<File | undefined>();
+
   const [callClientServiceMethod] = useClientService();
 
   const addRatingToCoffee = useContext(AddRatingToCoffeeContext);
@@ -104,6 +107,27 @@ const useAddCoffeeBrewRating = (
       }
     }
   };
+
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    console.log("File change");
+    let file: File;
+    if (event.target.files && event.target.files?.length != 0) {
+      console.log(event.target.files?.length);
+      const filetype = event.target.files[0].type;
+      if (filetype === "image/heic") {
+        console.log("Converting HEIC to PNG");
+        file = await convertHEICtoPNG(event.target.files[0]);
+      } else {
+        file = event.target.files[0];
+      }
+      setImage(file);
+      setImageURL(await createDataURL(file));
+    }
+  };
+
+
 
   return [
     loading,

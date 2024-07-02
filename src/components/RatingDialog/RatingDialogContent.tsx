@@ -70,7 +70,7 @@ const RatingDialogContent = (props: Props) => {
           <CardMedia
             className="rating-dialog-image"
             component="img"
-            src={"/rating-image.jpg"}
+            src={imageURL || "/rating-image.jpg"}
             alt="green iguana"
           />
           <div
