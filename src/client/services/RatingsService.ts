@@ -4,7 +4,6 @@
 /* eslint-disable */
 import type { CreateRating } from "../models/CreateRating";
 import type { Rating } from "../models/Rating";
-import type { RatingSummary } from "../models/RatingSummary";
 
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
@@ -41,50 +40,6 @@ export class RatingsService {
       url: "/api/v1/coffees/{coffee_id}/ratings/{rating_id}",
       path: {
         rating_id: ratingId,
-        coffee_id: coffeeId,
-      },
-      errors: {
-        422: `Validation Error`,
-      },
-    });
-  }
-
-  /**
-   *  List Coffees Ratings Ids
-   * Get list of all ratings
-   * @param coffeeId
-   * @returns string Successful Response
-   * @throws ApiError
-   */
-  public static listCoffeesRatingsIdsApiV1CoffeesCoffeeIdRatingIdsGet(
-    coffeeId: string,
-  ): CancelablePromise<Array<string>> {
-    return __request(OpenAPI, {
-      method: "GET",
-      url: "/api/v1/coffees/{coffee_id}/rating-ids",
-      path: {
-        coffee_id: coffeeId,
-      },
-      errors: {
-        422: `Validation Error`,
-      },
-    });
-  }
-
-  /**
-   *  Get Coffees Rating Summary
-   * Get list of all ratings
-   * @param coffeeId
-   * @returns RatingSummary Successful Response
-   * @throws ApiError
-   */
-  public static getCoffeesRatingSummaryApiV1CoffeesCoffeeIdRatingSummaryGet(
-    coffeeId: string,
-  ): CancelablePromise<RatingSummary> {
-    return __request(OpenAPI, {
-      method: "GET",
-      url: "/api/v1/coffees/{coffee_id}/rating-summary",
-      path: {
         coffee_id: coffeeId,
       },
       errors: {
