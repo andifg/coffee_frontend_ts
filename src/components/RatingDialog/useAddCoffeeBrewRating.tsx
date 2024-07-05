@@ -3,8 +3,17 @@ import { useContext } from "react";
 import { AddRatingToCoffeeContext } from "../Board/Board";
 import { uuidv7 } from "uuidv7";
 import useClientService from "../../hooks/useClientService";
-import { RatingsService, CreateRating, BrewingMethod } from "../../client";
+import {
+  RatingsService,
+  CreateRating,
+  BrewingMethod,
+  CoffeeDrinkImagesService,
+  Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post,
+} from "../../client";
 import { useSearchParams } from "react-router-dom";
+import { createDataURL } from "../../utils/FileReader";
+import heic2any from "heic2any";
+import React from "react";
 
 interface Props {
   close: () => void;
@@ -21,6 +30,8 @@ interface Params {
 const useAddCoffeeBrewRating = (
   props: Props,
 ): [
+  string | undefined,
+  (event: React.ChangeEvent<HTMLInputElement>) => void,
   boolean,
   string | null,
   ({ brewingMethod, brewingRating }: Params) => void,
@@ -34,8 +45,8 @@ const useAddCoffeeBrewRating = (
   const [searchParams, setSearchParams] = useSearchParams();
   const [error, setError] = useState<string | null>(null);
 
-  const [imageURL, setImageURL] = React.useState<string | undefined>();
   const [image, setImage] = React.useState<File | undefined>();
+  const [imageURL, setImageURL] = React.useState<string | undefined>();
 
   const [callClientServiceMethod] = useClientService();
 
@@ -93,6 +104,20 @@ const useAddCoffeeBrewRating = (
         args: [currentRating],
       });
 
+      if (image) {
+        const imageBody: Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post =
+          {
+            file: image,
+          };
+
+        await callClientServiceMethod({
+          function:
+            CoffeeDrinkImagesService.createImageApiV1CoffeeDrinkCoffeeDrinkIdImagePost,
+          rethrowError: true,
+          args: [currentUuid, imageBody],
+        });
+      }
+
       addRatingToCoffee(currentRating);
 
       setTimeout(() => {
@@ -105,6 +130,32 @@ const useAddCoffeeBrewRating = (
         setLoading(false);
         setError(e.message);
       }
+    }
+  };
+
+  const convertHEICtoPNG = async (file: File): Promise<File> => {
+    const startTime = new Date();
+
+    const png = await heic2any({
+      blob: file,
+      toType: "image/png",
+      quality: 0.5,
+    });
+
+    const endTime = new Date();
+    const elapsedTime = endTime.getTime() - startTime.getTime();
+
+    console.log(`Converted HEIC to PNG in ${elapsedTime} milliseconds`);
+
+    let png_file: File;
+    if (png instanceof Blob && Array.isArray(png) === false) {
+      png_file = new File([png], "image.png", { type: "image/png" });
+      return png_file;
+    } else {
+      const blob_array = png as Blob[];
+
+      png_file = new File(blob_array, "image.png", { type: "image/png" });
+      return png_file;
     }
   };
 
@@ -127,9 +178,9 @@ const useAddCoffeeBrewRating = (
     }
   };
 
-
-
   return [
+    imageURL,
+    handleFileChange,
     loading,
     error,
     setParams,
