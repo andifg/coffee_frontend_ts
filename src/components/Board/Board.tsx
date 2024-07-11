@@ -4,7 +4,6 @@ import { useEffect, createContext } from "react";
 
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
-import { useLocation } from "react-router-dom";
 import Container from "@mui/material/Container";
 
 import { Coffee as CoffeeSchema, CreateRating } from "../../client";
@@ -31,8 +30,6 @@ interface Props {
 }
 
 const Board: React.FC<Props> = (props: Props) => {
-  const location = useLocation();
-
   const [
     coffees,
     fetchFirstPage,
@@ -44,10 +41,6 @@ const Board: React.FC<Props> = (props: Props) => {
   ] = useManageCoffeesState({
     personalized: props.personalized,
   });
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [location]);
 
   useEffect(() => {
     console.log("DATA NEW was changed " + coffees?.length || 0, Date.now());

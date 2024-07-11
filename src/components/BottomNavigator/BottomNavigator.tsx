@@ -49,6 +49,11 @@ const BottomNavigator = (): React.JSX.Element => {
                   <FavoriteBorderOutlinedIcon />
                 )
               }
+              onClick={() => {
+                if (value === "/feed") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
             />
             <BottomNavigationAction
               value="/add"
