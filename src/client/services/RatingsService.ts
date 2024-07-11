@@ -13,13 +13,31 @@ export class RatingsService {
   /**
    *  List Ratings
    * Get list of all ratings
+   * @param page Page number
+   * @param pageSize Page size
+   * @param firstRatingId
+   * @param coffeeId
    * @returns Rating Successful Response
    * @throws ApiError
    */
-  public static listRatingsApiV1RatingsGet(): CancelablePromise<Array<Rating>> {
+  public static listRatingsApiV1RatingsGet(
+    page: number = 1,
+    pageSize: number = 5,
+    firstRatingId?: string | null,
+    coffeeId?: string | null,
+  ): CancelablePromise<Array<Rating>> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/v1/ratings",
+      query: {
+        page: page,
+        page_size: pageSize,
+        first_rating_id: firstRatingId,
+        coffee_id: coffeeId,
+      },
+      errors: {
+        422: `Validation Error`,
+      },
     });
   }
 
