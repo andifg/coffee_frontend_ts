@@ -1,0 +1,14 @@
+.coffee-rating-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2px;
+  max-height: 190px;
+  overflow-y: auto;
+}
+
+.coffee-rating-list-load-more {
+  text-align: center;
+  text-decoration: underline;
+  margin-top: 1px;
+  margin-bottom: 2px;
+}
