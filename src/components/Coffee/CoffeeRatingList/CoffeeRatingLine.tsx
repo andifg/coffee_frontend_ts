@@ -2,12 +2,16 @@ import "./CoffeeRatingLine.scss";
 import theme from "../../../theme";
 import StarIcon from "@mui/icons-material/Star";
 import { Rating } from "../../../client";
+import { Story } from "../../Story/Story";
+import { useState } from "react";
 
 interface Props {
   rating: Rating;
 }
 
 const CoffeeRatingLine = (props: Props) => {
+  const [triggerStory, setTriggerStory] = useState<boolean>(false);
+
   return (
     <div
       className="coffee-rating-line-wrapper"
@@ -27,7 +31,9 @@ const CoffeeRatingLine = (props: Props) => {
         src="./rating-image.jpg"
         alt="avatar"
         className="coffee-rating-line-image"
+        onClick={() => setTriggerStory(!triggerStory)}
       />
+      {triggerStory && <Story setTrigger={setTriggerStory} />}
     </div>
   );
 };

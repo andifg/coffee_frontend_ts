@@ -1,0 +1,28 @@
+.story-wrapper {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+  display: flex;
+}
+
+.story-content-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.story-progress-bar {
+  width: 98%;
+  height: 5px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.story-progress-bar-percentage {
+  display: block;
+  height: 95%;
+  background-color: white;
+  border-radius: 5px;
+}
