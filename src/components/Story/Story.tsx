@@ -6,6 +6,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 import { Rating } from "../../client";
 import { Typography } from "@mui/material";
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
+import useLoadImageURL from "../Coffee/CoffeeCard/useLoadImage";
 
 interface Props {
   close: () => void;
@@ -16,29 +17,23 @@ const Story = (props: Props): JSX.Element => {
   const [progress, setProgress] = useState<number>(0);
   const isMountedRef = useRef(true);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const fetchImage = async () => {
-    setLoading(true);
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        setLoading(false);
-        resolve("resolved");
-      }, 1000);
-    });
-  };
+  const [imageURL, fetchImage, _] = useLoadImageURL(
+    `/api/v1/coffee-drink/${props.rating._id}/image`,
+    setLoading,
+    false,
+  );
 
   useEffect(() => {
-    console.log("use effect");
     document.body.style.overflow = "hidden";
 
     const fetchAndDisplayStory = async () => {
+      setLoading(true);
       await fetchImage();
 
       while (isMountedRef.current) {
-        await new Promise((resolve) => setTimeout(resolve, 20));
-        console.log("insiede loop");
+        await new Promise((resolve) => setTimeout(resolve, 10));
         setProgress((prevProgress) => {
-          const nextProgress = prevProgress + 0.5;
+          const nextProgress = prevProgress + 0.3;
           if (nextProgress >= 100) {
             props.close();
             document.body.style.overflow = "auto";
@@ -51,9 +46,9 @@ const Story = (props: Props): JSX.Element => {
 
     fetchAndDisplayStory();
     return () => {
-      console.log("unmount");
       document.body.style.overflow = "auto";
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -91,11 +86,11 @@ const Story = (props: Props): JSX.Element => {
           </div>
           {loading ? (
             <div className="story-loading-circle-wrapper">
-            <LoadingCircle />
+              <LoadingCircle />
             </div>
           ) : (
             <img
-              src="./rating-image.jpg"
+              src={imageURL || "./rating-image.jpg"}
               alt="avatar"
               className="story-image"
             />

@@ -24,9 +24,10 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
   const [showEditCoffeeModal, setShowEditCoffeeModal] =
     useState<boolean>(false);
 
-  const [coffeeImageURL, updateCoffeeImage] = useLoadImageURL(
-    props.coffee._id,
+  const [coffeeImageURL, fetchImage, updateCoffeeImage] = useLoadImageURL(
+    `/api/v1/coffees/${props.coffee._id}/image`,
     setLoading,
+    true,
   );
 
   const toggleShowEditCoffeeModal = () => {

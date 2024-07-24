@@ -53,13 +53,16 @@
   max-height: 50%;
 }
 .story-image {
-  position: relative;
-  top: 25%;
-  max-height: 50%;
-  width: auto;
+  position: absolute;
+  max-height: 80%;
+  max-width: 100%;
+  object-fit: contain;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.story-loading-circle-wrapper{
+.story-loading-circle-wrapper {
   position: absolute;
   top: 50%;
   left: 50%;
