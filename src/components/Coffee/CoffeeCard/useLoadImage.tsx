@@ -26,6 +26,7 @@ export default function useLoadImageURL(
     // https://github.com/ferdikoomen/openapi-typescript-codegen/pull/986
     // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
     // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
+    // TODO: Migrate to https://github.com/hey-api/openapi-ts for client generation
     try {
       const response = await fetch(
         `${window.env.BACKEND_URL}/api/v1/coffees/${coffee_id}/image`,
