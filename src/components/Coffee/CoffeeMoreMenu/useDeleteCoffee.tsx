@@ -25,7 +25,7 @@ export default function useDeleteCoffee(
       });
       deleteCoffeeInState(props.coffee_id);
       console.log(`Removed coffee with id ${props.coffee_id}`);
-    } catch (e) {
+    } catch (_) {
       console.log("Error during delete coffee");
     }
   };
