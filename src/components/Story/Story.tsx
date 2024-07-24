@@ -6,7 +6,7 @@ import UserAvatar from "../UserAvatar/UserAvatar";
 import { Rating } from "../../client";
 import { Typography } from "@mui/material";
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
-import useLoadImageURL from "../Coffee/CoffeeCard/useLoadImage";
+import { useLoadImageUrl } from "../useLoadImageUrl/useLoadImageUrl";
 
 interface Props {
   close: () => void;
@@ -17,7 +17,7 @@ const Story = (props: Props): JSX.Element => {
   const [progress, setProgress] = useState<number>(0);
   const isMountedRef = useRef(true);
   const [loading, setLoading] = useState<boolean>(true);
-  const [imageURL, fetchImage, _] = useLoadImageURL(
+  const [imageURL, fetchImageAndCreateUrl, _] = useLoadImageUrl(
     `/api/v1/coffee-drink/${props.rating._id}/image`,
     setLoading,
     false,
@@ -28,7 +28,7 @@ const Story = (props: Props): JSX.Element => {
 
     const fetchAndDisplayStory = async () => {
       setLoading(true);
-      await fetchImage();
+      await fetchImageAndCreateUrl();
 
       while (isMountedRef.current) {
         await new Promise((resolve) => setTimeout(resolve, 10));

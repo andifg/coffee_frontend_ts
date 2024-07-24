@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { createDataURL } from "../../../utils/FileReader";
+import { createDataURL } from "../../utils/FileReader";
 import { useAuth } from "react-oidc-context";
 
-export default function useLoadImageURL(
+function useLoadImageUrl(
   backendPath: string,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   instantLoad: boolean = false,
@@ -10,15 +10,14 @@ export default function useLoadImageURL(
   const [imageURL, setImageURL] = useState<string>("");
   const auth = useAuth();
 
-  const updateCoffeeImage = (newCoffeeImage: File) => {
-    console.log("Updating coffee image");
-    createDataURL(newCoffeeImage).then((dataURL) => {
+  const updateImageUrl = (newImage: File) => {
+    console.log("Updating image url");
+    createDataURL(newImage).then((dataURL) => {
       setImageURL(dataURL);
-      console.log("Coffee image updated");
     });
   };
 
-  const fetchImage = async () => {
+  const fetchImageAndCreateUrl = async () => {
     // Would like to use the auto generated Client here, but due to an error
     // that converts the binary data always to text I have to use fetch.
     // There is a PR open to fix this issue:
@@ -26,8 +25,6 @@ export default function useLoadImageURL(
     // const coffeeImageBinary = await CoffeeImagesService.getImageApiV1CoffeesCoffeeIdImageGet(coffee._id);
     // const coffeeImageBlob = new Blob([coffeeImageBinary], {type: "image/jpeg"})
     // TODO: Migrate to https://github.com/hey-api/openapi-ts for client generation
-
-    console.log("Fetching coffee image from server");
 
     setLoading(true);
 
@@ -65,9 +62,11 @@ export default function useLoadImageURL(
     if (!instantLoad) {
       return;
     }
-    fetchImage();
+    fetchImageAndCreateUrl();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [backendPath]);
 
-  return [imageURL, fetchImage, updateCoffeeImage];
+  return [imageURL, fetchImageAndCreateUrl, updateImageUrl];
 }
+
+export { useLoadImageUrl };
