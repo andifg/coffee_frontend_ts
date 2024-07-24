@@ -12,6 +12,14 @@ interface Props {
 const CoffeeRatingLine = (props: Props) => {
   const [triggerStory, setTriggerStory] = useState<boolean>(false);
 
+  const close = () => {
+    setTimeout(() => {
+      setTriggerStory(false);
+    }, 10);
+
+    // setTriggerStory(false)
+  };
+
   return (
     <div
       className="coffee-rating-line-wrapper"
@@ -33,7 +41,7 @@ const CoffeeRatingLine = (props: Props) => {
         className="coffee-rating-line-image"
         onClick={() => setTriggerStory(!triggerStory)}
       />
-      {triggerStory && <Story setTrigger={setTriggerStory} />}
+      {triggerStory && <Story close={close} rating={props.rating} />}
     </div>
   );
 };

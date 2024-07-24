@@ -5,12 +5,16 @@
   height: 100%;
   z-index: 2000;
   display: flex;
+  flex-direction: column;
 }
 
 .story-content-wrapper {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: start;
+  // align-items: center;
+  flex-direction: column;
+  padding: 2px;
 }
 
 .story-progress-bar {
@@ -18,6 +22,7 @@
   height: 5px;
   margin-top: 10px;
   border-radius: 5px;
+  align-self: center;
 }
 
 .story-progress-bar-percentage {
@@ -25,4 +30,32 @@
   height: 95%;
   background-color: white;
   border-radius: 5px;
+}
+
+.story-user-information-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: 3px;
+  margin-top: 8px;
+  align-items: center;
+}
+
+.story-user-avatar {
+  margin-left: 4px;
+}
+
+.story-user-name {
+  margin-left: 4px;
+}
+
+.story-image-wrapper {
+  position: relative;
+  top: 25%;
+  max-height: 50%;
+}
+.story-image {
+  position: relative;
+  top: 25%;
+  max-height: 50%;
+  width: auto;
 }
