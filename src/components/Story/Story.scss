@@ -12,7 +12,6 @@
   display: flex;
   width: 100%;
   justify-content: start;
-  // align-items: center;
   flex-direction: column;
   padding: 2px;
 }
@@ -49,7 +48,7 @@
 }
 
 .story-image-wrapper {
-  position: relative;
+  position: absolute;
   top: 25%;
   max-height: 50%;
 }
@@ -58,4 +57,11 @@
   top: 25%;
   max-height: 50%;
   width: auto;
+}
+
+.story-loading-circle-wrapper{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

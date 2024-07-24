@@ -1,10 +1,11 @@
 import "./Story.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import theme from "../../theme";
 import UserAvatar from "../UserAvatar/UserAvatar";
 import { Rating } from "../../client";
 import { Typography } from "@mui/material";
+import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
 
 interface Props {
   close: () => void;
@@ -13,10 +14,10 @@ interface Props {
 
 const Story = (props: Props): JSX.Element => {
   const [progress, setProgress] = useState<number>(0);
-
+  const isMountedRef = useRef(true);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const test = async () => {
+  const fetchImage = async () => {
     setLoading(true);
     await new Promise((resolve) => {
       setTimeout(() => {
@@ -30,32 +31,28 @@ const Story = (props: Props): JSX.Element => {
     console.log("use effect");
     document.body.style.overflow = "hidden";
 
-    let interval;
+    const fetchAndDisplayStory = async () => {
+      await fetchImage();
 
-    const bubu = async () => {
-      await test();
-
-      interval = setInterval(() => {
-        console.log("set intervall ");
+      while (isMountedRef.current) {
+        await new Promise((resolve) => setTimeout(resolve, 20));
+        console.log("insiede loop");
         setProgress((prevProgress) => {
           const nextProgress = prevProgress + 0.5;
-          console.log(nextProgress)
           if (nextProgress >= 100) {
             props.close();
             document.body.style.overflow = "auto";
-            clearInterval(interval);
+            isMountedRef.current = false; // Stop the loop
           }
           return nextProgress <= 100 ? nextProgress : 100;
         });
-      }, 20);
+      }
     };
 
-    bubu();
-
+    fetchAndDisplayStory();
     return () => {
       console.log("unmount");
-      // console.log(intervall)
-      clearInterval(interval);
+      document.body.style.overflow = "auto";
     };
   }, []);
 
@@ -92,8 +89,17 @@ const Story = (props: Props): JSX.Element => {
               </div>
             </div>
           </div>
-
-          <img src="./rating-image.jpg" alt="avatar" className="story-image" />
+          {loading ? (
+            <div className="story-loading-circle-wrapper">
+            <LoadingCircle />
+            </div>
+          ) : (
+            <img
+              src="./rating-image.jpg"
+              alt="avatar"
+              className="story-image"
+            />
+          )}
         </div>,
         document.body,
       )}
