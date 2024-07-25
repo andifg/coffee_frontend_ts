@@ -150,6 +150,7 @@ describe("useAddCoffeeBrewRating", () => {
           coffee_id: "1",
           rating: 3,
           brewing_method: "New Brewing Method",
+          image_exists: false,
         },
       ],
     });
@@ -171,6 +172,7 @@ describe("useAddCoffeeBrewRating", () => {
         coffee_id: "1",
         brewing_method: "Espresso",
         rating: 3,
+        image_exists: true,
       } as Rating)
       .mockResolvedValueOnce({} as Rating);
 
@@ -220,6 +222,7 @@ describe("useAddCoffeeBrewRating", () => {
           coffee_id: "1",
           rating: 3,
           brewing_method: "New Brewing Method",
+          image_exists: true,
         },
       ],
     });
@@ -272,6 +275,7 @@ describe("useAddCoffeeBrewRating", () => {
           coffee_id: "1",
           brewing_method: "New Brewing Method",
           rating: 3,
+          image_exists: false,
         },
       ],
     });
