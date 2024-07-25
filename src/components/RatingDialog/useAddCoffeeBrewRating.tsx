@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useContext } from "react";
 import { AddRatingToCoffeeContext } from "../Board/Board";
 import { uuidv7 } from "uuidv7";
@@ -60,6 +60,8 @@ const useAddCoffeeBrewRating = (
   const method: string = searchParams.get("brewingMethod") ?? "";
   const rating: string = searchParams.get("brewingRating") ?? "";
 
+  const image_exists = useRef(false);
+
   const setParams = ({
     brewingMethod = method,
     brewingRating = rating,
@@ -96,6 +98,7 @@ const useAddCoffeeBrewRating = (
         coffee_id: coffeeId,
         brewing_method: method as BrewingMethod,
         rating: parseFloat(rating),
+        image_exists: image_exists.current,
       };
       await callClientServiceMethod({
         function:
@@ -167,6 +170,7 @@ const useAddCoffeeBrewRating = (
     if (event.target.files && event.target.files?.length != 0) {
       console.log(event.target.files?.length);
       const filetype = event.target.files[0].type;
+      image_exists.current = true;
       if (filetype === "image/heic") {
         console.log("Converting HEIC to PNG");
         file = await convertHEICtoPNG(event.target.files[0]);

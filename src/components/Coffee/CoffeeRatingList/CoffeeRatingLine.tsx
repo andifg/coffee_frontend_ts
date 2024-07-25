@@ -35,12 +35,17 @@ const CoffeeRatingLine = (props: Props) => {
         <StarIcon />
         {props.rating.rating}
       </div>
-      <img
-        src="./rating-image.jpg"
-        alt="avatar"
-        className="coffee-rating-line-image"
-        onClick={() => setTriggerStory(!triggerStory)}
-      />
+      <div className="coffee-rating-image-wrapper">
+        {props.rating.image_exists && (
+          <img
+            src="./rating-image.jpg"
+            alt="avatar"
+            className="coffee-rating-line-image"
+            onClick={() => setTriggerStory(!triggerStory)}
+          />
+        )}
+      </div>
+
       {triggerStory && <Story close={close} rating={props.rating} />}
     </div>
   );
