@@ -6,6 +6,8 @@ import { Rating } from "../../client";
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
 import { useLoadImageUrl } from "../useLoadImageUrl/useLoadImageUrl";
 import { UserPostHeader } from "../UserPostHeader/UserPostHeader";
+import { IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   close: () => void;
@@ -68,7 +70,11 @@ const Story = (props: Props): JSX.Element => {
               ></div>
             </div>
             <UserPostHeader
-              rightSideContent={<></>}
+              rightSideContent={
+                <IconButton onClick={props.close} aria-label="close storry">
+                  <CloseIcon sx={{ color: "text.primary" }} />
+                </IconButton>
+              }
               username={props.rating.user_name}
               uuid={props.rating._id}
             />
