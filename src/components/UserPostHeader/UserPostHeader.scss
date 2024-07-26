@@ -1,11 +1,15 @@
-.coffee-header-left {
+.user-post-wrapper {
+  padding: 4px;
+}
+
+.user-post-header-left {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 4px;
+  padding-left: 2px;
 }
 
-.coffee-header-middle {
+.user-post-header-middle {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -13,7 +17,16 @@
   padding-left: 8px;
 }
 
-.coffee-header-right {
+.user-post-header-username {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.user-post-header-time {
+  line-height: 0.9;
+}
+
+.user-post-header-right {
   display: flex;
   justify-content: flex-end;
   align-items: center;

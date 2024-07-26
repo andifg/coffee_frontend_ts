@@ -2,11 +2,10 @@ import "./Story.scss";
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import theme from "../../theme";
-import UserAvatar from "../UserAvatar/UserAvatar";
 import { Rating } from "../../client";
-import { Typography } from "@mui/material";
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
 import { useLoadImageUrl } from "../useLoadImageUrl/useLoadImageUrl";
+import { UserPostHeader } from "../UserPostHeader/UserPostHeader";
 
 interface Props {
   close: () => void;
@@ -68,21 +67,11 @@ const Story = (props: Props): JSX.Element => {
                 style={{ width: `${progress}%` }}
               ></div>
             </div>
-
-            <div className="story-user-information-wrapper">
-              <div className="story-user-avatar">
-                <UserAvatar given_name={props.rating.user_name} />
-              </div>
-              <div className="story-user-name">
-                <Typography
-                  variant="body1"
-                  component="div"
-                  sx={{ color: "text.primary" }}
-                >
-                  {props.rating.user_name}
-                </Typography>
-              </div>
-            </div>
+            <UserPostHeader
+              rightSideContent={<></>}
+              username={props.rating.user_name}
+              uuid={props.rating._id}
+            />
           </div>
           {loading ? (
             <div className="story-loading-circle-wrapper">
