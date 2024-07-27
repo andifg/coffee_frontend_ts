@@ -33,4 +33,8 @@ export type Rating = {
    * Name of the user created the rating
    */
   user_name: string;
+  /**
+   * Whether rating was submitted with or without a picture
+   */
+  image_exists?: boolean;
 };

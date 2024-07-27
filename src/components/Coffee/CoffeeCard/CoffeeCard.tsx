@@ -8,7 +8,7 @@ import { Coffee as CoffeeSchema } from "../../../client";
 
 import { CoffeeSkeleton } from "../CoffeeSkeleton/CoffeeSkeleton";
 import { CoffeeEditModal } from "../CoffeeEditModal/CoffeeEditModal";
-import useLoadImageURL from "./useLoadImage";
+import { useLoadImageUrl } from "../../useLoadImageUrl/useLoadImageUrl";
 import CoffeeHeader from "../CoffeeHeader/CoffeeHeader";
 import { CoffeeCardContent } from "./CoffeeCardContent";
 
@@ -24,9 +24,10 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
   const [showEditCoffeeModal, setShowEditCoffeeModal] =
     useState<boolean>(false);
 
-  const [coffeeImageURL, updateCoffeeImage] = useLoadImageURL(
-    props.coffee._id,
+  const [coffeeImageURL, _, updateImageUrl] = useLoadImageUrl(
+    `/api/v1/coffees/${props.coffee._id}/image`,
     setLoading,
+    true,
   );
 
   const toggleShowEditCoffeeModal = () => {
@@ -79,7 +80,7 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
               />
               <CoffeeCardContent coffee={props.coffee} />
             </Card>
-            <UpdateCoffeeImageContext.Provider value={updateCoffeeImage}>
+            <UpdateCoffeeImageContext.Provider value={updateImageUrl}>
               <CoffeeEditModal
                 open={showEditCoffeeModal}
                 closeModal={toggleShowEditCoffeeModal}

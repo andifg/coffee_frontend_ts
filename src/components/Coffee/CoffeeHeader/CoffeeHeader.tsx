@@ -1,12 +1,7 @@
-import "./CoffeeHeader.scss";
-
-import CardContent from "@mui/material/CardContent";
-import Grid from "@mui/material/Unstable_Grid2";
-
 import { CoffeeMoreMenu } from "../CoffeeMoreMenu/CoffeeMoreMenu";
-import UserAvatar from "../../UserAvatar/UserAvatar";
-import Typography from "@mui/material/Typography";
 import { Coffee } from "../../../client";
+
+import { UserPostHeader } from "../../UserPostHeader/UserPostHeader";
 
 interface CofeeHeaderProps {
   coffee: Coffee;
@@ -18,32 +13,18 @@ interface CofeeHeaderProps {
 
 const CoffeeHeader = (props: CofeeHeaderProps) => {
   return (
-    <CardContent
-      sx={{ padding: "0px", paddingTop: "4px", paddingBottom: "4px" }}
-    >
-      <Grid container>
-        <Grid className="coffee-header-left" xs={1}>
-          <UserAvatar given_name={props.coffee_owner_name} />
-        </Grid>
-        <Grid className="coffee-header-middle" xs={9}>
-          <Typography
-            variant="body1"
-            component="div"
-            sx={{ color: "text.primary" }}
-          >
-            {props.coffee_owner_name}
-          </Typography>
-        </Grid>
-        <Grid className="coffee-header-right" xs={2}>
-          <CoffeeMoreMenu
-            coffee={props.coffee}
-            toggleShowEditCoffeeModal={props.toggleShowEditCoffeeModal}
-            toggleMoreMenuVisibility={props.toggleMoreMenuVisibility}
-            showMoreMenu={props.showMoreMenu}
-          />
-        </Grid>
-      </Grid>
-    </CardContent>
+    <UserPostHeader
+      rightSideContent={
+        <CoffeeMoreMenu
+          coffee={props.coffee}
+          toggleShowEditCoffeeModal={props.toggleShowEditCoffeeModal}
+          toggleMoreMenuVisibility={props.toggleMoreMenuVisibility}
+          showMoreMenu={props.showMoreMenu}
+        />
+      }
+      username={props.coffee_owner_name}
+      uuid={props.coffee._id}
+    />
   );
 };
 

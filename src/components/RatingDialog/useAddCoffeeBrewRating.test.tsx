@@ -4,7 +4,8 @@ import { useAddCoffeeBrewRating } from "./useAddCoffeeBrewRating";
 import { MemoryRouter } from "react-router";
 import { act } from "react-dom/test-utils";
 import useClientService from "../../hooks/useClientService";
-import { Rating, RatingsService } from "../../client";
+import { Rating, RatingsService, CoffeeDrinkImagesService } from "../../client";
+import React from "react";
 
 describe("useAddCoffeeBrewRating", () => {
   vi.mock("react-oidc-context", () => ({
@@ -41,6 +42,8 @@ describe("useAddCoffeeBrewRating", () => {
       wrapper,
     });
     const [
+      imageURL,
+      handleFileChange,
       loading,
       error,
       setParams,
@@ -50,6 +53,8 @@ describe("useAddCoffeeBrewRating", () => {
       method,
       rating,
     ] = result.current;
+    expect(imageURL).toBe(undefined);
+    expect(handleFileChange).toBeInstanceOf(Function);
     expect(setParams).toBeInstanceOf(Function);
     expect(submit).toBeInstanceOf(Function);
     expect(loading).toBe(false);
@@ -69,14 +74,14 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     act(() => {
-      result.current[2]({
+      result.current[4]({
         brewingMethod: "New Brewing Method",
         brewingRating: "New Brewing Rating",
       });
     });
 
-    expect(result.current[6]).toBe("New Brewing Method");
-    expect(result.current[7]).toBe("New Brewing Rating");
+    expect(result.current[8]).toBe("New Brewing Method");
+    expect(result.current[9]).toBe("New Brewing Rating");
   });
 
   it("Should show error when rating not selected", async () => {
@@ -88,19 +93,19 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     await act(async () => {
-      await result.current[3]();
+      await result.current[5]();
     });
 
     waitFor(() => {
-      expect(result.current[0]).toBe(true);
+      expect(result.current[2]).toBe(true);
     });
 
-    expect(result.current[0]).toBe(false);
+    expect(result.current[2]).toBe(false);
 
-    expect(result.current[1]).toBe("Rating is required");
+    expect(result.current[3]).toBe("Rating is required");
   });
 
-  it("Should submit rating", async () => {
+  it("Should submit rating without image", async () => {
     const useClientServiceMock = vi.fn();
     const closeMock = vi.fn();
 
@@ -122,17 +127,17 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     act(() => {
-      result.current[2]({
+      result.current[4]({
         brewingMethod: "New Brewing Method",
         brewingRating: "3",
       });
     });
 
-    expect(result.current[6]).toBe("New Brewing Method");
-    expect(result.current[7]).toBe("3");
+    expect(result.current[8]).toBe("New Brewing Method");
+    expect(result.current[9]).toBe("3");
 
     await act(async () => {
-      await result.current[3]();
+      await result.current[5]();
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
@@ -145,12 +150,88 @@ describe("useAddCoffeeBrewRating", () => {
           coffee_id: "1",
           rating: 3,
           brewing_method: "New Brewing Method",
+          image_exists: false,
         },
       ],
     });
 
+    expect(useClientServiceMock).toHaveBeenCalledTimes(1);
+
     waitFor(() => {
       expect(closeMock).toHaveBeenCalled();
+    });
+  });
+
+  it("Will handle submit with image", async () => {
+    const useClientServiceMock = vi.fn();
+    const closeMock = vi.fn();
+
+    useClientServiceMock
+      .mockResolvedValueOnce({
+        _id: "1",
+        coffee_id: "1",
+        brewing_method: "Espresso",
+        rating: 3,
+        image_exists: true,
+      } as Rating)
+      .mockResolvedValueOnce({} as Rating);
+
+    vi.mocked(useClientService).mockReturnValue([useClientServiceMock]);
+
+    const props = {
+      close: closeMock,
+    };
+
+    const { result } = renderHook(() => useAddCoffeeBrewRating(props), {
+      wrapper,
+    });
+
+    act(() => {
+      result.current[4]({
+        brewingMethod: "New Brewing Method",
+        brewingRating: "3",
+      });
+    });
+
+    expect(result.current[8]).toBe("New Brewing Method");
+    expect(result.current[9]).toBe("3");
+
+    const file = new File([""], "filename", { type: "text/plain" });
+
+    const changeEvent = {
+      target: {
+        files: [file] as unknown as FileList,
+      },
+    } as unknown as React.ChangeEvent<HTMLInputElement>;
+
+    act(() => {
+      result.current[1](changeEvent);
+    });
+
+    await act(async () => {
+      await result.current[5]();
+    });
+
+    expect(useClientServiceMock).toHaveBeenCalledWith({
+      function:
+        RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
+      rethrowError: true,
+      args: [
+        {
+          _id: "1",
+          coffee_id: "1",
+          rating: 3,
+          brewing_method: "New Brewing Method",
+          image_exists: true,
+        },
+      ],
+    });
+
+    expect(useClientServiceMock).toHaveBeenCalledWith({
+      function:
+        CoffeeDrinkImagesService.createImageApiV1CoffeeDrinkCoffeeDrinkIdImagePost,
+      rethrowError: true,
+      args: ["1", { file }],
     });
   });
 
@@ -171,17 +252,17 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     act(() => {
-      result.current[2]({
+      result.current[4]({
         brewingMethod: "New Brewing Method",
         brewingRating: "3",
       });
     });
 
-    expect(result.current[6]).toBe("New Brewing Method");
-    expect(result.current[7]).toBe("3");
+    expect(result.current[8]).toBe("New Brewing Method");
+    expect(result.current[9]).toBe("3");
 
     await act(async () => {
-      await result.current[3]();
+      await result.current[5]();
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
@@ -194,12 +275,13 @@ describe("useAddCoffeeBrewRating", () => {
           coffee_id: "1",
           brewing_method: "New Brewing Method",
           rating: 3,
+          image_exists: false,
         },
       ],
     });
 
     waitFor(() => {
-      expect(result.current[1]).toBe("API Error");
+      expect(result.current[3]).toBe("API Error");
     });
 
     expect(closeMock).not.toHaveBeenCalled();

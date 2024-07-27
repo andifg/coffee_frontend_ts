@@ -14,6 +14,8 @@ import FormControl from "@mui/material/FormControl";
 import StarIcon from "@mui/icons-material/Star";
 import Rating from "@mui/material/Rating";
 import { useAddCoffeeBrewRating } from "./useAddCoffeeBrewRating";
+import Button from "@mui/material/Button";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 interface Props {
   close: () => void;
@@ -30,6 +32,8 @@ const brewingMethod = [
 
 const RatingDialogContent = (props: Props) => {
   const [
+    imageURL,
+    handleFileChange,
     loading,
     error,
     setParams,
@@ -70,7 +74,7 @@ const RatingDialogContent = (props: Props) => {
           <CardMedia
             className="rating-dialog-image"
             component="img"
-            src={"/rating-image.jpg"}
+            src={imageURL || "/rating-image.jpg"}
             alt="green iguana"
           />
           <div
@@ -80,6 +84,24 @@ const RatingDialogContent = (props: Props) => {
             }}
           >
             <div className="rating-dialog-fields-wrapper">
+              <Button
+                component="label"
+                variant="outlined"
+                sx={{
+                  marginBottom: "15px",
+                  color: "text.primary",
+                  borderColor: "text.primary",
+                }}
+                startIcon={<CloudUploadIcon />}
+              >
+                Add Image
+                <input
+                  type="file"
+                  hidden
+                  data-testid="upload-file"
+                  onChange={handleFileChange}
+                />
+              </Button>
               <div className="rating-dialog-coffee-bean-and-roasting-company">
                 {coffeeName}
                 {" - "}

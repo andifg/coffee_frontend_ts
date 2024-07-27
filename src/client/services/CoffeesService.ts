@@ -44,8 +44,8 @@ export class CoffeesService {
   public static listCoffeesWithRatingSummaryApiV1CoffeesGet(
     page: number = 1,
     pageSize: number = 10,
-    ownerId?: string,
-    firstId?: string,
+    ownerId?: string | null,
+    firstId?: string | null,
   ): CancelablePromise<Array<Coffee>> {
     return __request(OpenAPI, {
       method: "GET",
@@ -63,17 +63,28 @@ export class CoffeesService {
   }
 
   /**
-   *  List Coffee Ids
-   * Get coffee by id
-   * @returns string Successful Response
+   * Endpoint to patch coffee name.
+   * Patch coffee name. To patch ratings use rating endpoints
+   * @param coffeeId
+   * @param requestBody
+   * @returns Coffee Successful Response
    * @throws ApiError
    */
-  public static listCoffeeIdsApiV1CoffeesIdsGet(): CancelablePromise<
-    Array<string>
-  > {
+  public static patchCoffeeApiV1CoffeesCoffeeIdPatch(
+    coffeeId: string,
+    requestBody: UpdateCoffee,
+  ): CancelablePromise<Coffee> {
     return __request(OpenAPI, {
-      method: "GET",
-      url: "/api/v1/coffees/ids",
+      method: "PATCH",
+      url: "/api/v1/coffees/{coffee_id}",
+      path: {
+        coffee_id: coffeeId,
+      },
+      body: requestBody,
+      mediaType: "application/json",
+      errors: {
+        422: `Validation Error`,
+      },
     });
   }
 
@@ -122,21 +133,21 @@ export class CoffeesService {
   }
 
   /**
-   * Endpoint to patch coffee name.
-   * Patch coffee name. To patch ratings use rating endpoints
+   *  Patch Coffee
+   * Get coffee by id
    * @param coffeeId
    * @param requestBody
-   * @returns Coffee Successful Response
+   * @returns string Successful Response
    * @throws ApiError
    */
-  public static patchCoffeeApiV1CoffeesCoffeeIdPatch(
+  public static patchCoffeeApiV1CoffeesIdsGet(
     coffeeId: string,
     requestBody: UpdateCoffee,
-  ): CancelablePromise<Coffee> {
+  ): CancelablePromise<Array<string>> {
     return __request(OpenAPI, {
-      method: "PATCH",
-      url: "/api/v1/coffees/{coffee_id}",
-      path: {
+      method: "GET",
+      url: "/api/v1/coffees/ids",
+      query: {
         coffee_id: coffeeId,
       },
       body: requestBody,

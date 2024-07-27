@@ -27,4 +27,8 @@ export type CreateRating = {
    * The id of the coffee
    */
   coffee_id: string;
+  /**
+   * Whether rating was submitted with or without a picture
+   */
+  image_exists?: boolean;
 };

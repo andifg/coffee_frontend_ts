@@ -30,9 +30,9 @@ export type Coffee = {
   /**
    * The number of ratings for the coffee
    */
-  rating_count?: number;
+  rating_count?: number | null;
   /**
    * The average rating for the coffee
    */
-  rating_average?: number;
+  rating_average?: number | null;
 };
