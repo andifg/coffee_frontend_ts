@@ -1,4 +1,4 @@
-import "./Board.scss";
+import "./CoffeeBeanBoard.scss";
 import React from "react";
 import { useEffect, createContext } from "react";
 
@@ -29,7 +29,7 @@ interface Props {
   personalized: boolean;
 }
 
-const Board: React.FC<Props> = (props: Props) => {
+const CoffeeBeanBoard: React.FC<Props> = (props: Props) => {
   const [
     coffees,
     fetchFirstPage,
@@ -57,11 +57,11 @@ const Board: React.FC<Props> = (props: Props) => {
       >
         <Container
           sx={{ bgcolor: "secondary.main" }}
-          className={coffees?.length != 0 ? "board-wrapper" : ""}
+          className={coffees?.length != 0 ? "coffee-bean-board-wrapper" : ""}
         >
           <UpdateCoffeeContext.Provider value={updateCoffee}>
             <DeleteCoffeeContext.Provider value={deleteCoffee}>
-              <TransitionGroup className="transition-group-wrapper">
+              <TransitionGroup className="coffee-bean-transition-group-wrapper">
                 {coffees &&
                   coffees.map((coffee) => (
                     <Collapse key={coffee._id + "-collapse"}>
@@ -79,7 +79,7 @@ const Board: React.FC<Props> = (props: Props) => {
 };
 
 export {
-  Board,
+  CoffeeBeanBoard,
   UpdateCoffeeContext,
   DeleteCoffeeContext,
   AddRatingToCoffeeContext,

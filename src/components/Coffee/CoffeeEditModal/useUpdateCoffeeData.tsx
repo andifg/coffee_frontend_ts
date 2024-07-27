@@ -10,7 +10,7 @@ import { Body__create_image_api_v1_coffees__coffee_id__image_post } from "../../
 
 import { CoffeeImagesService } from "../../../client";
 
-import { UpdateCoffeeContext } from "../../Board/Board";
+import { UpdateCoffeeContext } from "../../CoffeeBeanBoard/CoffeeBeanBoard";
 import { UpdateCoffeeImageContext } from "../CoffeeCard/CoffeeCard";
 import { useContext } from "react";
 
