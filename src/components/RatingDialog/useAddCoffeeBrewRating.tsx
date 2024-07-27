@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useContext } from "react";
-import { AddRatingToCoffeeContext } from "../Board/Board";
+import { AddRatingToCoffeeContext } from "../CoffeeBeanBoard/CoffeeBeanBoard";
 import { uuidv7 } from "uuidv7";
 import useClientService from "../../hooks/useClientService";
 import {

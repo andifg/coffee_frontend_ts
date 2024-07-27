@@ -1,4 +1,4 @@
-import { Board } from "../components/Board/Board";
+import { CoffeeBeanBoard } from "../components/CoffeeBeanBoard/CoffeeBeanBoard";
 import { HomeHeaderBar } from "./Home/HomeHeaderBar";
 import { FeedHeaderBar } from "./Feed/FeedHeaderBar";
 import WelcomeScreen from "./Welcome/Welcome";
@@ -18,7 +18,7 @@ export const routerConfig = [
         <>
           <AddCoffeeCallback>
             <FeedHeaderBar />
-            <Board personalized={false} />
+            <CoffeeBeanBoard personalized={false} />
             <ButtomNavigator />
           </AddCoffeeCallback>
         </>
@@ -32,7 +32,7 @@ export const routerConfig = [
         <>
           <AddCoffeeCallback>
             <HomeHeaderBar />
-            <Board personalized={true} />
+            <CoffeeBeanBoard personalized={true} />
             <ButtomNavigator />
           </AddCoffeeCallback>
         </>

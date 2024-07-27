@@ -1,6 +1,6 @@
 import React from "react";
 import useClientService from "../../../hooks/useClientService";
-import { DeleteCoffeeContext } from "../../Board/Board";
+import { DeleteCoffeeContext } from "../../CoffeeBeanBoard/CoffeeBeanBoard";
 
 import { CoffeesService } from "../../../client";
 

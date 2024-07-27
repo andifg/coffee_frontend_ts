@@ -1,0 +1,14 @@
+.coffee-bean-board-wrapper {
+  padding: 0px;
+  margin: 0px;
+}
+
+.coffee-bean-transition-group-wrapper {
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 600px) {
+  .coffee-bean-board-wrapper {
+    background-color: white;
+  }
+}
