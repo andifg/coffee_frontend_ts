@@ -9,7 +9,7 @@ import {
   CreateRating,
 } from "../../client";
 import { AddCoffeeCallbackContext } from "../AddCoffeeCallbackContext/AddCoffeeCallbackContext";
-import useInfiniteScroll from "./useInfinteScroll";
+import useInfiniteScroll from "../useInfiniteScroll/useInfinteScroll";
 
 interface Props {
   personalized: boolean;
