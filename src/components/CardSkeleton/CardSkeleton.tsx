@@ -1,8 +1,8 @@
-import "./CoffeeSkeleton.scss";
+import "./CardSkeleton.scss";
 import React from "react";
 import { Skeleton } from "@mui/material";
 
-const CoffeeSkeleton: React.FunctionComponent = () => {
+const CardSkeleton: React.FunctionComponent = () => {
   return (
     <div className="skeleton-wrapper" data-testid="coffee-skeleton">
       <Skeleton variant="rectangular" height={320} />
@@ -15,4 +15,4 @@ const CoffeeSkeleton: React.FunctionComponent = () => {
   );
 };
 
-export { CoffeeSkeleton };
+export { CardSkeleton };

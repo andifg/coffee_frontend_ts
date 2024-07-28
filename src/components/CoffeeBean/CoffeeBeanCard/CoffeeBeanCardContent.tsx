@@ -1,4 +1,4 @@
-import "./CoffeeCardContent.scss";
+import "./CoffeeBeanCardContent.scss";
 import { Coffee as CoffeeSchema } from "../../../client";
 import EspressoCup from "../../../assets/espresso-cup.svg";
 import theme from "../../../theme";
@@ -9,14 +9,14 @@ import { useNavigate } from "react-router";
 import { useLocation } from "react-router";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { CoffeeRatingList } from "../CoffeeRatingList/CoffeeRatingList";
+import { CoffeeRatingList } from "../CoffeeBeanRatingList/CoffeeBeanRatingList";
 import { useState } from "react";
 
 interface Props {
   coffee: CoffeeSchema;
 }
 
-const CoffeeCardContent = (props: Props) => {
+const CoffeeBeanCardContent = (props: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -114,4 +114,4 @@ const CoffeeCardContent = (props: Props) => {
   );
 };
 
-export { CoffeeCardContent };
+export { CoffeeBeanCardContent };

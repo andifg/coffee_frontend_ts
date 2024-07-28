@@ -29,7 +29,7 @@ type MenuItemType = {
   textSX?: object;
 };
 
-const CoffeeMoreMenu = (props: Props): React.JSX.Element => {
+const CoffeeBeanMoreMenu = (props: Props): React.JSX.Element => {
   const MoreMenuBottonRef = React.useRef<HTMLButtonElement>(null);
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
   const [allowEdit] = useEditCoffeeDecider({ coffee: props.coffee });
@@ -119,4 +119,4 @@ const CoffeeMoreMenu = (props: Props): React.JSX.Element => {
   );
 };
 
-export { CoffeeMoreMenu };
+export { CoffeeBeanMoreMenu };

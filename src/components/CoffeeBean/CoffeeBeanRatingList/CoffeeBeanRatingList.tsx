@@ -1,7 +1,7 @@
-import "./CoffeeRatingList.scss";
-import { CoffeeRatingLine } from "./CoffeeRatingLine";
+import "./CoffeeBeanRatingList.scss";
+import { CoffeeBeanRatingLine } from "./CoffeeBeanRatingLine";
 
-import { useCoffeeRatingList } from "./useCoffeeRatingList";
+import { useCoffeeRatingList } from "./useCoffeeBeanRatingList";
 import theme from "../../../theme";
 import { Coffee as CoffeeSchema } from "../../../client";
 
@@ -17,7 +17,7 @@ const CoffeeRatingList = (props: Props) => {
   return (
     <div className="coffee-rating-list-wrapper">
       {ratings.map((rating) => (
-        <CoffeeRatingLine key={rating._id} rating={rating} />
+        <CoffeeBeanRatingLine key={rating._id} rating={rating} />
       ))}
 
       {ratings.length < (props.coffee.rating_count || 0) && (

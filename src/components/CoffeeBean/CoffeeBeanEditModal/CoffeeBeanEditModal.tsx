@@ -12,7 +12,7 @@ interface Props {
   initalCoffeeImageURL: string | undefined;
 }
 
-const CoffeeEditModal: React.FC<Props> = (props) => {
+const CoffeeBeanEditModal: React.FC<Props> = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | undefined>();
 
@@ -86,4 +86,4 @@ const CoffeeEditModal: React.FC<Props> = (props) => {
     />
   );
 };
-export { CoffeeEditModal };
+export { CoffeeBeanEditModal };
