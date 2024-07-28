@@ -7,7 +7,7 @@ import Collapse from "@mui/material/Collapse";
 import Container from "@mui/material/Container";
 
 import { Coffee as CoffeeSchema, CreateRating } from "../../client";
-import { CoffeeCard } from "../Coffee/CoffeeCard/CoffeeCard";
+import { CoffeeBeanCard } from "../CoffeeBean/CoffeeBeanCard/CoffeeBeanCard";
 import SlideToReload from "../SlideToReload/SlideToReload";
 import { useManageCoffeesState } from "./useManageCoffeesState";
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
@@ -65,7 +65,7 @@ const CoffeeBeanBoard: React.FC<Props> = (props: Props) => {
                 {coffees &&
                   coffees.map((coffee) => (
                     <Collapse key={coffee._id + "-collapse"}>
-                      <CoffeeCard key={coffee._id} coffee={coffee} />
+                      <CoffeeBeanCard key={coffee._id} coffee={coffee} />
                     </Collapse>
                   ))}
               </TransitionGroup>

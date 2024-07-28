@@ -1,4 +1,4 @@
-import "./CoffeeRatingLine.scss";
+import "./CoffeeBeanRatingLine.scss";
 import theme from "../../../theme";
 import StarIcon from "@mui/icons-material/Star";
 import { Rating } from "../../../client";
@@ -9,7 +9,7 @@ interface Props {
   rating: Rating;
 }
 
-const CoffeeRatingLine = (props: Props) => {
+const CoffeeBeanRatingLine = (props: Props) => {
   const [triggerStory, setTriggerStory] = useState<boolean>(false);
 
   const close = () => {
@@ -51,4 +51,4 @@ const CoffeeRatingLine = (props: Props) => {
   );
 };
 
-export { CoffeeRatingLine };
+export { CoffeeBeanRatingLine };

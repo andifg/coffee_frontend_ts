@@ -1,4 +1,4 @@
-import { CoffeeMoreMenu } from "../CoffeeMoreMenu/CoffeeMoreMenu";
+import { CoffeeBeanMoreMenu } from "../CoffeeBeanMoreMenu/CoffeeBeanMoreMenu";
 import { Coffee } from "../../../client";
 
 import { UserPostHeader } from "../../UserPostHeader/UserPostHeader";
@@ -11,11 +11,11 @@ interface CofeeHeaderProps {
   showMoreMenu: boolean;
 }
 
-const CoffeeHeader = (props: CofeeHeaderProps) => {
+const CoffeeBeanHeader = (props: CofeeHeaderProps) => {
   return (
     <UserPostHeader
       rightSideContent={
-        <CoffeeMoreMenu
+        <CoffeeBeanMoreMenu
           coffee={props.coffee}
           toggleShowEditCoffeeModal={props.toggleShowEditCoffeeModal}
           toggleMoreMenuVisibility={props.toggleMoreMenuVisibility}
@@ -28,4 +28,4 @@ const CoffeeHeader = (props: CofeeHeaderProps) => {
   );
 };
 
-export default CoffeeHeader;
+export { CoffeeBeanHeader };

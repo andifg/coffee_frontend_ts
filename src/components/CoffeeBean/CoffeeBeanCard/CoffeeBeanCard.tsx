@@ -1,4 +1,4 @@
-import "./CoffeeCard.scss";
+import "./CoffeeBeanCard.scss";
 import React, { useState, createContext } from "react";
 
 import Card from "@mui/material/Card";
@@ -6,11 +6,11 @@ import CardMedia from "@mui/material/CardMedia";
 
 import { Coffee as CoffeeSchema } from "../../../client";
 
-import { CoffeeSkeleton } from "../CoffeeSkeleton/CoffeeSkeleton";
-import { CoffeeEditModal } from "../CoffeeEditModal/CoffeeEditModal";
+import { CardSkeleton } from "../../CardSkeleton/CardSkeleton";
+import { CoffeeBeanEditModal } from "../CoffeeBeanEditModal/CoffeeBeanEditModal";
 import { useLoadImageUrl } from "../../useLoadImageUrl/useLoadImageUrl";
-import CoffeeHeader from "../CoffeeHeader/CoffeeHeader";
-import { CoffeeCardContent } from "./CoffeeCardContent";
+import { CoffeeBeanHeader } from "../CoffeeBeanHeader/CoffeeBeanHeader";
+import { CoffeeBeanCardContent } from "./CoffeeBeanCardContent";
 
 const UpdateCoffeeImageContext = createContext<(image: File) => void>(() => {});
 
@@ -18,7 +18,7 @@ interface Props {
   coffee: CoffeeSchema;
 }
 
-const CoffeeCard: React.FC<Props> = (props: Props) => {
+const CoffeeBeanCard: React.FC<Props> = (props: Props) => {
   const [loading, setLoading] = React.useState<boolean>(true);
   const [showMoreMenu, setShowMoreMenu] = useState<boolean>(false);
   const [showEditCoffeeModal, setShowEditCoffeeModal] =
@@ -47,7 +47,7 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
   return (
     <>
       {loading ? (
-        <CoffeeSkeleton />
+        <CardSkeleton />
       ) : (
         props.coffee && (
           <div className="coffee-wrapper">
@@ -60,7 +60,7 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
               }}
               className="coffee"
             >
-              <CoffeeHeader
+              <CoffeeBeanHeader
                 coffee={props.coffee}
                 toggleMoreMenuVisibility={toggleMoreMenuVisibility}
                 toggleShowEditCoffeeModal={toggleShowEditCoffeeModal}
@@ -78,10 +78,10 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
                 }
                 sx={{ objectFit: "contain", maxHeight: "600px" }}
               />
-              <CoffeeCardContent coffee={props.coffee} />
+              <CoffeeBeanCardContent coffee={props.coffee} />
             </Card>
             <UpdateCoffeeImageContext.Provider value={updateImageUrl}>
-              <CoffeeEditModal
+              <CoffeeBeanEditModal
                 open={showEditCoffeeModal}
                 closeModal={toggleShowEditCoffeeModal}
                 initalCoffee={props.coffee}
@@ -95,4 +95,4 @@ const CoffeeCard: React.FC<Props> = (props: Props) => {
   );
 };
 
-export { CoffeeCard, UpdateCoffeeImageContext };
+export { CoffeeBeanCard, UpdateCoffeeImageContext };

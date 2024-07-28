@@ -1,7 +1,7 @@
 import { it, vi, describe, expect } from "vitest";
 
 import { renderHook, waitFor } from "@testing-library/react";
-import { useCoffeeRatingList } from "./useCoffeeRatingList";
+import { useCoffeeRatingList } from "./useCoffeeBeanRatingList";
 import useClientService from "../../../hooks/useClientService";
 import { BrewingMethod } from "../../../client";
 import { RatingsService } from "../../../client";
