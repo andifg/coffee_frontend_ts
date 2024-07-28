@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import FreeBreakfastOutlinedIcon from "@mui/icons-material/FreeBreakfastOutlined";
+import FreeBreakfastIcon from "@mui/icons-material/FreeBreakfast";
 import { Paper } from "@mui/material";
 
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -27,12 +29,34 @@ const BottomNavigator = (): React.JSX.Element => {
             sx={{ backgroundColor: "primary.main", paddingBottom: "15px" }}
             value={useLocation().pathname}
             onChange={(_, newValue) => {
+              console.log("Path changed to: ", newValue);
               if (newValue === "/add") {
                 return;
               }
               setValue(newValue);
             }}
           >
+            <BottomNavigationAction
+              component={Link}
+              to="/coffee-drinks"
+              value="/coffee-drinks"
+              sx={{
+                maxWidth: "500px",
+                color: "white",
+              }}
+              icon={
+                value === "/coffee-drinks" ? (
+                  <FreeBreakfastIcon />
+                ) : (
+                  <FreeBreakfastOutlinedIcon />
+                )
+              }
+              onClick={() => {
+                if (value === "/coffee-drinks") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            />
             <BottomNavigationAction
               component={Link}
               to="/feed"

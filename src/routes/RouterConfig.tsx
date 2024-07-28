@@ -1,6 +1,7 @@
 import { CoffeeBeanBoard } from "../components/CoffeeBeanBoard/CoffeeBeanBoard";
 import { HomeHeaderBar } from "./Home/HomeHeaderBar";
 import { FeedHeaderBar } from "./Feed/FeedHeaderBar";
+import { CoffeeDrinksHeaderBar } from "./coffeeDrinks/CoffeeDrinksHeaderBar";
 import WelcomeScreen from "./Welcome/Welcome";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import ButtomNavigator from "../components/BottomNavigator/BottomNavigator";
@@ -35,6 +36,17 @@ export const routerConfig = [
             <CoffeeBeanBoard personalized={true} />
             <ButtomNavigator />
           </AddCoffeeCallback>
+        </>
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/coffee-drinks/*",
+    element: (
+      <PrivateRoute>
+        <>
+          <CoffeeDrinksHeaderBar />
+          <ButtomNavigator />
         </>
       </PrivateRoute>
     ),
