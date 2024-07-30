@@ -2,7 +2,6 @@ import "./CoffeeBeanCardContent.scss";
 import { Coffee as CoffeeSchema } from "../../../client";
 import EspressoCup from "../../../assets/espresso-cup.svg";
 import theme from "../../../theme";
-import { Rating } from "@mui/material";
 import { ButtonBase } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router";
@@ -11,6 +10,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { CoffeeRatingList } from "../CoffeeBeanRatingList/CoffeeBeanRatingList";
 import { useState } from "react";
+import { RatingDisplay } from "../../RatingDisplay/RatingDisplay";
 
 interface Props {
   coffee: CoffeeSchema;
@@ -52,23 +52,9 @@ const CoffeeBeanCardContent = (props: Props) => {
             </div>
           </div>
           <div className="coffee-card-content-names-and-rating-child">
-            <div className="coffee-card-content-rating-wrapper">
-              <div className="coffee-card-content-rating">
-                <Rating
-                  name="simple-controlled"
-                  value={props.coffee.rating_average || 0}
-                  precision={0.5}
-                  sx={{ color: "primary.main", fontSize: "1.5rem" }}
-                  disabled={true}
-                />
-                <div className="coffee-card-content-rating-average-text">
-                  {Math.round((props.coffee.rating_average || 0) * 10) / 10}
-                </div>
-              </div>
-              <div className="coffee-card-content-rating-length">
-                {props.coffee.rating_count || 0} ratings
-              </div>
-            </div>
+            <RatingDisplay
+              rating={props.coffee.rating_average || 0}
+              ratingCount={props.coffee.rating_count || 0 } />
           </div>
         </div>
         <div className="coffee-card-content-footer">
