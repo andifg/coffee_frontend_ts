@@ -1,0 +1,14 @@
+.coffee-drinks-board-wrapper {
+  padding: 0px;
+  margin: 0px;
+}
+
+.coffee-drinks-transition-group-wrapper {
+  margin-bottom: 20px;
+}
+
+@media screen and (min-width: 600px) {
+  .coffee-drinks-board-wrapper {
+    background-color: white;
+  }
+}
