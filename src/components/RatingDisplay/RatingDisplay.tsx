@@ -4,7 +4,7 @@ import theme from "../../theme";
 
 interface RatingDisplayProps {
   rating: number;
-  ratingCount?: number;
+  ratingCount?: number | undefined;
 }
 
 const RatingDisplay = (props: RatingDisplayProps) => {
@@ -20,7 +20,7 @@ const RatingDisplay = (props: RatingDisplayProps) => {
       >
         {Math.round((props.rating || 0) * 10) / 10}
       </div>
-      {props.ratingCount && (
+      {props.ratingCount != null && (
         <div className="rating-display-rating-count">({props.ratingCount})</div>
       )}
     </div>
