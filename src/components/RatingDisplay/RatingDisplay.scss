@@ -1,0 +1,24 @@
+.rating-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.rating-display-rating {
+  font-weight: 500;
+  font-size: 1.6rem;
+  margin-left: 3px;
+  margin-right: 5px;
+}
+
+.rating-display-star-icon {
+  font-size: 1.9rem;
+}
+
+.rating-display-rating-count {
+  font-weight: 200;
+  font-size: 1.6rem;
+  margin-left: 2px;
+  letter-spacing: -1px;
+}
