@@ -1,0 +1,29 @@
+.coffee-bean-display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.coffee-bean-display-user-avatar {
+  margin-right: 4px;
+}
+
+.coffee-bean-display-names {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.coffee-bean-display-bean-name {
+  font-weight: 300;
+  font-size: 1.6rem;
+  margin-bottom: 2px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.coffee-bean-display-roasting-company {
+  font-weight: 200;
+  font-size: 1.2rem;
+}
