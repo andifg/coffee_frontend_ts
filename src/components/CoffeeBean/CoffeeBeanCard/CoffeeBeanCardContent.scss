@@ -1,39 +1,8 @@
-.coffee-card-content-wrapper {
+.coffee-bean-card-content {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.coffee-card-content-names-and-rating-wrapper {
-  display: flex;
+  justify-content: space-between;
   flex-direction: row;
-  margin: 7px 7px 0px 7px;
-}
-
-.coffee-card-content-names-and-rating-child {
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-}
-
-.coffee-card-content-names {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.coffee-card-content-names-coffee-name {
-  font-weight: 300;
-  font-size: 1.6rem;
-  margin-bottom: 2px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.coffee-card-content-names-roasting-company {
-  font-weight: 200;
-  font-size: 1.2rem;
+  padding: 7px 7px 0px 7px;
 }
 
 .coffee-card-content-footer {
