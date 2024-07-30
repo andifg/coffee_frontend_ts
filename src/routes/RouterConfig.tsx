@@ -6,6 +6,7 @@ import WelcomeScreen from "./Welcome/Welcome";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import ButtomNavigator from "../components/BottomNavigator/BottomNavigator";
 import { AddCoffeeCallback } from "../components/AddCoffeeCallbackContext/AddCoffeeCallbackContext";
+import { CoffeeDrinksBoard } from "../components/CoffeeDrinksBoard/CoffeeDrinksBoard";
 
 export const routerConfig = [
   {
@@ -46,6 +47,7 @@ export const routerConfig = [
       <PrivateRoute>
         <>
           <CoffeeDrinksHeaderBar />
+          <CoffeeDrinksBoard />
           <ButtomNavigator />
         </>
       </PrivateRoute>
