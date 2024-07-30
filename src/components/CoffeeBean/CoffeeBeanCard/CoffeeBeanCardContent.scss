@@ -31,31 +31,6 @@
   overflow: hidden;
 }
 
-.coffee-card-content-rating {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-}
-.coffee-card-content-rating-average-text {
-  font-weight: 300;
-  font-size: 1.6rem;
-  margin-left: 3px;
-  margin-right: 5px;
-}
-
-.coffee-card-content-rating-wrapper {
-  display: block;
-  align-self: flex-end;
-  width: fit-content;
-}
-
-.coffee-card-content-rating-length {
-  text-align: justify;
-  font-size: 0.8rem;
-  margin-left: 3px;
-}
-
 .coffee-card-content-names-roasting-company {
   font-weight: 200;
   font-size: 1.2rem;
