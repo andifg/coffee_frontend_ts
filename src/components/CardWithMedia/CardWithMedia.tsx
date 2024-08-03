@@ -5,7 +5,6 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 
 import { CardSkeleton } from "../CardSkeleton/CardSkeleton";
-import { useLoadImageUrl } from "../useLoadImageUrl/useLoadImageUrl";
 
 const UpdateCoffeeImageContext = createContext<(image: File) => void>(() => {});
 
@@ -13,20 +12,14 @@ interface Props {
   cardContent: JSX.Element;
   updateModal?: JSX.Element;
   header: JSX.Element;
-  imageFetchUrl: string;
+  imageURL: string;
+  loading: boolean;
 }
 
 const CardWithMedia: React.FC<Props> = (props: Props) => {
-  const [loading, setLoading] = React.useState<boolean>(true);
-  const [coffeeImageURL, _, updateImageUrl] = useLoadImageUrl(
-    props.imageFetchUrl,
-    setLoading,
-    true,
-  );
-
   return (
     <>
-      {loading ? (
+      {props.loading ? (
         <CardSkeleton />
       ) : (
         <div className="card-with-media-wrapper">
@@ -44,18 +37,15 @@ const CardWithMedia: React.FC<Props> = (props: Props) => {
               component="img"
               alt="Image"
               height="auto"
-              key={coffeeImageURL}
+              key={props.imageURL}
               src={
-                coffeeImageURL ||
+                props.imageURL ||
                 "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
               }
               sx={{ objectFit: "contain", maxHeight: "600px" }}
             />
             {props.cardContent}
           </Card>
-          <UpdateCoffeeImageContext.Provider value={updateImageUrl}>
-            {props.updateModal}
-          </UpdateCoffeeImageContext.Provider>
         </div>
       )}
     </>
