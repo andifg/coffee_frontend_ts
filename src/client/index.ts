@@ -20,6 +20,7 @@ export type { UpdateCoffee } from "./models/UpdateCoffee";
 export type { ValidationError } from "./models/ValidationError";
 
 export { CoffeeDrinkImagesService } from "./services/CoffeeDrinkImagesService";
+export { CoffeeDrinksService } from "./services/CoffeeDrinksService";
 export { CoffeeImagesService } from "./services/CoffeeImagesService";
 export { CoffeesService } from "./services/CoffeesService";
 export { HealthService } from "./services/HealthService";
