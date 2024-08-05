@@ -13,6 +13,7 @@ import useInfiniteScroll from "../useInfiniteScroll/useInfinteScroll";
 function useManageCoffeeDrinksState(): [
   CoffeeDrink[],
   () => Promise<void>,
+  (coffeeDrinkId: string) => void,
   boolean,
   boolean,
 ] {
@@ -40,10 +41,10 @@ function useManageCoffeeDrinksState(): [
   //   setCoffees(newCoffees);
   // };
 
-  // const deleteCoffee = (coffee_id: string) => {
-  //   const newCoffees = coffees.filter((c) => c._id !== coffee_id);
-  //   setCoffees(newCoffees);
-  // };
+  const deleteCoffeeDrink = (coffeeDrinkId: string) => {
+    const newCoffees = coffeeDrinks.filter((c) => c._id !== coffeeDrinkId);
+    setCoffeeDrinks(newCoffees);
+  };
 
   const loadNextPage = async () => {
     console.log("Load page: ", page.current + 1);
@@ -96,7 +97,13 @@ function useManageCoffeeDrinksState(): [
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [coffeeDrinks, fetchFirstPage, loading, showInfitescroll];
+  return [
+    coffeeDrinks,
+    fetchFirstPage,
+    deleteCoffeeDrink,
+    loading,
+    showInfitescroll,
+  ];
 }
 
 export { useManageCoffeeDrinksState };

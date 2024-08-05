@@ -4,6 +4,7 @@ import { UserPostHeader } from "../../UserPostHeader/UserPostHeader";
 import { CoffeeDrinkCardContent } from "../CoffeeDrinkCardContent/CoffeeDrinkCardContent";
 import { useLoadImageUrl } from "../../useLoadImageUrl/useLoadImageUrl";
 import { useState } from "react";
+import { CoffeeDrinkMoreMenu } from "../CoffeeDrinkMoreMenu/CoffeeDrinkMoreMenu";
 
 import { Rating as CoffeeDrink } from "../../../client";
 
@@ -13,7 +14,7 @@ type Props = {
 
 const CoffeeDrinkCard = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(true);
-  // const [showMoreMenu, setShowMoreMenu] = useState<boolean>(false);
+  const [showMoreMenu, setShowMoreMenu] = useState<boolean>(false);
   // const [showEditCoffeeModal, setShowEditCoffeeModal] =
   //     useState<boolean>(false);
 
@@ -32,10 +33,10 @@ const CoffeeDrinkCard = (props: Props) => {
   //     setShowEditCoffeeModal(!showEditCoffeeModal);
   //     };
 
-  //     const toggleMoreMenuVisibility = () => {
-  //     console.log("toggleMoreMenuVisibility");
-  //     setShowMoreMenu(!showMoreMenu);
-  //     };
+  const toggleMoreMenuVisibility = () => {
+    console.log("toggleMoreMenuVisibility");
+    setShowMoreMenu(!showMoreMenu);
+  };
 
   return (
     <CardWithMedia
@@ -46,7 +47,14 @@ const CoffeeDrinkCard = (props: Props) => {
         <UserPostHeader
           username={props.coffeeDrink.user_name}
           uuid={props.coffeeDrink._id}
-          rightSideContent={<></>}
+          rightSideContent={
+            <CoffeeDrinkMoreMenu
+              coffeeDrink={props.coffeeDrink}
+              toggleMoreMenuVisibility={toggleMoreMenuVisibility}
+              showMoreMenu={showMoreMenu}
+              toggleShowEditCoffeeModal={() => {}}
+            />
+          }
         />
       }
     />
