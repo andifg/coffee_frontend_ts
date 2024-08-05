@@ -1,6 +1,6 @@
 import "./CoffeeDrinksBoard.scss";
 // import React from "react";
-import { useEffect } from "react";
+import { useEffect, createContext } from "react";
 
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
@@ -18,17 +18,22 @@ import { CoffeeDrinkCard } from "../CoffeeDrink/CoffeeDrinkCard/CoffeeDrinkCard"
 //   () => {},
 // );
 
-// const DeleteCoffeeContext = createContext<(coffee_id: string) => void>(
-//   () => {},
-// );
+const DeleteCoffeeDrinkContext = createContext<(coffee_id: string) => void>(
+  () => {},
+);
 
 // const AddRatingToCoffeeContext = createContext<(rating: CreateRating) => void>(
 //   () => {},
 // );
 
 const CoffeeDrinksBoard = () => {
-  const [coffeeDrinks, fetchFirstPage, loading, showInfitescroll] =
-    useManageCoffeeDrinksState();
+  const [
+    coffeeDrinks,
+    fetchFirstPage,
+    deleteCoffeeDrink,
+    loading,
+    showInfitescroll,
+  ] = useManageCoffeeDrinksState();
 
   useEffect(() => {
     console.log(
@@ -52,19 +57,19 @@ const CoffeeDrinksBoard = () => {
             coffeeDrinks?.length != 0 ? "coffee-bean-board-wrapper" : ""
           }
         >
-          {/* <UpdateCoffeeContext.Provider value={updateCoffee}>
-            <DeleteCoffeeContext.Provider value={deleteCoffee}> */}
-          <TransitionGroup className="coffee-bean-transition-group-wrapper">
-            {coffeeDrinks &&
-              coffeeDrinks.map((coffeeDrink) => (
-                <Collapse key={coffeeDrink._id + "-collapse"}>
-                  {<CoffeeDrinkCard coffeeDrink={coffeeDrink} />}
-                </Collapse>
-              ))}
-          </TransitionGroup>
-          {showInfitescroll && <LoadingCircle />}
-          {/* </DeleteCoffeeContext.Provider>
-          </UpdateCoffeeContext.Provider> */}
+          {/* <UpdateCoffeeContext.Provider value={updateCoffee}> */}
+          <DeleteCoffeeDrinkContext.Provider value={deleteCoffeeDrink}>
+            <TransitionGroup className="coffee-bean-transition-group-wrapper">
+              {coffeeDrinks &&
+                coffeeDrinks.map((coffeeDrink) => (
+                  <Collapse key={coffeeDrink._id + "-collapse"}>
+                    {<CoffeeDrinkCard coffeeDrink={coffeeDrink} />}
+                  </Collapse>
+                ))}
+            </TransitionGroup>
+            {showInfitescroll && <LoadingCircle />}
+          </DeleteCoffeeDrinkContext.Provider>
+          {/* </UpdateCoffeeContext.Provider> */}
         </Container>
       </SlideToReload>
     </>
@@ -73,7 +78,7 @@ const CoffeeDrinksBoard = () => {
 
 export {
   CoffeeDrinksBoard,
+  DeleteCoffeeDrinkContext,
   // UpdateCoffeeContext,
-  // DeleteCoffeeContext,
   // AddRatingToCoffeeContext,
 };
