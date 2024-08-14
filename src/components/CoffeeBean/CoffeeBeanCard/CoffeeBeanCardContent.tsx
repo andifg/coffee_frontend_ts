@@ -1,6 +1,6 @@
 import "./CoffeeBeanCardContent.scss";
 import { Coffee as CoffeeSchema } from "../../../client";
-import EspressoCup from "../../../assets/espresso-cup.svg";
+import { EspressoCupIcon } from "../../../icons/EspressoCupIcon";
 import theme from "../../../theme";
 import { ButtonBase } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
@@ -51,12 +51,9 @@ const CoffeeBeanCardContent = (props: Props) => {
       </div>
       <div className="coffee-card-content-footer">
         <ButtonBase onClick={changePathForAddRating}>
-          <img
-            src={EspressoCup}
-            className="coffee-card-content-footer-add-rating"
-            alt="star"
-            style={{ color: theme.palette.primary.main, height: "32px" }}
-          />
+          <div className="coffee-card-content-footer-add-rating">
+            <EspressoCupIcon stroke={theme.palette.primary.main} />
+          </div>
         </ButtonBase>
         <IconButton
           onClick={toggleShowCoffeeRatingList}

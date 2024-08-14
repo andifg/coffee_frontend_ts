@@ -1,6 +1,5 @@
 import "./BrewingMethodDisplay.scss";
-import theme from "../../theme";
-import EspressoCup from "../../assets/espresso-cup-black.svg";
+import { EspressoCupIcon } from "../../icons/EspressoCupIcon";
 
 type BrewingMethodDisplayProps = {
   brewingMethod: string;
@@ -9,15 +8,9 @@ type BrewingMethodDisplayProps = {
 const BrewingMethodDisplay = (props: BrewingMethodDisplayProps) => {
   return (
     <div className="brewing-method-display">
-      <img
-        src={EspressoCup}
-        alt="star"
-        style={{
-          color: theme.palette.primary.main,
-          height: "30px",
-          marginRight: "4px",
-        }}
-      />
+      <div className="brewing-method-display-icon">
+        <EspressoCupIcon stroke="black" />
+      </div>
 
       <div className="brewing-method-display-brewing-method">
         {props.brewingMethod}
