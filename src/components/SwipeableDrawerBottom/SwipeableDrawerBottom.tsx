@@ -1,3 +1,4 @@
+import "./SwipeableDrawerBottom.scss";
 import React from "react";
 
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
@@ -8,6 +9,7 @@ interface Props {
   open: boolean;
   onOpen: () => void;
   onClose: () => void;
+  header?: JSX.Element | undefined;
   children: JSX.Element | JSX.Element[];
 }
 
@@ -18,7 +20,10 @@ const SwipeableDrawerBottom = (props: Props): React.JSX.Element => {
       open={props.open}
       onOpen={props.onOpen}
       onClose={props.onClose}
-      PaperProps={{ "data-testid": "swipeable-drawer-paper" }}
+      PaperProps={{
+        "data-testid": "swipeable-drawer-paper",
+        style: { paddingBottom: "20px" },
+      }}
     >
       <Container
         sx={{
@@ -28,15 +33,19 @@ const SwipeableDrawerBottom = (props: Props): React.JSX.Element => {
           backgroundColor: "secondary.light",
           left: "calc(50% - 15px)",
           marginTop: "3px",
+          marginBottom: "9px",
         }}
       ></Container>
+      {props.header && (
+        <div className="swipeable-drawer-bottom-header">{props.header}</div>
+      )}
       <Box
         sx={{
           margin: "5px",
           marginBottom: "10px",
           marginTop: "8px",
           borderRadius: "16px",
-          backgroundColor: "secondary.light",
+          // backgroundColor: "secondary.light",
         }}
       >
         {props.children}
