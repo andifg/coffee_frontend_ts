@@ -8,14 +8,13 @@ import FreeBreakfastOutlinedIcon from "@mui/icons-material/FreeBreakfastOutlined
 import FreeBreakfastIcon from "@mui/icons-material/FreeBreakfast";
 import { Paper } from "@mui/material";
 
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import HomeIcon from "@mui/icons-material/Home";
-import AddCoffeeModal from "../AddCoffee/AddCoffee";
+import { CoffeeBeanIcon } from "../../icons/CoffeeBeanIcon";
+import { AddEntityDrawer } from "../AddEntityDrawer/AddEntityDrawer";
 
 const BottomNavigator = (): React.JSX.Element => {
-  const [value, setValue] = useState<string>("/feed");
+  const [value, setValue] = useState<string>("/coffee-drinks");
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 
   return (
@@ -68,9 +67,13 @@ const BottomNavigator = (): React.JSX.Element => {
               }}
               icon={
                 value === "/feed" ? (
-                  <FavoriteIcon />
+                  <CoffeeBeanIcon />
                 ) : (
-                  <FavoriteBorderOutlinedIcon />
+                  <CoffeeBeanIcon
+                    stroke="white"
+                    fill="none"
+                    strokeWidth={3.5}
+                  />
                 )
               }
               onClick={() => {
@@ -101,7 +104,12 @@ const BottomNavigator = (): React.JSX.Element => {
           </BottomNavigation>
         </Paper>
       </Box>
-      <AddCoffeeModal open={openAddModal} setOpen={setOpenAddModal} />
+      <AddEntityDrawer
+        open={openAddModal}
+        close={() => {
+          setOpenAddModal(false);
+        }}
+      />
     </>
   );
 };
