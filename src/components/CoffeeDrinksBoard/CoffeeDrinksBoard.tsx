@@ -3,7 +3,6 @@ import "./CoffeeDrinksBoard.scss";
 import { useEffect, createContext } from "react";
 
 import { TransitionGroup } from "react-transition-group";
-import Collapse from "@mui/material/Collapse";
 import Container from "@mui/material/Container";
 
 // import { Coffee as CoffeeSchema, CreateRating } from "../../client";
@@ -62,9 +61,10 @@ const CoffeeDrinksBoard = () => {
             <TransitionGroup className="coffee-bean-transition-group-wrapper">
               {coffeeDrinks &&
                 coffeeDrinks.map((coffeeDrink) => (
-                  <Collapse key={coffeeDrink._id + "-collapse"}>
-                    {<CoffeeDrinkCard coffeeDrink={coffeeDrink} />}
-                  </Collapse>
+                  <CoffeeDrinkCard
+                    coffeeDrink={coffeeDrink}
+                    key={coffeeDrink._id}
+                  />
                 ))}
             </TransitionGroup>
             {showInfitescroll && <LoadingCircle />}
