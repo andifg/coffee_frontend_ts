@@ -46,6 +46,9 @@ spec:
     - name: ssh-creds
       secret:
         secretName: ssh-creds
+    - name: dockerconfig
+      secret:
+        secretName: redhat-registry-access-sealed-secret
     - name: app-pvc
       volumeClaimTemplate:
         spec:

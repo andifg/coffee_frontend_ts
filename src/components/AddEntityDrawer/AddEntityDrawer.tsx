@@ -70,9 +70,7 @@ const AddEntityDrawer = (props: AddEntityDrawerProps) => {
           onClick: () => {
             setOpenCoffeeBeanModal(true);
           },
-          icon: (
-            <CoffeeBeansIcon />
-          ),
+          icon: <CoffeeBeansIcon />,
         },
       ],
     ],
