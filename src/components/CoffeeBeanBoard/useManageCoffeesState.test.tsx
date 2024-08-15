@@ -6,7 +6,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { BrewingMethod, CoffeesService } from "../../client";
 import { useSelector } from "react-redux";
 import { Coffee as CoffeeSchema } from "../../client";
-import useInfiniteScroll from "../useInfiniteScroll/useInfinteScroll";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll/useInfinteScroll";
 
 describe("useManageCoffeesState", () => {
   vi.mock("react", async (importOriginal) => {
@@ -23,8 +23,8 @@ describe("useManageCoffeesState", () => {
     useSelector: vi.fn(),
   }));
 
-  vi.mock("./useInfinteScroll", () => ({
-    default: vi.fn(),
+  vi.mock("../../hooks/useInfiniteScroll/useInfinteScroll", () => ({
+    useInfiniteScroll: vi.fn(),
   }));
 
   vi.mock("../../hooks/useClientService", () => ({

@@ -8,7 +8,7 @@ import {
   RatingsService as CoffeeDrinkService,
 } from "../../client";
 // import { AddCoffeeCallbackContext } from "../AddCoffeeCallbackContext/AddCoffeeCallbackContext";
-import useInfiniteScroll from "../useInfiniteScroll/useInfinteScroll";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll/useInfinteScroll";
 
 function useManageCoffeeDrinksState(): [
   CoffeeDrink[],

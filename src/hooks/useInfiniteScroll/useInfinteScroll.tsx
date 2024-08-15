@@ -52,4 +52,4 @@ const useInfiniteScroll = (props: Props): [boolean, () => void] => {
   return [showLoading, resetTriggered];
 };
 
-export default useInfiniteScroll;
+export { useInfiniteScroll };
