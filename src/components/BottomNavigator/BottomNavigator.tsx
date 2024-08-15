@@ -1,5 +1,5 @@
 import "./BottomNavigator.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useLocation, Link } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
@@ -14,8 +14,12 @@ import { CoffeeBeanIcon } from "../../icons/CoffeeBeanIcon";
 import { AddEntityDrawer } from "../AddEntityDrawer/AddEntityDrawer";
 
 const BottomNavigator = (): React.JSX.Element => {
-  const [value, setValue] = useState<string>("/coffee-drinks");
+  const [value, setValue] = useState<string>(useLocation().pathname);
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    console.log("Value changed to: ", value);
+  }, [value]);
 
   return (
     <>
@@ -51,6 +55,7 @@ const BottomNavigator = (): React.JSX.Element => {
                 )
               }
               onClick={() => {
+                console.log("coffee drink clicked");
                 if (value === "/coffee-drinks") {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
@@ -67,7 +72,11 @@ const BottomNavigator = (): React.JSX.Element => {
               }}
               icon={
                 value === "/feed" ? (
-                  <CoffeeBeanIcon />
+                  <CoffeeBeanIcon
+                    stroke="white"
+                    fill="white"
+                    strokeWidth={0.1}
+                  />
                 ) : (
                   <CoffeeBeanIcon
                     stroke="white"
@@ -77,6 +86,7 @@ const BottomNavigator = (): React.JSX.Element => {
                 )
               }
               onClick={() => {
+                console.log("Coffee beans clicked");
                 if (value === "/feed") {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }

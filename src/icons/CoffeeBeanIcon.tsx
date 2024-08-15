@@ -1,7 +1,7 @@
 type CoffeeBeanIconProps = {
-  stroke?: string;
-  strokeWidth?: number;
-  fill?: string;
+  stroke: string;
+  strokeWidth: number;
+  fill: string;
 };
 
 const CoffeeBeanIcon = (props: CoffeeBeanIconProps) => (
