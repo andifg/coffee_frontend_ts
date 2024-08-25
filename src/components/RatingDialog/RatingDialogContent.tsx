@@ -42,6 +42,7 @@ const RatingDialogContent = (props: Props) => {
     roastingCompany,
     method,
     rating,
+    drinkType,
   ] = useAddCoffeeBrewRating(props);
 
   return (
@@ -55,7 +56,11 @@ const RatingDialogContent = (props: Props) => {
             <ArrowBackIosIcon />
           </IconButton>
           <Typography variant="overline" className="rating-dialog-title-text">
-            {"Add Rating / Coffee Brewing"}
+            {drinkType === "COFFEE_DRINK"
+              ? "Add Coffee Drink"
+              : drinkType === "DRINK"
+              ? "Add Other Drink"
+              : "Add Rating for Coffee Bean"}
           </Typography>
         </div>
       </>
@@ -102,43 +107,47 @@ const RatingDialogContent = (props: Props) => {
                   onChange={handleFileChange}
                 />
               </Button>
-              <div className="rating-dialog-coffee-bean-and-roasting-company">
-                {coffeeName}
-                {" - "}
-                {roastingCompany}
-              </div>
-
-              <div className="rating-dialog-brewing-method-title">
-                Brewing Method
-              </div>
-
-              <FormControl sx={{ marginTop: "15px" }}>
-                <InputLabel
-                  sx={{
-                    color: "black",
-                    backgroundColor: "white",
-                    paddingRight: "2px",
-                  }}
-                  id="test-select-label"
-                >
-                  Choose Brewing Method
-                </InputLabel>
-                <Select
-                  inputProps={{ sx: { color: "black" } }}
-                  id="test-select-label"
-                  value={method}
-                  label="Label"
-                  onChange={(event: SelectChangeEvent) => {
-                    setParams({ brewingMethod: event.target.value });
-                  }}
-                >
-                  {brewingMethod.map((method) => (
-                    <MenuItem key={method} value={method}>
-                      {method}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              {drinkType === undefined && (
+                <div className="rating-dialog-coffee-bean-and-roasting-company">
+                  {coffeeName}
+                  {" - "}
+                  {roastingCompany}
+                </div>
+              )}
+              {drinkType != "DRINK" && (
+                <>
+                  <div className="rating-dialog-brewing-method-title">
+                    Brewing Method
+                  </div>
+                  <FormControl sx={{ marginTop: "15px" }}>
+                    <InputLabel
+                      sx={{
+                        color: "black",
+                        backgroundColor: "white",
+                        paddingRight: "2px",
+                      }}
+                      id="test-select-label"
+                    >
+                      Choose Brewing Method
+                    </InputLabel>
+                    <Select
+                      inputProps={{ sx: { color: "black" } }}
+                      id="test-select-label"
+                      value={method}
+                      label="Label"
+                      onChange={(event: SelectChangeEvent) => {
+                        setParams({ brewingMethod: event.target.value });
+                      }}
+                    >
+                      {brewingMethod.map((method) => (
+                        <MenuItem key={method} value={method}>
+                          {method}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </>
+              )}
 
               <div className="rating-dialog-brewing-method-title">
                 Overall Rating

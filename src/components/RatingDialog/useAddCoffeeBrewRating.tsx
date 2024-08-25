@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import { useContext } from "react";
 import { AddRatingToCoffeeContext } from "../CoffeeBeanBoard/CoffeeBeanBoard";
 import { uuidv7 } from "uuidv7";
+import { DrinkType } from "./DrinkType";
 import useClientService from "../../hooks/useClientService";
 import {
   RatingsService,
@@ -40,6 +41,7 @@ const useAddCoffeeBrewRating = (
   string,
   string,
   string,
+  DrinkType | undefined,
 ] => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -59,6 +61,8 @@ const useAddCoffeeBrewRating = (
   const roastingCompany: string = searchParams.get("roastingCompany") ?? "";
   const method: string = searchParams.get("brewingMethod") ?? "";
   const rating: string = searchParams.get("brewingRating") ?? "";
+  const drinkType: DrinkType | undefined = (searchParams.get("drinkType") ??
+    undefined) as DrinkType | undefined;
 
   const image_exists = useRef(false);
 
@@ -193,6 +197,7 @@ const useAddCoffeeBrewRating = (
     roastingCompany,
     method,
     rating,
+    drinkType,
   ];
 };
 

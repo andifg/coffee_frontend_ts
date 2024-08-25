@@ -7,6 +7,7 @@ import { EspressoCupIcon } from "../../icons/EspressoCupIcon";
 import { CoffeeBeansIcon } from "../../icons/CoffeeBeansIcon";
 import { DrinkIcon } from "../../icons/DrinkIcon";
 import { CoffeeDrinkIcon } from "../../icons/CoffeeDrinkIcon";
+import { DrinkType } from "../RatingDialog/DrinkType";
 
 import AddCoffeeModal from "../AddCoffee/AddCoffee";
 import { RatingDialog } from "../RatingDialog/RatingDialog";
@@ -35,9 +36,14 @@ const AddEntityDrawer = (props: AddEntityDrawerProps) => {
   const [openCoffeeBeanModal, setOpenCoffeeBeanModal] =
     useState<boolean>(false);
 
-  const changePathForAddRating = () => {
-    console.log("changePathForAddRating");
-    navigate(`${location.pathname}/add-rating`);
+  const changePathForAddRating = (drinkType?: DrinkType) => {
+    let path = `${location.pathname}/add-rating`;
+
+    if (drinkType) {
+      path += `?drinkType=${drinkType}`;
+    }
+
+    navigate(path);
   };
 
   const menuItem: Map<number, MenuItemType[]> = new Map([
@@ -48,20 +54,21 @@ const AddEntityDrawer = (props: AddEntityDrawerProps) => {
           name: "Rating for existing Coffee Bean",
           onClick: () => {
             console.log("Add coffee shop");
+            changePathForAddRating();
           },
           icon: <EspressoCupIcon />,
         },
         {
           name: "Coffee Drink",
           onClick: () => {
-            changePathForAddRating();
+            changePathForAddRating(DrinkType.CoffeeDrink);
           },
           icon: <CoffeeDrinkIcon />,
         },
         {
           name: "Other Drink",
           onClick: () => {
-            changePathForAddRating();
+            changePathForAddRating(DrinkType.Drink);
           },
           icon: <DrinkIcon />,
         },
