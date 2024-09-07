@@ -2,19 +2,19 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post } from "../models/Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post";
+import type { Body__create_image_api_v1_drinks__drink_id__image_post } from "../models/Body__create_image_api_v1_drinks__drink_id__image_post";
 
 import type { CancelablePromise } from "../core/CancelablePromise";
 import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 
-export class CoffeeDrinkImagesService {
+export class DrinkImagesService {
   /**
    *  Create Image
    * Upload a coffee drink image associated with a coffee drink.
    *
    * Args:
-   * coffee_drink_id (UUID): The ID of the coffee drink associated with the
+   * drink_id (UUID): The ID of the drink associated with the
    * image.
    * file (UploadFile): The image file to upload.
    *
@@ -23,20 +23,20 @@ export class CoffeeDrinkImagesService {
    *
    * Raises:
    * HTTPException: If no file name is provided in the uploaded file.
-   * @param coffeeDrinkId
+   * @param drinkId
    * @param formData
    * @returns any Successful Response
    * @throws ApiError
    */
-  public static createImageApiV1CoffeeDrinkCoffeeDrinkIdImagePost(
-    coffeeDrinkId: string,
-    formData: Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post,
+  public static createImageApiV1DrinksDrinkIdImagePost(
+    drinkId: string,
+    formData: Body__create_image_api_v1_drinks__drink_id__image_post,
   ): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: "POST",
-      url: "/api/v1/coffee-drink/{coffee_drink_id}/image",
+      url: "/api/v1/drinks/{drink_id}/image",
       path: {
-        coffee_drink_id: coffeeDrinkId,
+        drink_id: drinkId,
       },
       formData: formData,
       mediaType: "multipart/form-data",
@@ -51,7 +51,7 @@ export class CoffeeDrinkImagesService {
    * Retrieve a coffee drink image associated with a coffee drink.
    *
    * Args:
-   * coffee_drink_id (UUID): The ID of the coffee drink associated with the
+   * drink_id (UUID): The ID of the drink associated with the
    * image.
    *
    * Returns:
@@ -59,18 +59,18 @@ export class CoffeeDrinkImagesService {
    *
    * Raises:
    * HTTPException: If the coffee image is not found in the S3 bucket.
-   * @param coffeeDrinkId
+   * @param drinkId
    * @returns any <img src="https://placebear.com/cache/395-205.jpg" alt="bear">
    * @throws ApiError
    */
-  public static getImageApiV1CoffeeDrinkCoffeeDrinkIdImageGet(
-    coffeeDrinkId: string,
+  public static getImageApiV1DrinksDrinkIdImageGet(
+    drinkId: string,
   ): CancelablePromise<any> {
     return __request(OpenAPI, {
       method: "GET",
-      url: "/api/v1/coffee-drink/{coffee_drink_id}/image",
+      url: "/api/v1/drinks/{drink_id}/image",
       path: {
-        coffee_drink_id: coffeeDrinkId,
+        drink_id: drinkId,
       },
       errors: {
         404: `Coffee image not found`,
