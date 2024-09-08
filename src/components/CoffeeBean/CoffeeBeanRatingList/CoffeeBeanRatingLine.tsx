@@ -1,12 +1,12 @@
 import "./CoffeeBeanRatingLine.scss";
 import theme from "../../../theme";
 import StarIcon from "@mui/icons-material/Star";
-import { Rating } from "../../../client";
+import { Drink } from "../../../client";
 import { Story } from "../../Story/Story";
 import { useState } from "react";
 
 interface Props {
-  rating: Rating;
+  drink: Drink;
 }
 
 const CoffeeBeanRatingLine = (props: Props) => {
@@ -25,18 +25,16 @@ const CoffeeBeanRatingLine = (props: Props) => {
       className="coffee-rating-line-wrapper"
       style={{ color: theme.palette.secondary.main }}
     >
-      <div className="coffee-rating-line-username">
-        {props.rating.user_name}
-      </div>
+      <div className="coffee-rating-line-username">{props.drink.user_name}</div>
       <div className="coffee-rating-line-brewing-method">
-        {props.rating.brewing_method}
+        {props.drink.brewing_method}
       </div>
       <div className="coffee-rating-line-rating">
         <StarIcon />
-        {props.rating.rating}
+        {props.drink.rating}
       </div>
       <div className="coffee-rating-image-wrapper">
-        {props.rating.image_exists && (
+        {props.drink.image_exists && (
           <img
             src="./rating-image.jpg"
             alt="avatar"
@@ -46,7 +44,7 @@ const CoffeeBeanRatingLine = (props: Props) => {
         )}
       </div>
 
-      {triggerStory && <Story close={close} rating={props.rating} />}
+      {triggerStory && <Story close={close} drink={props.drink} />}
     </div>
   );
 };

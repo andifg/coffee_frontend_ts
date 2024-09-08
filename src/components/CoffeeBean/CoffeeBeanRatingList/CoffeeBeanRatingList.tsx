@@ -17,7 +17,7 @@ const CoffeeRatingList = (props: Props) => {
   return (
     <div className="coffee-rating-list-wrapper">
       {ratings.map((rating) => (
-        <CoffeeBeanRatingLine key={rating._id} rating={rating} />
+        <CoffeeBeanRatingLine key={rating._id} drink={rating} />
       ))}
 
       {ratings.length < (props.coffee.rating_count || 0) && (

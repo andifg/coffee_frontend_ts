@@ -4,7 +4,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { useCoffeeRatingList } from "./useCoffeeBeanRatingList";
 import useClientService from "../../../hooks/useClientService";
 import { BrewingMethod } from "../../../client";
-import { RatingsService } from "../../../client";
+import { DrinksService } from "../../../client";
 import { act } from "react-dom/test-utils";
 
 describe("useCoffeeRatingList", () => {
@@ -56,7 +56,7 @@ describe("useCoffeeRatingList", () => {
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
-      function: RatingsService.listRatingsApiV1RatingsGet,
+      function: DrinksService.listDrinksApiV1DrinksGet,
       rethrowError: true,
       args: [1, 5, null, "1"],
     });
@@ -162,14 +162,14 @@ describe("useCoffeeRatingList", () => {
     expect(useClientServiceMock.mock.calls).toEqual([
       [
         {
-          function: RatingsService.listRatingsApiV1RatingsGet,
+          function: DrinksService.listDrinksApiV1DrinksGet,
           rethrowError: true,
           args: [1, 5, null, "1"],
         },
       ],
       [
         {
-          function: RatingsService.listRatingsApiV1RatingsGet,
+          function: DrinksService.listDrinksApiV1DrinksGet,
           rethrowError: true,
           args: [2, 5, "1", "1"],
         },
