@@ -3,7 +3,7 @@ import { describe, vi, it, expect } from "vitest";
 import useClientService from "../../hooks/useClientService";
 import { useManageCoffeesState } from "./useManageCoffeesState";
 import { renderHook, waitFor } from "@testing-library/react";
-import { BrewingMethod, CoffeesService } from "../../client";
+import { BrewingMethod, CoffeesService, CreateDrink } from "../../client";
 import { useSelector } from "react-redux";
 import { Coffee as CoffeeSchema } from "../../client";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll/useInfinteScroll";
@@ -15,6 +15,7 @@ describe("useManageCoffeesState", () => {
       ...actual,
       useContext: vi.fn().mockReturnValue({
         setCallback: vi.fn(),
+        setCallbackForAddDrinkToCoffee: vi.fn(),
       }),
     };
   });
@@ -467,6 +468,8 @@ describe("useManageCoffeesState", () => {
   it("Should add coffee to coffees", async () => {
     let callback: (coffee: CoffeeSchema) => void = () => {};
 
+    vi.mocked(useInfiniteScroll).mockReturnValue([true, vi.fn()]);
+
     const setCallback = (func: () => () => void) => {
       console.log("Setting callback");
       console.log(func.toString());
@@ -478,6 +481,7 @@ describe("useManageCoffeesState", () => {
 
     vi.mocked(useContext).mockReturnValue({
       setCallback,
+      setCallbackForAddDrinkToCoffee: vi.fn(),
     });
 
     const useClientMock = vi.fn();
@@ -650,6 +654,25 @@ describe("useManageCoffeesState", () => {
   });
 
   it("Should add rating to coffee in coffees", async () => {
+    let callback: (drink: CreateDrink) => void = () => {};
+
+    vi.mocked(useInfiniteScroll).mockReturnValue([true, vi.fn()]);
+
+    const setCallback = (func: () => () => void) => {
+      console.log("Setting callback");
+      console.log(func.toString());
+      const call = func();
+      console.log("Callback: ", call.toString());
+
+      callback = call;
+    };
+
+    vi.mocked(useContext).mockReturnValue({
+      setCallback: vi.fn(),
+      setCallbackForAddDrinkToCoffee: setCallback,
+    });
+
+    // TODO: Change to callback way
     const useClientMock = vi.fn();
 
     vi.mocked(useSelector).mockReturnValue(undefined);
@@ -687,14 +710,14 @@ describe("useManageCoffeesState", () => {
       expect(result.current[2]).toEqual(false);
     });
 
-    const rating = {
+    const drink: CreateDrink = {
       _id: "1",
-      coffee_id: "1",
-      brewing_method: "Espresso" as BrewingMethod,
+      coffee_bean_id: "1",
       rating: 5,
+      brewing_method: BrewingMethod.ESPRESSO,
     };
 
-    result.current[4](rating);
+    callback(drink);
 
     await waitFor(() => {
       expect(result.current[0]).toEqual([
@@ -758,7 +781,7 @@ describe("useManageCoffeesState", () => {
       expect(result.current[2]).toEqual(false);
     });
 
-    result.current[5]("1");
+    result.current[4]("1");
 
     await waitFor(() => {
       expect(result.current[0]).toEqual([

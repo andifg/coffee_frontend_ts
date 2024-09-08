@@ -2,15 +2,13 @@ import "./CoffeeBeanBoard.scss";
 import React from "react";
 import { useEffect, createContext } from "react";
 
-import { TransitionGroup } from "react-transition-group";
 import Container from "@mui/material/Container";
 
-import { Coffee as CoffeeSchema, CreateRating } from "../../client";
+import { Coffee as CoffeeSchema } from "../../client";
 import { CoffeeBeanCard } from "../CoffeeBean/CoffeeBeanCard/CoffeeBeanCard";
 import SlideToReload from "../SlideToReload/SlideToReload";
 import { useManageCoffeesState } from "./useManageCoffeesState";
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
-import { RatingDialog } from "../RatingDialog/RatingDialog";
 
 const UpdateCoffeeContext = createContext<(coffee: CoffeeSchema) => void>(
   () => {},
@@ -20,9 +18,9 @@ const DeleteCoffeeContext = createContext<(coffee_id: string) => void>(
   () => {},
 );
 
-const AddRatingToCoffeeContext = createContext<(rating: CreateRating) => void>(
-  () => {},
-);
+// const AddDrinkToCoffeeContext = createContext<(rating: CreateDrink) => void>(
+//   () => {},
+// );
 
 interface Props {
   personalized: boolean;
@@ -34,7 +32,6 @@ const CoffeeBeanBoard: React.FC<Props> = (props: Props) => {
     fetchFirstPage,
     fetchCoffeesLoading,
     updateCoffee,
-    addRatingToCoffee,
     deleteCoffee,
     showInfitescroll,
   ] = useManageCoffeesState({
@@ -42,14 +39,11 @@ const CoffeeBeanBoard: React.FC<Props> = (props: Props) => {
   });
 
   useEffect(() => {
-    console.log("DATA NEW was changed " + coffees?.length || 0, Date.now());
+    console.log("Current coffee numbers: " + coffees?.length || 0);
   }, [coffees]);
 
   return (
     <>
-      <AddRatingToCoffeeContext.Provider value={addRatingToCoffee}>
-        <RatingDialog />
-      </AddRatingToCoffeeContext.Provider>
       <SlideToReload
         functionToTrigger={fetchFirstPage}
         functionToTriggerLoading={fetchCoffeesLoading}
@@ -60,12 +54,14 @@ const CoffeeBeanBoard: React.FC<Props> = (props: Props) => {
         >
           <UpdateCoffeeContext.Provider value={updateCoffee}>
             <DeleteCoffeeContext.Provider value={deleteCoffee}>
-              <TransitionGroup className="coffee-bean-transition-group-wrapper">
+              {/* <TransitionGroup className="coffee-bean-transition-group-wrapper"> */}
+              <div className="coffee-bean-board-map-wrapper">
                 {coffees &&
                   coffees.map((coffee) => (
                     <CoffeeBeanCard key={coffee._id} coffee={coffee} />
                   ))}
-              </TransitionGroup>
+                {/* </TransitionGroup> */}
+              </div>
               {showInfitescroll && <LoadingCircle />}
             </DeleteCoffeeContext.Provider>
           </UpdateCoffeeContext.Provider>
@@ -75,9 +71,4 @@ const CoffeeBeanBoard: React.FC<Props> = (props: Props) => {
   );
 };
 
-export {
-  CoffeeBeanBoard,
-  UpdateCoffeeContext,
-  DeleteCoffeeContext,
-  AddRatingToCoffeeContext,
-};
+export { CoffeeBeanBoard, UpdateCoffeeContext, DeleteCoffeeContext };
