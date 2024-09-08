@@ -3,7 +3,6 @@ import "./AddEntityDrawer.scss";
 import SwipeableDrawerBottom from "../SwipeableDrawerBottom/SwipeableDrawerBottom";
 
 import { EspressoCupIcon } from "../../icons/EspressoCupIcon";
-// import CoffeeBean from "../../assets/coffee-bean.svg";
 import { CoffeeBeansIcon } from "../../icons/CoffeeBeansIcon";
 import { DrinkIcon } from "../../icons/DrinkIcon";
 import { CoffeeDrinkIcon } from "../../icons/CoffeeDrinkIcon";
@@ -46,6 +45,11 @@ const AddEntityDrawer = (props: AddEntityDrawerProps) => {
     navigate(path);
   };
 
+  const closeAddCoffeeModal = () => {
+    props.close();
+    setOpenCoffeeBeanModal(false);
+  };
+
   const menuItem: Map<number, MenuItemType[]> = new Map([
     [
       1,
@@ -53,7 +57,7 @@ const AddEntityDrawer = (props: AddEntityDrawerProps) => {
         {
           name: "Rating for existing Coffee Bean",
           onClick: () => {
-            console.log("Add coffee shop");
+            // console.log("Add coffee shop");
             changePathForAddRating();
           },
           icon: <EspressoCupIcon />,
@@ -120,11 +124,11 @@ const AddEntityDrawer = (props: AddEntityDrawerProps) => {
           {" "}
           <AddCoffeeModal
             open={openCoffeeBeanModal}
-            setOpen={setOpenCoffeeBeanModal}
+            close={closeAddCoffeeModal}
           />
-          <RatingDialog />{" "}
         </>
       )}
+      <RatingDialog close={props.close} />{" "}
     </>
   );
 };

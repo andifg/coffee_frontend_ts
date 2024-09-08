@@ -1,5 +1,5 @@
 import "./BottomNavigator.scss";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useLocation, Link } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
@@ -16,10 +16,6 @@ import { AddEntityDrawer } from "../AddEntityDrawer/AddEntityDrawer";
 const BottomNavigator = (): React.JSX.Element => {
   const [value, setValue] = useState<string>(useLocation().pathname);
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
-
-  useEffect(() => {
-    console.log("Value changed to: ", value);
-  }, [value]);
 
   return (
     <>
