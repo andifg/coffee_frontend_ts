@@ -4,7 +4,7 @@ import { useAddCoffeeBrewRating } from "./useAddCoffeeBrewRating";
 import { MemoryRouter } from "react-router";
 import { act } from "react-dom/test-utils";
 import useClientService from "../../hooks/useClientService";
-import { Rating, RatingsService, CoffeeDrinkImagesService } from "../../client";
+import { Drink, DrinkImagesService, DrinksService } from "../../client";
 import React from "react";
 
 describe("useAddCoffeeBrewRating", () => {
@@ -14,6 +14,10 @@ describe("useAddCoffeeBrewRating", () => {
 
   vi.mock("heic2any", () => ({
     default: vi.fn(),
+  }));
+
+  vi.mock("react-redux", () => ({
+    useSelector: vi.fn(),
   }));
 
   vi.mock("../../hooks/useClientService", () => ({
@@ -27,7 +31,7 @@ describe("useAddCoffeeBrewRating", () => {
   const wrapper = ({ children }: { children: JSX.Element }) => (
     <MemoryRouter
       initialEntries={[
-        "/add-rating?coffeeId=1&coffeeName=Coffee%20Name&roastingCompany=Roasting%20Company&brewingMethod=Brewing%20Method&rating=Brewing%20Rating",
+        "/add-rating?coffeeId=1&coffeeName=Coffee%20Name&roastingCompany=Roasting%20Company&brewingMethod=Brewing%20Method&rating=Brewing%20Rating&drinkType=Espresso",
       ]}
     >
       {children}
@@ -52,6 +56,7 @@ describe("useAddCoffeeBrewRating", () => {
       roastingCompany,
       method,
       rating,
+      drinkType,
     ] = result.current;
     expect(imageURL).toBe(undefined);
     expect(handleFileChange).toBeInstanceOf(Function);
@@ -63,6 +68,7 @@ describe("useAddCoffeeBrewRating", () => {
     expect(roastingCompany).toBe("Roasting Company");
     expect(method).toBe("Brewing Method");
     expect(rating).toBe("");
+    expect(drinkType).toBe("Espresso");
   });
 
   it("Should set new params", () => {
@@ -82,6 +88,23 @@ describe("useAddCoffeeBrewRating", () => {
 
     expect(result.current[8]).toBe("New Brewing Method");
     expect(result.current[9]).toBe("New Brewing Rating");
+  });
+
+  it("Should set undefined params if not privded via search params", () => {
+    const props = {
+      close: () => {},
+    };
+    const { result } = renderHook(() => useAddCoffeeBrewRating(props), {
+      wrapper: ({ children }) => (
+        <MemoryRouter initialEntries={["/add-rating"]}>{children}</MemoryRouter>
+      ),
+    });
+
+    expect(result.current[6]).toBe(undefined);
+    expect(result.current[7]).toBe(undefined);
+    expect(result.current[8]).toBe(undefined);
+    expect(result.current[9]).toBe("");
+    expect(result.current[10]).toBe(undefined);
   });
 
   it("Should show error when rating not selected", async () => {
@@ -111,10 +134,10 @@ describe("useAddCoffeeBrewRating", () => {
 
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
-      coffee_id: "1",
+      coffee_bean_id: "1",
       brewing_method: "Espresso",
       rating: 3,
-    } as Rating);
+    } as Drink);
 
     vi.mocked(useClientService).mockReturnValue([useClientServiceMock]);
 
@@ -141,13 +164,12 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
-      function:
-        RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
+      function: DrinksService.createDrinkApiV1DrinksPost,
       rethrowError: true,
       args: [
         {
           _id: "1",
-          coffee_id: "1",
+          coffee_bean_id: "1",
           rating: 3,
           brewing_method: "New Brewing Method",
           image_exists: false,
@@ -169,12 +191,12 @@ describe("useAddCoffeeBrewRating", () => {
     useClientServiceMock
       .mockResolvedValueOnce({
         _id: "1",
-        coffee_id: "1",
+        coffee_bean_id: "1",
         brewing_method: "Espresso",
         rating: 3,
         image_exists: true,
-      } as Rating)
-      .mockResolvedValueOnce({} as Rating);
+      } as Drink)
+      .mockResolvedValueOnce({} as Drink);
 
     vi.mocked(useClientService).mockReturnValue([useClientServiceMock]);
 
@@ -213,13 +235,12 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
-      function:
-        RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
+      function: DrinksService.createDrinkApiV1DrinksPost,
       rethrowError: true,
       args: [
         {
           _id: "1",
-          coffee_id: "1",
+          coffee_bean_id: "1",
           rating: 3,
           brewing_method: "New Brewing Method",
           image_exists: true,
@@ -228,8 +249,7 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
-      function:
-        CoffeeDrinkImagesService.createImageApiV1CoffeeDrinkCoffeeDrinkIdImagePost,
+      function: DrinkImagesService.createImageApiV1DrinksDrinkIdImagePost,
       rethrowError: true,
       args: ["1", { file }],
     });
@@ -266,13 +286,12 @@ describe("useAddCoffeeBrewRating", () => {
     });
 
     expect(useClientServiceMock).toHaveBeenCalledWith({
-      function:
-        RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
+      function: DrinksService.createDrinkApiV1DrinksPost,
       rethrowError: true,
       args: [
         {
           _id: "1",
-          coffee_id: "1",
+          coffee_bean_id: "1",
           brewing_method: "New Brewing Method",
           rating: 3,
           image_exists: false,

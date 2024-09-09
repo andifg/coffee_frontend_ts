@@ -1,15 +1,19 @@
 import { useRef, useState } from "react";
 import { useContext } from "react";
-import { AddRatingToCoffeeContext } from "../CoffeeBeanBoard/CoffeeBeanBoard";
+import { AddDrinkCallbackContext } from "../AddDrinkContext/AddDrinkCallbackContext";
+import { AddDrinkToCoffeeBeanContext } from "../AddDrinktoCoffeeBeanContext/AddDrinkToCoffeeBeanContext";
 import { uuidv7 } from "uuidv7";
 import { DrinkType } from "./DrinkType";
 import useClientService from "../../hooks/useClientService";
+import { RootState } from "../../redux";
+import { useSelector } from "react-redux";
 import {
-  RatingsService,
-  CreateRating,
   BrewingMethod,
-  CoffeeDrinkImagesService,
-  Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post,
+  DrinksService,
+  CreateDrink,
+  DrinkImagesService,
+  Body__create_image_api_v1_drinks__drink_id__image_post,
+  Drink,
 } from "../../client";
 import { useSearchParams } from "react-router-dom";
 import { createDataURL } from "../../utils/FileReader";
@@ -26,6 +30,7 @@ interface Params {
   roastingCompany?: string;
   brewingMethod?: string;
   brewingRating?: string;
+  drinkType?: string;
 }
 
 const useAddCoffeeBrewRating = (
@@ -37,9 +42,9 @@ const useAddCoffeeBrewRating = (
   string | null,
   ({ brewingMethod, brewingRating }: Params) => void,
   () => Promise<void>,
-  string,
-  string,
-  string,
+  string | undefined,
+  string | undefined,
+  string | undefined,
   string,
   DrinkType | undefined,
 ] => {
@@ -52,14 +57,21 @@ const useAddCoffeeBrewRating = (
 
   const [callClientServiceMethod] = useClientService();
 
-  const addRatingToCoffee = useContext(AddRatingToCoffeeContext);
+  const user = useSelector((state: RootState) => state.user);
+
+  const { addDrinkCallback } = useContext(AddDrinkCallbackContext);
+  const { addDrinkToCoffeeCallback } = useContext(AddDrinkToCoffeeBeanContext);
 
   const currentUuid = uuidv7();
 
-  const coffeeId: string = searchParams.get("coffeeId") ?? "";
-  const coffeeName: string = searchParams.get("coffeeName") ?? "";
-  const roastingCompany: string = searchParams.get("roastingCompany") ?? "";
-  const method: string = searchParams.get("brewingMethod") ?? "";
+  const coffeeId: string | undefined =
+    searchParams.get("coffeeId") ?? undefined;
+  const coffeeName: string | undefined =
+    searchParams.get("coffeeName") ?? undefined;
+  const roastingCompany: string | undefined =
+    searchParams.get("roastingCompany") ?? undefined;
+  const method: string | undefined =
+    searchParams.get("brewingMethod") ?? undefined;
   const rating: string = searchParams.get("brewingRating") ?? "";
   const drinkType: DrinkType | undefined = (searchParams.get("drinkType") ??
     undefined) as DrinkType | undefined;
@@ -72,11 +84,12 @@ const useAddCoffeeBrewRating = (
   }: Params) => {
     setError(null);
     const newParams: Params = {
-      coffeeId,
-      coffeeName,
-      roastingCompany,
-      brewingMethod,
-      brewingRating,
+      ...(coffeeId ? { coffeeId } : {}),
+      ...(coffeeName ? { coffeeName } : {}),
+      ...(roastingCompany ? { roastingCompany } : {}),
+      ...(brewingMethod ? { brewingMethod } : {}),
+      ...(brewingRating ? { brewingRating } : {}),
+      ...(drinkType ? { drinkType } : {}),
     };
     setSearchParams(newParams as Record<string, string>);
   };
@@ -90,42 +103,42 @@ const useAddCoffeeBrewRating = (
       return;
     }
 
-    if (!method) {
-      setError("Brewing method is required");
-      setLoading(false);
-      return;
-    }
-
     try {
-      const currentRating: CreateRating = {
+      const currentRating: CreateDrink = {
         _id: currentUuid,
-        coffee_id: coffeeId,
+        coffee_bean_id: coffeeId,
         brewing_method: method as BrewingMethod,
         rating: parseFloat(rating),
         image_exists: image_exists.current,
       };
       await callClientServiceMethod({
-        function:
-          RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
+        function: DrinksService.createDrinkApiV1DrinksPost,
         rethrowError: true,
         args: [currentRating],
       });
 
       if (image) {
-        const imageBody: Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post =
+        const imageBody: Body__create_image_api_v1_drinks__drink_id__image_post =
           {
             file: image,
           };
 
         await callClientServiceMethod({
-          function:
-            CoffeeDrinkImagesService.createImageApiV1CoffeeDrinkCoffeeDrinkIdImagePost,
+          function: DrinkImagesService.createImageApiV1DrinksDrinkIdImagePost,
           rethrowError: true,
           args: [currentUuid, imageBody],
         });
       }
 
-      addRatingToCoffee(currentRating);
+      if (currentRating.coffee_bean_id) {
+        addDrinkToCoffeeCallback(currentRating);
+      }
+
+      addDrinkCallback({
+        ...currentRating,
+        user_id: user.userId,
+        user_name: user.username,
+      } as Drink);
 
       setTimeout(() => {
         setLoading(false);
