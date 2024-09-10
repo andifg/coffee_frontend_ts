@@ -6,6 +6,8 @@ import WelcomeScreen from "./Welcome/Welcome";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import ButtomNavigator from "../components/BottomNavigator/BottomNavigator";
 import { AddCoffeeCallback } from "../components/AddCoffeeCallbackContext/AddCoffeeCallbackContext";
+import { AddDrinkToCoffeeBeanCallback } from "../components/AddDrinktoCoffeeBeanContext/AddDrinkToCoffeeBeanContext";
+import { AddDrinkCallback } from "../components/AddDrinkContext/AddDrinkCallbackContext";
 import { CoffeeDrinksBoard } from "../components/CoffeeDrinksBoard/CoffeeDrinksBoard";
 
 export const routerConfig = [
@@ -18,11 +20,13 @@ export const routerConfig = [
     element: (
       <PrivateRoute>
         <>
-          <AddCoffeeCallback>
-            <FeedHeaderBar />
-            <CoffeeBeanBoard personalized={false} />
-            <ButtomNavigator />
-          </AddCoffeeCallback>
+          <AddDrinkToCoffeeBeanCallback>
+            <AddCoffeeCallback>
+              <FeedHeaderBar />
+              <CoffeeBeanBoard personalized={false} />
+              <ButtomNavigator />
+            </AddCoffeeCallback>
+          </AddDrinkToCoffeeBeanCallback>
         </>
       </PrivateRoute>
     ),
@@ -32,11 +36,13 @@ export const routerConfig = [
     element: (
       <PrivateRoute>
         <>
-          <AddCoffeeCallback>
-            <HomeHeaderBar />
-            <CoffeeBeanBoard personalized={true} />
-            <ButtomNavigator />
-          </AddCoffeeCallback>
+          <AddDrinkToCoffeeBeanCallback>
+            <AddCoffeeCallback>
+              <HomeHeaderBar />
+              <CoffeeBeanBoard personalized={true} />
+              <ButtomNavigator />
+            </AddCoffeeCallback>
+          </AddDrinkToCoffeeBeanCallback>
         </>
       </PrivateRoute>
     ),
@@ -46,9 +52,13 @@ export const routerConfig = [
     element: (
       <PrivateRoute>
         <>
-          <CoffeeDrinksHeaderBar />
-          <CoffeeDrinksBoard />
-          <ButtomNavigator />
+          <AddDrinkToCoffeeBeanCallback>
+            <AddDrinkCallback>
+              <CoffeeDrinksHeaderBar />
+              <CoffeeDrinksBoard />
+              <ButtomNavigator />
+            </AddDrinkCallback>
+          </AddDrinkToCoffeeBeanCallback>
         </>
       </PrivateRoute>
     ),
