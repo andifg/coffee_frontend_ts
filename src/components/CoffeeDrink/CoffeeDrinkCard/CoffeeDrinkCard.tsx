@@ -6,10 +6,10 @@ import { useLoadImageUrl } from "../../useLoadImageUrl/useLoadImageUrl";
 import { useState } from "react";
 import { CoffeeDrinkMoreMenu } from "../CoffeeDrinkMoreMenu/CoffeeDrinkMoreMenu";
 
-import { Rating as CoffeeDrink } from "../../../client";
+import { Drink } from "../../../client";
 
 type Props = {
-  coffeeDrink: CoffeeDrink;
+  drink: Drink;
 };
 
 const CoffeeDrinkCard = (props: Props) => {
@@ -19,7 +19,7 @@ const CoffeeDrinkCard = (props: Props) => {
   //     useState<boolean>(false);
 
   const [coffeeDrinkImageUrl, _, _updateImageUrl] = useLoadImageUrl(
-    `/api/v1/coffee-drink/${props.coffeeDrink._id}/image`,
+    `/api/v1/drinks/${props.drink._id}/image`,
     setLoading,
     true,
   );
@@ -40,16 +40,16 @@ const CoffeeDrinkCard = (props: Props) => {
 
   return (
     <CardWithMedia
-      cardContent={<CoffeeDrinkCardContent coffeeDrink={props.coffeeDrink} />}
+      cardContent={<CoffeeDrinkCardContent drink={props.drink} />}
       loading={loading}
       imageURL={coffeeDrinkImageUrl}
       header={
         <UserPostHeader
-          username={props.coffeeDrink.user_name}
-          uuid={props.coffeeDrink._id}
+          username={props.drink.user_name}
+          uuid={props.drink._id}
           rightSideContent={
             <CoffeeDrinkMoreMenu
-              coffeeDrink={props.coffeeDrink}
+              coffeeDrink={props.drink}
               toggleMoreMenuVisibility={toggleMoreMenuVisibility}
               showMoreMenu={showMoreMenu}
               toggleShowEditCoffeeModal={() => {}}

@@ -3,7 +3,7 @@ import useClientService from "../../../hooks/useClientService";
 // import { DeleteCoffeeContext } from "../../CoffeeBeanBoard/CoffeeBeanBoard";
 import { DeleteCoffeeDrinkContext } from "../../CoffeeDrinksBoard/CoffeeDrinksBoard";
 
-import { CoffeeDrinksService } from "../../../client";
+import { DrinksService } from "../../../client";
 
 interface useDeleteCoffeeProps {
   coffeeDrinkId: string;
@@ -21,7 +21,7 @@ export default function useDeleteCoffeeDrink(
     try {
       await callClientServiceMethod({
         function:
-          CoffeeDrinksService.deleteCoffeeDrinkByIdApiV1CoffeeDrinksCoffeeDrinkIdDelete,
+          DrinksService.deleteCoffeeDrinkByIdApiV1DrinksCoffeeDrinkIdDelete,
         rethrowError: true,
         args: [props.coffeeDrinkId],
       });
