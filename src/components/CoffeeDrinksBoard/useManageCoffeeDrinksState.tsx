@@ -1,61 +1,46 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import useClientService from "../../hooks/useClientService";
-// import { useSelector } from "react-redux";
-// import { RootState } from "../../redux";
+import { AddDrinkCallbackContext } from "../AddDrinkContext/AddDrinkCallbackContext";
 
-import {
-  Rating as CoffeeDrink,
-  RatingsService as CoffeeDrinkService,
-} from "../../client";
-// import { AddCoffeeCallbackContext } from "../AddCoffeeCallbackContext/AddCoffeeCallbackContext";
+import { Drink, DrinksService } from "../../client";
 import { useInfiniteScroll } from "../../hooks/useInfiniteScroll/useInfinteScroll";
 
 function useManageCoffeeDrinksState(): [
-  CoffeeDrink[],
+  Drink[],
   () => Promise<void>,
   (coffeeDrinkId: string) => void,
   boolean,
   boolean,
 ] {
   const [callClientServiceMethod] = useClientService();
-  const [coffeeDrinks, setCoffeeDrinks] = useState<CoffeeDrink[]>([]);
+  const [drinks, setDrinks] = useState<Drink[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // const { setCallback } = useContext(AddCoffeeCallbackContext);
+  const { setCallback } = useContext(AddDrinkCallbackContext);
 
   const page = useRef<number>(0);
   const infiniteScrollFirstCoffeeDrink = useRef<string | undefined>(undefined);
 
-  // const addCoffee = (coffee: CoffeeSchema) => {
-  //   setCoffees((prevState) => [coffee, ...prevState]);
-  // };
-
-  // const updateCoffee = (coffee: CoffeeSchema) => {
-  //   const newCoffees = coffees.map((c) => {
-  //     if (c._id === coffee._id) {
-  //       return coffee;
-  //     }
-  //     return c;
-  //   });
-
-  //   setCoffees(newCoffees);
-  // };
-
-  const deleteCoffeeDrink = (coffeeDrinkId: string) => {
-    const newCoffees = coffeeDrinks.filter((c) => c._id !== coffeeDrinkId);
-    setCoffeeDrinks(newCoffees);
+  const addDrink = (drink: Drink) => {
+    setDrinks((prevState) => [drink, ...prevState]);
   };
 
-  const loadNextPage = async () => {
+  const deleteCoffeeDrink = (coffeeDrinkId: string) => {
+    const newCoffees = drinks.filter((c) => c._id !== coffeeDrinkId);
+    setDrinks(newCoffees);
+  };
+
+  const loadNextPage = async (pageOverwrite?: number) => {
+    const current_page = pageOverwrite ? pageOverwrite : page.current;
     console.log("Load page: ", page.current + 1);
 
     const newCoffees = await callClientServiceMethod({
-      function: CoffeeDrinkService.listRatingsApiV1RatingsGet,
+      function: DrinksService.listDrinksApiV1DrinksGet,
       args: [
-        page.current + 1,
+        current_page + 1,
         5,
-        undefined,
         infiniteScrollFirstCoffeeDrink.current,
+        undefined,
       ],
     });
 
@@ -64,11 +49,11 @@ function useManageCoffeeDrinksState(): [
       return Promise.reject("No more data");
     }
 
-    if (page.current === 0) {
-      setCoffeeDrinks(newCoffees);
+    if (current_page === 0) {
+      setDrinks(newCoffees);
       infiniteScrollFirstCoffeeDrink.current = newCoffees[0]._id;
     } else {
-      setCoffeeDrinks((prevState) => [...prevState, ...newCoffees]);
+      setDrinks((prevState) => [...prevState, ...newCoffees]);
     }
 
     page.current += 1;
@@ -92,18 +77,12 @@ function useManageCoffeeDrinksState(): [
   };
 
   useEffect(() => {
-    // setCallback(() => addCoffee);
+    setCallback(() => addDrink);
     fetchFirstPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return [
-    coffeeDrinks,
-    fetchFirstPage,
-    deleteCoffeeDrink,
-    loading,
-    showInfitescroll,
-  ];
+  return [drinks, fetchFirstPage, deleteCoffeeDrink, loading, showInfitescroll];
 }
 
 export { useManageCoffeeDrinksState };
