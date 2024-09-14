@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import ListMenu from "../../ListMenu/ListMenu";
 import theme from "../../../theme";
-import { Rating as CoffeeDrink } from "../../../client";
+import { Drink as CoffeeDrink } from "../../../client";
 import useDeleteCoffeeDrink from "./useDeleteCoffeeDrink";
 
 import SwipeableDrawerBottom from "../../SwipeableDrawerBottom/SwipeableDrawerBottom";
