@@ -37,4 +37,12 @@ export type Drink = {
    * Whether drink was submitted with or without a picture
    */
   image_exists?: boolean | null;
+  /**
+   * Name of the coffee bean
+   */
+  coffee_bean_name?: string | null;
+  /**
+   * Name of the roasting company
+   */
+  coffee_bean_roasting_company?: string | null;
 };
