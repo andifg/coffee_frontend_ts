@@ -37,14 +37,14 @@ const BottomNavigator = (): React.JSX.Element => {
           >
             <BottomNavigationAction
               component={Link}
-              to="/coffee-drinks"
-              value="/coffee-drinks"
+              to="/drinks"
+              value="/drinks"
               sx={{
                 maxWidth: "500px",
                 color: "white",
               }}
               icon={
-                value === "/coffee-drinks" ? (
+                value === "/drinks" ? (
                   <FreeBreakfastIcon />
                 ) : (
                   <FreeBreakfastOutlinedIcon />
@@ -52,22 +52,22 @@ const BottomNavigator = (): React.JSX.Element => {
               }
               onClick={() => {
                 console.log("coffee drink clicked");
-                if (value === "/coffee-drinks") {
+                if (value === "/drinks") {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
             />
             <BottomNavigationAction
               component={Link}
-              to="/feed"
+              to="/beans"
               // label="Feed"
-              value="/feed"
+              value="/beans"
               sx={{
                 maxWidth: "500px",
                 color: "white",
               }}
               icon={
-                value === "/feed" ? (
+                value === "/beans" ? (
                   <CoffeeBeanIcon
                     stroke="white"
                     fill="white"
@@ -83,7 +83,7 @@ const BottomNavigator = (): React.JSX.Element => {
               }
               onClick={() => {
                 console.log("Coffee beans clicked");
-                if (value === "/feed") {
+                if (value === "/beans") {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}

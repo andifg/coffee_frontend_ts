@@ -16,7 +16,7 @@ export const routerConfig = [
     element: <WelcomeScreen />,
   },
   {
-    path: "/feed/*",
+    path: "/beans/*",
     element: (
       <PrivateRoute>
         <>
@@ -48,7 +48,7 @@ export const routerConfig = [
     ),
   },
   {
-    path: "/coffee-drinks/*",
+    path: "/drinks/*",
     element: (
       <PrivateRoute>
         <>
