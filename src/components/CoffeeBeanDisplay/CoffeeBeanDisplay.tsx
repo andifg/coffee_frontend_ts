@@ -3,8 +3,8 @@ import theme from "../../theme";
 import UserAvatar from "../UserAvatar/UserAvatar";
 
 type CoffeeBeanProps = {
-  coffeeBeanName: string;
-  roastingCompany: string;
+  coffeeBeanName?: string;
+  roastingCompany?: string;
   ownerName?: string;
 };
 

@@ -13,8 +13,16 @@ const CoffeeDrinkCardContent = (props: Props) => {
     <>
       <div className="coffee-drink-card-content">
         <CoffeeBeanDisplay
-          coffeeBeanName={props.drink.coffee_bean_id ? "Coffee Bean Name" : ""}
-          roastingCompany={props.drink.coffee_bean_id ? "Roasting Company" : ""}
+          coffeeBeanName={
+            props.drink.coffee_bean_name
+              ? props.drink.coffee_bean_name
+              : undefined
+          }
+          roastingCompany={
+            props.drink.coffee_bean_roasting_company
+              ? props.drink.coffee_bean_roasting_company
+              : undefined
+          }
         />
         <div>
           <RatingDisplay rating={props.drink.rating} />
