@@ -27,7 +27,7 @@ const CoffeeBeanCardContent = (props: Props) => {
     console.log("changePathForAddRating");
     setShowCoffeeRatingList(false);
     navigate(
-      `${location.pathname}/add-rating?coffeeId=${props.coffee._id}&coffeeName=${props.coffee.name}&roastingCompany=${props.coffee.roasting_company}`,
+      `${location.pathname}/add-rating?coffeeId=${props.coffee._id}&coffeeName=${props.coffee.name}&coffeeBeanOwner=${props.coffee.owner_name}&coffeeBeanOwnerId=${props.coffee.owner_id}&roastingCompany=${props.coffee.roasting_company}`,
     );
   };
 

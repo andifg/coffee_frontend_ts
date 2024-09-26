@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { SyntheticEvent, useRef, useState } from "react";
 import { useContext } from "react";
 import { AddDrinkCallbackContext } from "../AddDrinkContext/AddDrinkCallbackContext";
 import { AddDrinkToCoffeeBeanContext } from "../AddDrinktoCoffeeBeanContext/AddDrinkToCoffeeBeanContext";
@@ -14,6 +14,8 @@ import {
   DrinkImagesService,
   Body__create_image_api_v1_drinks__drink_id__image_post,
   Drink,
+  Coffee,
+  CoffeesService,
 } from "../../client";
 import { useSearchParams } from "react-router-dom";
 import { createDataURL } from "../../utils/FileReader";
@@ -26,8 +28,10 @@ interface Props {
 
 interface Params {
   coffeeId?: string;
-  coffeeName?: string;
-  roastingCompany?: string;
+  coffeeName?: string | null;
+  coffeeBeanOwner?: string | null;
+  coffeeBeanOwnerId?: string | null;
+  roastingCompany?: string | null;
   brewingMethod?: string;
   brewingRating?: string;
   drinkType?: string;
@@ -43,10 +47,12 @@ const useAddCoffeeBrewRating = (
   ({ brewingMethod, brewingRating }: Params) => void,
   () => Promise<void>,
   string | undefined,
-  string | undefined,
-  string | undefined,
   string,
   DrinkType | undefined,
+  Coffee[],
+  Coffee | null,
+  (_: React.SyntheticEvent, newValue: Coffee | null) => void,
+  (newValue: string | null) => void,
 ] => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,11 +70,15 @@ const useAddCoffeeBrewRating = (
 
   const currentUuid = uuidv7();
 
-  const coffeeId: string | undefined =
+  const coffeeIdParam: string | undefined =
     searchParams.get("coffeeId") ?? undefined;
-  const coffeeName: string | undefined =
+  const coffeeNameParam: string | undefined =
     searchParams.get("coffeeName") ?? undefined;
-  const roastingCompany: string | undefined =
+  const coffeeBeanOwnerParam: string | undefined =
+    searchParams.get("coffeeBeanOwner") ?? undefined;
+  const coffeeBeanOwnerIdParam: string | undefined =
+    searchParams.get("coffeeBeanOwnerId") ?? undefined;
+  const roastingCompanyParam: string | undefined =
     searchParams.get("roastingCompany") ?? undefined;
   const method: string | undefined =
     searchParams.get("brewingMethod") ?? undefined;
@@ -81,11 +91,18 @@ const useAddCoffeeBrewRating = (
   const setParams = ({
     brewingMethod = method,
     brewingRating = rating,
+    coffeeName = coffeeNameParam,
+    coffeeBeanOwner = coffeeBeanOwnerParam,
+    coffeeBeanOwnerId = coffeeBeanOwnerIdParam,
+    roastingCompany = roastingCompanyParam,
+    coffeeId = coffeeIdParam,
   }: Params) => {
     setError(null);
     const newParams: Params = {
       ...(coffeeId ? { coffeeId } : {}),
       ...(coffeeName ? { coffeeName } : {}),
+      ...(coffeeBeanOwner ? { coffeeBeanOwner } : {}),
+      ...(coffeeBeanOwnerId ? { coffeeBeanOwnerId } : {}),
       ...(roastingCompany ? { roastingCompany } : {}),
       ...(brewingMethod ? { brewingMethod } : {}),
       ...(brewingRating ? { brewingRating } : {}),
@@ -93,6 +110,58 @@ const useAddCoffeeBrewRating = (
     };
     setSearchParams(newParams as Record<string, string>);
   };
+
+  const [beanOptions, setBeanOptions] = useState<Coffee[]>([]);
+
+  const [currentBean, setCurrentBean] = useState<Coffee | null>(() => {
+    if (
+      coffeeNameParam &&
+      roastingCompanyParam &&
+      coffeeBeanOwnerParam &&
+      coffeeIdParam &&
+      coffeeBeanOwnerIdParam
+    ) {
+      return {
+        name: coffeeNameParam,
+        roasting_company: roastingCompanyParam,
+        owner_name: coffeeBeanOwnerParam,
+        owner_id: coffeeBeanOwnerIdParam,
+        _id: coffeeIdParam,
+      };
+    }
+    return null;
+  });
+
+  const handleCoffeeBeanChange = (
+    _: SyntheticEvent,
+    newValue: Coffee | null,
+  ) => {
+    setCurrentBean(newValue);
+    setParams({
+      coffeeName: newValue?.name,
+      roastingCompany: newValue?.roasting_company,
+      coffeeBeanOwner: newValue?.owner_name,
+      coffeeBeanOwnerId: newValue?.owner_id,
+      coffeeId: newValue?._id,
+    });
+  };
+
+  async function fetchBeansForSearchTerm(value: string | null) {
+    if (value == null) {
+      setParams({
+        coffeeName: null,
+        roastingCompany: null,
+      });
+    }
+
+    const result = await callClientServiceMethod({
+      function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
+      rethrowError: true,
+      args: [1, 10, null, null, value],
+    });
+
+    setBeanOptions(result);
+  }
 
   const submit = async () => {
     setLoading(true);
@@ -103,10 +172,16 @@ const useAddCoffeeBrewRating = (
       return;
     }
 
+    if (!drinkType && (!coffeeNameParam || !roastingCompanyParam)) {
+      setError("Fill in missing information");
+      setLoading(false);
+      return;
+    }
+
     try {
       const currentRating: CreateDrink = {
         _id: currentUuid,
-        coffee_bean_id: coffeeId,
+        coffee_bean_id: coffeeIdParam,
         brewing_method: method as BrewingMethod,
         rating: parseFloat(rating),
         image_exists: image_exists.current,
@@ -138,6 +213,10 @@ const useAddCoffeeBrewRating = (
         ...currentRating,
         user_id: user.userId,
         user_name: user.username,
+        coffee_bean_id: coffeeIdParam,
+        coffee_bean_name: coffeeNameParam,
+        coffee_bean_owner: coffeeBeanOwnerParam,
+        coffee_bean_roasting_company: roastingCompanyParam,
       } as Drink);
 
       setTimeout(() => {
@@ -206,11 +285,13 @@ const useAddCoffeeBrewRating = (
     error,
     setParams,
     submit,
-    coffeeName,
-    roastingCompany,
     method,
     rating,
     drinkType,
+    beanOptions,
+    currentBean,
+    handleCoffeeBeanChange,
+    fetchBeansForSearchTerm,
   ];
 };
 

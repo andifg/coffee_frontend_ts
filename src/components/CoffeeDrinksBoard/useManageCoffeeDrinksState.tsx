@@ -22,6 +22,7 @@ function useManageCoffeeDrinksState(): [
   const infiniteScrollFirstCoffeeDrink = useRef<string | undefined>(undefined);
 
   const addDrink = (drink: Drink) => {
+    console.log("Add drink: ", drink);
     setDrinks((prevState) => [drink, ...prevState]);
   };
 

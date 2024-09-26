@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { Drink as DrinkSchema } from "../../client";
 
 const AddDrinkCallbackContext = createContext<{
-  addDrinkCallback: (coffee: DrinkSchema) => void | undefined;
+  addDrinkCallback: (drink: DrinkSchema) => void | undefined;
   setCallback: Dispatch<SetStateAction<() => void>>;
 }>({ addDrinkCallback: () => {}, setCallback: () => undefined });
 
