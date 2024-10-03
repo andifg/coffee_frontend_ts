@@ -1,0 +1,14 @@
+.brewing-method-display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.brewing-method-display-icon {
+  margin-right: 4px;
+}
+
+.brewing-method-display-brewing-method {
+  font-weight: 200;
+  font-size: 1.2rem;
+}

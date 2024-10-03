@@ -2,7 +2,7 @@ import "./Story.scss";
 import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import theme from "../../theme";
-import { Rating } from "../../client";
+import { Drink } from "../../client";
 import { LoadingCircle } from "../LoadingCircle/LoadingCircle";
 import { useLoadImageUrl } from "../useLoadImageUrl/useLoadImageUrl";
 import { UserPostHeader } from "../UserPostHeader/UserPostHeader";
@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   close: () => void;
-  rating: Rating;
+  drink: Drink;
 }
 
 const Story = (props: Props): JSX.Element => {
@@ -19,7 +19,7 @@ const Story = (props: Props): JSX.Element => {
   const isMountedRef = useRef(true);
   const [loading, setLoading] = useState<boolean>(true);
   const [imageURL, fetchImageAndCreateUrl, _] = useLoadImageUrl(
-    `/api/v1/coffee-drink/${props.rating._id}/image`,
+    `/api/v1/drinks/${props.drink._id}/image`,
     setLoading,
     false,
   );
@@ -75,8 +75,8 @@ const Story = (props: Props): JSX.Element => {
                   <CloseIcon sx={{ color: "text.primary" }} />
                 </IconButton>
               }
-              username={props.rating.user_name}
-              uuid={props.rating._id}
+              username={props.drink.user_name}
+              uuid={props.drink._id}
             />
           </div>
           {loading ? (

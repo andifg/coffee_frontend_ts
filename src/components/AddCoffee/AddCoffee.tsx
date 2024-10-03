@@ -5,7 +5,7 @@ import { uuidv7 } from "uuidv7";
 
 interface Props {
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  close: () => void;
 }
 
 const AddCoffeeModal: React.FC<Props> = (props) => {
@@ -13,7 +13,7 @@ const AddCoffeeModal: React.FC<Props> = (props) => {
 
   const closeModal = () => {
     console.log("Clicked cancel button");
-    props.setOpen(false);
+    props.close();
   };
 
   const { loading, error, handleCancel, handleSubmit, setError, setLoading } =

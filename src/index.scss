@@ -42,6 +42,10 @@ div.card-content {
   padding-top: 10px;
 }
 
+label.MuiInputLabel-root {
+  color: black;
+}
+
 @media screen and (max-width: 600px) {
   .coffee-wrapper {
     padding: 0px;

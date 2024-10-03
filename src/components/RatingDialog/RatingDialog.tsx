@@ -5,13 +5,18 @@ import { RatingDialogContent } from "./RatingDialogContent";
 import { useLocation } from "react-router";
 import { useNavigate } from "react-router";
 
-const RatingDialog = () => {
+type RatingDialogProps = {
+  close: () => void;
+};
+
+const RatingDialog = (props: RatingDialogProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const show = location.pathname.includes("add-rating");
 
   const closeDialog = () => {
+    props.close();
     navigate(location.pathname.replace("/add-rating", ""));
   };
 

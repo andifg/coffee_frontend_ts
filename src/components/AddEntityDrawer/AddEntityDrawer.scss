@@ -1,0 +1,12 @@
+.add-entity-drawer-header-items {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.add-entity-drawer-menu-item-name {
+  margin-left: 4px;
+  font-weight: 200;
+  font-size: 1.2rem;
+}

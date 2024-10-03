@@ -1,14 +1,21 @@
-import { useRef, useState } from "react";
+import { SyntheticEvent, useRef, useState } from "react";
 import { useContext } from "react";
-import { AddRatingToCoffeeContext } from "../Board/Board";
+import { AddDrinkCallbackContext } from "../AddDrinkContext/AddDrinkCallbackContext";
+import { AddDrinkToCoffeeBeanContext } from "../AddDrinktoCoffeeBeanContext/AddDrinkToCoffeeBeanContext";
 import { uuidv7 } from "uuidv7";
+import { DrinkType } from "./DrinkType";
 import useClientService from "../../hooks/useClientService";
+import { RootState } from "../../redux";
+import { useSelector } from "react-redux";
 import {
-  RatingsService,
-  CreateRating,
   BrewingMethod,
-  CoffeeDrinkImagesService,
-  Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post,
+  DrinksService,
+  CreateDrink,
+  DrinkImagesService,
+  Body__create_image_api_v1_drinks__drink_id__image_post,
+  Drink,
+  Coffee,
+  CoffeesService,
 } from "../../client";
 import { useSearchParams } from "react-router-dom";
 import { createDataURL } from "../../utils/FileReader";
@@ -21,10 +28,13 @@ interface Props {
 
 interface Params {
   coffeeId?: string;
-  coffeeName?: string;
-  roastingCompany?: string;
+  coffeeName?: string | null;
+  coffeeBeanOwner?: string | null;
+  coffeeBeanOwnerId?: string | null;
+  roastingCompany?: string | null;
   brewingMethod?: string;
   brewingRating?: string;
+  drinkType?: string;
 }
 
 const useAddCoffeeBrewRating = (
@@ -36,10 +46,13 @@ const useAddCoffeeBrewRating = (
   string | null,
   ({ brewingMethod, brewingRating }: Params) => void,
   () => Promise<void>,
+  string | undefined,
   string,
-  string,
-  string,
-  string,
+  DrinkType | undefined,
+  Coffee[],
+  Coffee | null,
+  (_: React.SyntheticEvent, newValue: Coffee | null) => void,
+  (newValue: string | null) => void,
 ] => {
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -50,32 +63,105 @@ const useAddCoffeeBrewRating = (
 
   const [callClientServiceMethod] = useClientService();
 
-  const addRatingToCoffee = useContext(AddRatingToCoffeeContext);
+  const user = useSelector((state: RootState) => state.user);
+
+  const { addDrinkCallback } = useContext(AddDrinkCallbackContext);
+  const { addDrinkToCoffeeCallback } = useContext(AddDrinkToCoffeeBeanContext);
 
   const currentUuid = uuidv7();
 
-  const coffeeId: string = searchParams.get("coffeeId") ?? "";
-  const coffeeName: string = searchParams.get("coffeeName") ?? "";
-  const roastingCompany: string = searchParams.get("roastingCompany") ?? "";
-  const method: string = searchParams.get("brewingMethod") ?? "";
+  const coffeeIdParam: string | undefined =
+    searchParams.get("coffeeId") ?? undefined;
+  const coffeeNameParam: string | undefined =
+    searchParams.get("coffeeName") ?? undefined;
+  const coffeeBeanOwnerParam: string | undefined =
+    searchParams.get("coffeeBeanOwner") ?? undefined;
+  const coffeeBeanOwnerIdParam: string | undefined =
+    searchParams.get("coffeeBeanOwnerId") ?? undefined;
+  const roastingCompanyParam: string | undefined =
+    searchParams.get("roastingCompany") ?? undefined;
+  const method: string | undefined =
+    searchParams.get("brewingMethod") ?? undefined;
   const rating: string = searchParams.get("brewingRating") ?? "";
+  const drinkType: DrinkType | undefined = (searchParams.get("drinkType") ??
+    undefined) as DrinkType | undefined;
 
   const image_exists = useRef(false);
 
   const setParams = ({
     brewingMethod = method,
     brewingRating = rating,
+    coffeeName = coffeeNameParam,
+    coffeeBeanOwner = coffeeBeanOwnerParam,
+    coffeeBeanOwnerId = coffeeBeanOwnerIdParam,
+    roastingCompany = roastingCompanyParam,
+    coffeeId = coffeeIdParam,
   }: Params) => {
     setError(null);
     const newParams: Params = {
-      coffeeId,
-      coffeeName,
-      roastingCompany,
-      brewingMethod,
-      brewingRating,
+      ...(coffeeId ? { coffeeId } : {}),
+      ...(coffeeName ? { coffeeName } : {}),
+      ...(coffeeBeanOwner ? { coffeeBeanOwner } : {}),
+      ...(coffeeBeanOwnerId ? { coffeeBeanOwnerId } : {}),
+      ...(roastingCompany ? { roastingCompany } : {}),
+      ...(brewingMethod ? { brewingMethod } : {}),
+      ...(brewingRating ? { brewingRating } : {}),
+      ...(drinkType ? { drinkType } : {}),
     };
     setSearchParams(newParams as Record<string, string>);
   };
+
+  const [beanOptions, setBeanOptions] = useState<Coffee[]>([]);
+
+  const [currentBean, setCurrentBean] = useState<Coffee | null>(() => {
+    if (
+      coffeeNameParam &&
+      roastingCompanyParam &&
+      coffeeBeanOwnerParam &&
+      coffeeIdParam &&
+      coffeeBeanOwnerIdParam
+    ) {
+      return {
+        name: coffeeNameParam,
+        roasting_company: roastingCompanyParam,
+        owner_name: coffeeBeanOwnerParam,
+        owner_id: coffeeBeanOwnerIdParam,
+        _id: coffeeIdParam,
+      };
+    }
+    return null;
+  });
+
+  const handleCoffeeBeanChange = (
+    _: SyntheticEvent,
+    newValue: Coffee | null,
+  ) => {
+    setCurrentBean(newValue);
+    setParams({
+      coffeeName: newValue?.name,
+      roastingCompany: newValue?.roasting_company,
+      coffeeBeanOwner: newValue?.owner_name,
+      coffeeBeanOwnerId: newValue?.owner_id,
+      coffeeId: newValue?._id,
+    });
+  };
+
+  async function fetchBeansForSearchTerm(value: string | null) {
+    if (value == null) {
+      setParams({
+        coffeeName: null,
+        roastingCompany: null,
+      });
+    }
+
+    const result = await callClientServiceMethod({
+      function: CoffeesService.listCoffeesWithRatingSummaryApiV1CoffeesGet,
+      rethrowError: true,
+      args: [1, 10, null, null, value],
+    });
+
+    setBeanOptions(result);
+  }
 
   const submit = async () => {
     setLoading(true);
@@ -86,42 +172,52 @@ const useAddCoffeeBrewRating = (
       return;
     }
 
-    if (!method) {
-      setError("Brewing method is required");
+    if (!drinkType && (!coffeeNameParam || !roastingCompanyParam)) {
+      setError("Fill in missing information");
       setLoading(false);
       return;
     }
 
     try {
-      const currentRating: CreateRating = {
+      const currentRating: CreateDrink = {
         _id: currentUuid,
-        coffee_id: coffeeId,
+        coffee_bean_id: coffeeIdParam,
         brewing_method: method as BrewingMethod,
         rating: parseFloat(rating),
         image_exists: image_exists.current,
       };
       await callClientServiceMethod({
-        function:
-          RatingsService.createCoffeeRatingApiV1CoffeesCoffeeIdRatingsPost,
+        function: DrinksService.createDrinkApiV1DrinksPost,
         rethrowError: true,
         args: [currentRating],
       });
 
       if (image) {
-        const imageBody: Body__create_image_api_v1_coffee_drink__coffee_drink_id__image_post =
+        const imageBody: Body__create_image_api_v1_drinks__drink_id__image_post =
           {
             file: image,
           };
 
         await callClientServiceMethod({
-          function:
-            CoffeeDrinkImagesService.createImageApiV1CoffeeDrinkCoffeeDrinkIdImagePost,
+          function: DrinkImagesService.createImageApiV1DrinksDrinkIdImagePost,
           rethrowError: true,
           args: [currentUuid, imageBody],
         });
       }
 
-      addRatingToCoffee(currentRating);
+      if (currentRating.coffee_bean_id) {
+        addDrinkToCoffeeCallback(currentRating);
+      }
+
+      addDrinkCallback({
+        ...currentRating,
+        user_id: user.userId,
+        user_name: user.username,
+        coffee_bean_id: coffeeIdParam,
+        coffee_bean_name: coffeeNameParam,
+        coffee_bean_owner: coffeeBeanOwnerParam,
+        coffee_bean_roasting_company: roastingCompanyParam,
+      } as Drink);
 
       setTimeout(() => {
         setLoading(false);
@@ -189,10 +285,13 @@ const useAddCoffeeBrewRating = (
     error,
     setParams,
     submit,
-    coffeeName,
-    roastingCompany,
     method,
     rating,
+    drinkType,
+    beanOptions,
+    currentBean,
+    handleCoffeeBeanChange,
+    fetchBeansForSearchTerm,
   ];
 };
 

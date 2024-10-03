@@ -4,16 +4,17 @@ import React, { useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
 import AddBoxOutlinedIcon from "@mui/icons-material/AddBoxOutlined";
+import FreeBreakfastOutlinedIcon from "@mui/icons-material/FreeBreakfastOutlined";
+import FreeBreakfastIcon from "@mui/icons-material/FreeBreakfast";
 import { Paper } from "@mui/material";
 
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import HomeIcon from "@mui/icons-material/Home";
-import AddCoffeeModal from "../AddCoffee/AddCoffee";
+import { CoffeeBeanIcon } from "../../icons/CoffeeBeanIcon";
+import { AddEntityDrawer } from "../AddEntityDrawer/AddEntityDrawer";
 
 const BottomNavigator = (): React.JSX.Element => {
-  const [value, setValue] = useState<string>("/feed");
+  const [value, setValue] = useState<string>(useLocation().pathname);
   const [openAddModal, setOpenAddModal] = useState<boolean>(false);
 
   return (
@@ -27,6 +28,7 @@ const BottomNavigator = (): React.JSX.Element => {
             sx={{ backgroundColor: "primary.main", paddingBottom: "15px" }}
             value={useLocation().pathname}
             onChange={(_, newValue) => {
+              console.log("Path changed to: ", newValue);
               if (newValue === "/add") {
                 return;
               }
@@ -35,22 +37,53 @@ const BottomNavigator = (): React.JSX.Element => {
           >
             <BottomNavigationAction
               component={Link}
-              to="/feed"
-              // label="Feed"
-              value="/feed"
+              to="/drinks"
+              value="/drinks"
               sx={{
                 maxWidth: "500px",
                 color: "white",
               }}
               icon={
-                value === "/feed" ? (
-                  <FavoriteIcon />
+                value === "/drinks" ? (
+                  <FreeBreakfastIcon />
                 ) : (
-                  <FavoriteBorderOutlinedIcon />
+                  <FreeBreakfastOutlinedIcon />
                 )
               }
               onClick={() => {
-                if (value === "/feed") {
+                console.log("coffee drink clicked");
+                if (value === "/drinks") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            />
+            <BottomNavigationAction
+              component={Link}
+              to="/beans"
+              // label="Feed"
+              value="/beans"
+              sx={{
+                maxWidth: "500px",
+                color: "white",
+              }}
+              icon={
+                value === "/beans" ? (
+                  <CoffeeBeanIcon
+                    stroke="white"
+                    fill="white"
+                    strokeWidth={0.1}
+                  />
+                ) : (
+                  <CoffeeBeanIcon
+                    stroke="white"
+                    fill="none"
+                    strokeWidth={3.5}
+                  />
+                )
+              }
+              onClick={() => {
+                console.log("Coffee beans clicked");
+                if (value === "/beans") {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }
               }}
@@ -77,7 +110,12 @@ const BottomNavigator = (): React.JSX.Element => {
           </BottomNavigation>
         </Paper>
       </Box>
-      <AddCoffeeModal open={openAddModal} setOpen={setOpenAddModal} />
+      <AddEntityDrawer
+        open={openAddModal}
+        close={() => {
+          setOpenAddModal(false);
+        }}
+      />
     </>
   );
 };
