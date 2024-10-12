@@ -12,8 +12,9 @@ interface Props {
   cardContent: JSX.Element;
   updateModal?: JSX.Element;
   header: JSX.Element;
-  imageURL: string;
+  imageURL?: string;
   loading: boolean;
+  defaultImageURL: string;
 }
 
 const CardWithMedia: React.FC<Props> = (props: Props) => {
@@ -38,10 +39,7 @@ const CardWithMedia: React.FC<Props> = (props: Props) => {
               alt="Image"
               height="auto"
               key={props.imageURL}
-              src={
-                props.imageURL ||
-                "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-              }
+              src={props.imageURL || props.defaultImageURL}
               sx={{ objectFit: "contain", maxHeight: "600px" }}
             />
             {props.cardContent}
