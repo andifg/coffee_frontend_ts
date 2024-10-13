@@ -43,6 +43,7 @@ const CoffeeDrinkCard = (props: Props) => {
       cardContent={<CoffeeDrinkCardContent drink={props.drink} />}
       loading={loading}
       imageURL={coffeeDrinkImageUrl}
+      defaultImageURL="./drink_stock.jpg"
       header={
         <UserPostHeader
           username={props.drink.user_name}

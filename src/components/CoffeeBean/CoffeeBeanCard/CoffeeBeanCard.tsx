@@ -45,6 +45,7 @@ const CoffeeBeanCard: React.FC<Props> = (props: Props) => {
     <CardWithMedia
       loading={loading}
       imageURL={coffeeImageURL}
+      defaultImageURL="./beans_stock.jpg"
       header={
         <CoffeeBeanHeader
           coffee={props.coffee}
