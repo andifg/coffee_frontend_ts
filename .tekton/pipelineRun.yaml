@@ -39,9 +39,9 @@ spec:
     - name: dockerfile
       value: ./Containerfile
     - name: target-branch
-      value: {{target_branch}}
+      value: "{{target_branch}}"
     - name: source-branch
-      value: {{source_branch}}
+      value: "{{source_branch}}"
   workspaces:
     - name: ssh-creds
       secret:
