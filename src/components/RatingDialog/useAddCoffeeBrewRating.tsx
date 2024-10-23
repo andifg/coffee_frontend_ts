@@ -61,8 +61,9 @@ const useAddCoffeeBrewRating = (
   const [image, setImage] = React.useState<File | undefined>();
   const [imageURL, setImageURL] = React.useState<string | undefined>();
 
-
-  const userLocation = useRef<{longitude: number, latitude: number} | null>(null);
+  const userLocation = useRef<{ longitude: number; latitude: number } | null>(
+    null,
+  );
 
   const [callClientServiceMethod] = useClientService();
 
@@ -91,20 +92,19 @@ const useAddCoffeeBrewRating = (
 
   const image_exists = useRef(false);
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          userLocation.current = { latitude, longitude };
-        },
-        (error) => {
-          console.error('Error getting user location:', error);
-        }
-      );
-    }
-    else {
-      console.error('Geolocation is not supported by this browser.');
-    }
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        userLocation.current = { latitude, longitude };
+      },
+      (error) => {
+        console.error("Error getting user location:", error);
+      },
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
 
   const setParams = ({
     brewingMethod = method,

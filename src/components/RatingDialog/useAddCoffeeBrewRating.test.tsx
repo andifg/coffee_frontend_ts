@@ -185,19 +185,16 @@ describe("useAddCoffeeBrewRating", () => {
 
     vi.stubGlobal("navigator", {
       geolocation: {
-        getCurrentPosition: vi.fn().mockImplementation(
-          (callback) => {
-            callback({
-              coords: {
-                longitude: 121,
-                latitude: 34,
-              },
-            });
-          }
-        ),
+        getCurrentPosition: vi.fn().mockImplementation((callback) => {
+          callback({
+            coords: {
+              longitude: 121,
+              latitude: 34,
+            },
+          });
+        }),
       },
-    }
-    )
+    });
 
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
@@ -258,19 +255,16 @@ describe("useAddCoffeeBrewRating", () => {
 
     vi.stubGlobal("navigator", {
       geolocation: {
-        getCurrentPosition: vi.fn().mockImplementation(
-          (callback) => {
-            callback({
-              coords: {
-                longitude: 11,
-                latitude: 34,
-              },
-            });
-          }
-        ),
+        getCurrentPosition: vi.fn().mockImplementation((callback) => {
+          callback({
+            coords: {
+              longitude: 11,
+              latitude: 34,
+            },
+          });
+        }),
       },
-    }
-    )
+    });
 
     useClientServiceMock
       .mockResolvedValueOnce({
