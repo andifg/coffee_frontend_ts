@@ -33,6 +33,22 @@ describe("useAddCoffeeBrewRating", () => {
     uuidv7: vi.fn().mockReturnValue("1"),
   }));
 
+  // vi.stubGlobal("navigator", {
+  //   geolocation: {
+  //     getCurrentPosition: vi.fn().mockImplementation(
+  //       (callback) => {
+  //         callback({
+  //           coords: {
+  //             longitude: 121,
+  //             latitude: 34,
+  //           },
+  //         });
+  //       }
+  //     ),
+  //   },
+  // }
+  // )
+
   const wrapper = ({ children }: { children: JSX.Element }) => (
     <MemoryRouter
       initialEntries={[
@@ -167,6 +183,22 @@ describe("useAddCoffeeBrewRating", () => {
     const useClientServiceMock = vi.fn();
     const closeMock = vi.fn();
 
+    vi.stubGlobal("navigator", {
+      geolocation: {
+        getCurrentPosition: vi.fn().mockImplementation(
+          (callback) => {
+            callback({
+              coords: {
+                longitude: 121,
+                latitude: 34,
+              },
+            });
+          }
+        ),
+      },
+    }
+    )
+
     useClientServiceMock.mockResolvedValueOnce({
       _id: "1",
       coffee_bean_id: "1",
@@ -205,6 +237,7 @@ describe("useAddCoffeeBrewRating", () => {
         {
           _id: "1",
           coffee_bean_id: "1",
+          coordinate: { longitude: 121, latitude: 34 },
           rating: 3,
           brewing_method: "New Brewing Method",
           image_exists: false,
@@ -222,6 +255,22 @@ describe("useAddCoffeeBrewRating", () => {
   it("Will handle submit with image", async () => {
     const useClientServiceMock = vi.fn();
     const closeMock = vi.fn();
+
+    vi.stubGlobal("navigator", {
+      geolocation: {
+        getCurrentPosition: vi.fn().mockImplementation(
+          (callback) => {
+            callback({
+              coords: {
+                longitude: 11,
+                latitude: 34,
+              },
+            });
+          }
+        ),
+      },
+    }
+    )
 
     useClientServiceMock
       .mockResolvedValueOnce({
@@ -279,6 +328,7 @@ describe("useAddCoffeeBrewRating", () => {
           rating: 3,
           brewing_method: "New Brewing Method",
           image_exists: true,
+          coordinate: { longitude: 11, latitude: 34 },
         },
       ],
     });
@@ -330,6 +380,7 @@ describe("useAddCoffeeBrewRating", () => {
           brewing_method: "New Brewing Method",
           rating: 3,
           image_exists: false,
+          coordinate: { longitude: 11, latitude: 34 },
         },
       ],
     });
