@@ -11,6 +11,7 @@ export type { Body__create_image_api_v1_coffees__coffee_id__image_post } from ".
 export type { Body__create_image_api_v1_drinks__drink_id__image_post } from "./models/Body__create_image_api_v1_drinks__drink_id__image_post";
 export { BrewingMethod } from "./models/BrewingMethod";
 export type { Coffee } from "./models/Coffee";
+export type { Coordinate } from "./models/Coordinate";
 export type { CreateCoffee } from "./models/CreateCoffee";
 export type { CreateDrink } from "./models/CreateDrink";
 export type { Drink } from "./models/Drink";
