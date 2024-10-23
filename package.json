@@ -13,7 +13,7 @@
     "format-fix": "prettier . --write",
     "preview": "vite preview",
     "generate-client": "openapi --input ./api.json --output ./src/client --client axios",
-    "generate-client2": "openapi --input http://0.0.0.0:8000/openapi.json --output ./src/client --client axios",
+    "generate-client2": "openapi --input http://127.0.0.1:8000/openapi.json --output ./src/client --client axios",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/beanscore-icon.svg"
   },
   "dependencies": {
