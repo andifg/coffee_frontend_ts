@@ -61,6 +61,10 @@ const useAddCoffeeBrewRating = (
   const [image, setImage] = React.useState<File | undefined>();
   const [imageURL, setImageURL] = React.useState<string | undefined>();
 
+  const userLocation = useRef<{ longitude: number; latitude: number } | null>(
+    null,
+  );
+
   const [callClientServiceMethod] = useClientService();
 
   const user = useSelector((state: RootState) => state.user);
@@ -87,6 +91,20 @@ const useAddCoffeeBrewRating = (
     undefined) as DrinkType | undefined;
 
   const image_exists = useRef(false);
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        userLocation.current = { latitude, longitude };
+      },
+      (error) => {
+        console.error("Error getting user location:", error);
+      },
+    );
+  } else {
+    console.error("Geolocation is not supported by this browser.");
+  }
 
   const setParams = ({
     brewingMethod = method,
@@ -185,6 +203,7 @@ const useAddCoffeeBrewRating = (
         brewing_method: method as BrewingMethod,
         rating: parseFloat(rating),
         image_exists: image_exists.current,
+        coordinate: userLocation.current,
       };
       await callClientServiceMethod({
         function: DrinksService.createDrinkApiV1DrinksPost,

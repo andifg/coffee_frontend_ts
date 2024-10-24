@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 import type { BrewingMethod } from "./BrewingMethod";
+import type { Coordinate } from "./Coordinate";
 
 /**
  * Describes the request body for creating a drink
@@ -31,4 +32,8 @@ export type CreateDrink = {
    * Whether drink was submitted with or without a picture
    */
   image_exists?: boolean | null;
+  /**
+   * Location where the drink was consumed
+   */
+  coordinate?: Coordinate | any[] | string | null;
 };

@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 import type { BrewingMethod } from "./BrewingMethod";
+import type { Coordinate } from "./Coordinate";
 
 /**
  * Describes one rating
@@ -45,4 +46,8 @@ export type Drink = {
    * Name of the roasting company
    */
   coffee_bean_roasting_company?: string | null;
+  /**
+   * Location where the drink was consumed
+   */
+  coordinate?: Coordinate | null;
 };
